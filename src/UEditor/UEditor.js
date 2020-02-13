@@ -1,16 +1,16 @@
 import React, { useCallback, useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
-import { initialValue } from './data'
 import isHotkey from 'is-hotkey'
 import { Slate, Editable, withReact } from 'slate-react'
 import { createEditor } from 'slate'
 import { withHistory } from 'slate-history'
 import { HoveringToolbar } from './components/HoverToolbar'
-import { toggleMark } from './components/SlateRendering'
+import { toggleMark } from './components/ToolbarButtons'
 import { Toolbar } from './components/Toolbar'
+import { CommentElement } from './components/Comments'
 // import Footnote from './components/footnotes/Footnote'
-import { wrapFootnote, wrapComment } from './components/SlateRendering'
 
+// To enable rich text with keys
 const HOTKEYS = {
   'mod+b': 'bold',
   'mod+i': 'italic',
@@ -18,8 +18,19 @@ const HOTKEYS = {
   'mod+`': 'code',
 }
 
-export default function UEditor({ toolbarButtons }) {
-  const [value, setValue] = useState(initialValue)
+export default function UEditor({
+  value,
+  onChangeValue,
+  toolbar,
+  hoveringToolbar,
+  toolbarButtons,
+  onChangeComment,
+  parentRenderElement,
+  parentRenderLeaf,
+  customToolbarButtons,
+  editorId,
+}) {
+  const [initialValue, setValue] = useState(value)
   const renderElement = useCallback(props => Element(props), [])
   const renderLeaf = useCallback(props => Leaf(props), [])
   const editor = useMemo(
@@ -27,8 +38,14 @@ export default function UEditor({ toolbarButtons }) {
     []
   )
 
+  // On change value
+  function handleChangeValue(value) {
+    onChangeValue(value)
+    setValue(value)
+  }
+
+  // Block level elements
   const Element = ({ attributes, children, element }) => {
-    // console.log(element)
     switch (element.type) {
       case 'block-quote':
         return <blockquote {...attributes}>{children}</blockquote>
@@ -51,34 +68,25 @@ export default function UEditor({ toolbarButtons }) {
       case 'footnote':
         return <Footnote {...attributes}>{children}</Footnote>
       default:
-        return <p {...attributes}>{children}</p>
-      // parentRenderElement({ attributes, children, element })
+        return parentRenderElement ? (
+          parentRenderElement({ attributes, children, element })
+        ) : (
+          <p {...attributes}>{children}</p>
+        )
     }
-  }
-
-  function CommentElement(props) {
-    const { attributes, children } = props
-    console.log(props)
-
-    return (
-      <span {...attributes} style={{ backgroundColor: 'yellow' }}>
-        {children}
-      </span>
-    )
   }
 
   function Footnote(props) {
     const { attributes, footnotes, children } = props
-    console.log(props)
 
     return (
-      <span {...attributes}>
-        {children}
-        <sup>2</sup>
-      </span>
+      <React.Fragment>
+        {children} <sup>2</sup>
+      </React.Fragment>
     )
   }
 
+  // Leaf inline elements
   const Leaf = ({ attributes, children, leaf }) => {
     if (leaf.bold) {
       children = <strong>{children}</strong>
@@ -96,13 +104,36 @@ export default function UEditor({ toolbarButtons }) {
       children = <u>{children}</u>
     }
 
-    return <span {...attributes}>{children}</span>
+    return parentRenderLeaf ? (
+      parentRenderLeaf({ attributes, children, leaf })
+    ) : (
+      <span {...attributes}>{children}</span>
+    )
+  }
+
+  // comments to pass to parent
+  function handleComments(value) {
+    return onChangeComment(value)
   }
 
   return (
-    <Slate editor={editor} value={value} onChange={value => setValue(value)}>
-      <HoveringToolbar toolbarButtons={toolbarButtons} />
-      <Toolbar toolbarButtons={toolbarButtons} />
+    <Slate editor={editor} value={initialValue} onChange={handleChangeValue}>
+      {hoveringToolbar && (
+        <HoveringToolbar
+          editorId={editorId}
+          toolbarButtons={toolbarButtons}
+          customToolbarButtons={customToolbarButtons}
+          onChangeComment={value => handleComments(value)}
+        />
+      )}
+      {toolbar && (
+        <Toolbar
+          editorId={editorId}
+          toolbarButtons={toolbarButtons}
+          customToolbarButtons={customToolbarButtons}
+          onChangeComment={value => handleComments(value)}
+        />
+      )}
       <Editable
         renderElement={renderElement}
         renderLeaf={renderLeaf}
@@ -121,15 +152,31 @@ export default function UEditor({ toolbarButtons }) {
   )
 }
 
+// PropTypes
 UEditor.propTypes = {
+  /** unique id of the editor */
+  editorId: PropTypes.number,
   /** content to display in the editor*/
   value: PropTypes.arrayOf(PropTypes.object),
   /** on change value */
   onChangeValue: PropTypes.func,
   /** format Buttons to display on toolbar  */
   toolbarButtons: PropTypes.arrayOf(PropTypes.object),
+  /** on comment change */
+  onChangeComment: PropTypes.func,
+  /** Hover toolbar */
+  hoveringToolbar: PropTypes.bool,
+  /** Toolbar on top of editor*/
+  toolbar: PropTypes.bool,
+  /**To add custom buttons totoolbar */
+  customToolbarButtons: PropTypes.fun,
+  /** parentRenderLeaf is to add our own inline elements to editor*/
+  parentRenderLeaf: PropTypes.func,
+  /** parentRenderElement is to add our own block level elements to editor*/
+  parentRenderElement: PropTypes.func,
 }
 
+// Default props
 UEditor.defaultProps = {
   toolbarButtons: [
     { type: 'Mark', format: 'bold' },
@@ -140,60 +187,29 @@ UEditor.defaultProps = {
     { type: 'Block', format: 'numbered-list' },
     { type: 'Block', format: 'heading-one' },
     { type: 'Block', format: 'heading-two' },
+    { type: 'Comment', format: 'comment' },
+    { type: 'Footnote', format: 'footnote' },
   ],
+  hoveringToolbar: true,
 }
 
+// Editor to have comments as inline element
 const withComments = editor => {
-  const { insertData, insertText, isInline } = editor
+  const { isInline } = editor
 
   editor.isInline = element => {
     return element.type === 'comment' ? true : isInline(element)
   }
 
-  editor.insertText = text => {
-    if (text && isUrl(text)) {
-      wrapComment(editor, text, 'comment')
-    } else {
-      insertText(text)
-    }
-  }
-
-  editor.insertData = data => {
-    const text = data.getData('text/plain')
-
-    if (text && isUrl(text)) {
-      wrapComment(editor, text, 'comment')
-    } else {
-      insertData(data)
-    }
-  }
-
   return editor
 }
 
+// Editor to have footnotes as inline element
 const withFootnotes = editor => {
-  const { insertData, insertText, isInline } = editor
+  const { isInline } = editor
 
   editor.isInline = element => {
     return element.type === 'footnote' ? true : isInline(element)
-  }
-
-  editor.insertText = text => {
-    if (text && isUrl(text)) {
-      wrapFootnote(editor, text, 'footnote')
-    } else {
-      insertText(text)
-    }
-  }
-
-  editor.insertData = data => {
-    const text = data.getData('text/plain')
-
-    if (text && isUrl(text)) {
-      wrapFootnote(editor, text, 'footnote')
-    } else {
-      insertData(data)
-    }
   }
 
   return editor

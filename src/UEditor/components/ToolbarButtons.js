@@ -1,8 +1,7 @@
 import React from 'react'
 import { Transforms, Editor, Range } from 'slate'
 import { useSlate } from 'slate-react'
-import { Button } from './components'
-// import { CommentButton } from './Comments'
+import { Button } from './sharedComponents'
 import {
   FormatBold,
   FormatItalic,
@@ -17,39 +16,63 @@ import ListIcon from '@material-ui/icons/List'
 import LooksOne from '@material-ui/icons/LooksOne'
 import LooksTwo from '@material-ui/icons/LooksTwo'
 import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd'
+import getDateAndTime from './getDateAndTime'
 
 const LIST_TYPES = ['numbered-list', 'bulleted-list']
 
 export const ToolbarButtons = ({
   toolbarButtons,
   customToolbarButtons,
-  wrapLink,
+  onChangeComment,
   ...props
 }) => {
+  // On Change in comment
+  function handleComments(value) {
+    return onChangeComment(value)
+  }
+
+  // Returns toolbar buttons based on the type and format
   return (
     <React.Fragment>
-      {toolbarButtons.map(({ type, format, icon }) =>
-        type === 'Mark' ? (
-          <MarkButton key={format} format={format}>
-            {icon ? icon : <Icon format={format} />}
-          </MarkButton>
-        ) : (
-          <BlockButton key={format} format={format}>
-            {icon ? icon : <Icon format={format} />}
-          </BlockButton>
-        )
-      )}
-      <CommentButton key={'comment'} format="comment" {...props}>
-        <AddCommentIcon />
-      </CommentButton>
-      <FootnoteButton key={'footnote'} format="footnote" {...props}>
-        <PlaylistAddIcon />
-      </FootnoteButton>
+      {toolbarButtons.map(({ type, format, icon }) => {
+        switch (type) {
+          case 'Mark':
+            return (
+              <MarkButton key={format} format={format}>
+                {icon ? icon : <Icon format={format} />}
+              </MarkButton>
+            )
+          case 'Block':
+            return (
+              <BlockButton key={format} format={format}>
+                {icon ? icon : <Icon format={format} />}
+              </BlockButton>
+            )
+          case 'Comment':
+            return (
+              <CommentButton
+                key={'comment'}
+                format="comment"
+                onChangeComment={value => handleComments(value)}
+                {...props}
+              >
+                <AddCommentIcon />
+              </CommentButton>
+            )
+          case 'Footnote':
+            return (
+              <FootnoteButton key={'footnote'} format="footnote" {...props}>
+                <PlaylistAddIcon />
+              </FootnoteButton>
+            )
+        }
+      })}
       {customToolbarButtons}
     </React.Fragment>
   )
 }
 
+// Icons of toolbar buttons
 const Icon = ({ format }) => {
   switch (format) {
     case 'bold':
@@ -77,6 +100,9 @@ const Icon = ({ format }) => {
   }
 }
 
+// Some of the constants are resuable so it is exported to use in other components
+
+//Block Button
 export const BlockButton = ({ format, children }) => {
   const editor = useSlate()
 
@@ -93,6 +119,7 @@ export const BlockButton = ({ format, children }) => {
   )
 }
 
+// Toggle Block
 export const toggleBlock = (editor, format) => {
   const isActive = isBlockActive(editor, format)
   const isList = LIST_TYPES.includes(format)
@@ -112,6 +139,7 @@ export const toggleBlock = (editor, format) => {
   }
 }
 
+// To check block is active or not
 export const isBlockActive = (editor, format) => {
   const [match] = Editor.nodes(editor, {
     match: n => n.type === format,
@@ -120,6 +148,7 @@ export const isBlockActive = (editor, format) => {
   return !!match
 }
 
+// To add or remove Mark
 export const toggleMark = (editor, format) => {
   const isActive = isMarkActive(editor, format)
 
@@ -130,11 +159,13 @@ export const toggleMark = (editor, format) => {
   }
 }
 
+// To check wether mark is active
 export const isMarkActive = (editor, format) => {
   const marks = Editor.marks(editor)
   return marks ? marks[format] === true : false
 }
 
+// Mark Button
 export const MarkButton = ({ format, children }) => {
   const editor = useSlate()
 
@@ -152,43 +183,54 @@ export const MarkButton = ({ format, children }) => {
 }
 
 // Comments
-const insertComment = (editor, url, format) => {
+const insertComment = (editor, url, format, comment) => {
   if (editor.selection) {
-    wrapComment(editor, url, format)
+    wrapComment(editor, url, format, comment)
   }
 }
 
-export const wrapComment = (editor, url, format) => {
+// Wrap the comment
+export const wrapComment = (editor, commentText, format, comment) => {
   if (isFormatActive(editor, format)) {
     unwrapFormat(editor, format)
   }
 
   const { selection } = editor
   const isCollapsed = selection && Range.isCollapsed(selection)
-  const link = {
-    type: 'comment',
-    url,
-    children: isCollapsed ? [{ text: url }] : [],
-  }
+
+  comment.type = 'comment'
+  comment.children = isCollapsed ? [{ text: commentText }] : []
 
   if (isCollapsed) {
-    Transforms.insertNodes(editor, link)
+    Transforms.insertNodes(editor, comment)
   } else {
-    Transforms.wrapNodes(editor, link, { split: true })
+    Transforms.wrapNodes(editor, comment, { split: true })
     Transforms.collapse(editor, { edge: 'end' })
   }
 }
 
-const CommentButton = ({ format, children }) => {
+//comment button
+const CommentButton = ({ format, children, editorId, onChangeComment }) => {
   const editor = useSlate()
+
+  function handleComments(value) {
+    return onChangeComment && onChangeComment(value)
+  }
   return (
     <Button
       active={isFormatActive(editor, format)}
       onMouseDown={event => {
         event.preventDefault()
-        const url = window.prompt('Enter the URL of the link:')
-        if (!url) return
-        insertComment(editor, url, format)
+        const commentText = window.prompt('Enter the comment')
+        if (!commentText) return
+        const comment = {
+          id: getDateAndTime(new Date(), 'timestamp'),
+          editorId: editorId,
+          commentText,
+          time: getDateAndTime(new Date(), 'time'),
+        }
+        handleComments(comment)
+        insertComment(editor, commentText, format, comment)
       }}
     >
       {children}
@@ -196,43 +238,49 @@ const CommentButton = ({ format, children }) => {
   )
 }
 
-// Footnotes
+// To unwrap node with format
+export const unwrapFormat = (editor, format) => {
+  Transforms.unwrapNodes(editor, { match: n => n.type === format })
+}
+
+// To check active status of nodes by format
 const isFormatActive = (editor, format) => {
   const [active] = Editor.nodes(editor, { match: n => n.type === format })
   return !!active
 }
 
-const unwrapFormat = (editor, format) => {
-  Transforms.unwrapNodes(editor, { match: n => n.type === format })
-}
-
+// Footnotes
 const insertFootnote = (editor, text, format) => {
   if (editor.selection) {
     wrapFootnote(editor, text, format)
   }
 }
 
-export const wrapFootnote = (editor, url, format) => {
+// To wrap footnote nodes
+export const wrapFootnote = (editor, footnoteText, format) => {
   if (isFormatActive(editor, format)) {
     unwrapFormat(editor, format)
   }
 
   const { selection } = editor
   const isCollapsed = selection && Range.isCollapsed(selection)
-  const link = {
+  const footnote = {
     type: 'footnote',
-    url,
-    children: isCollapsed ? [{ text: url }] : [],
+    id: getDateAndTime(new Date(), 'timestamp'),
+    footnoteText,
+    time: getDateAndTime(new Date(), 'time'),
+    children: isCollapsed ? [{ text: footnoteText }] : [],
   }
 
   if (isCollapsed) {
-    Transforms.insertNodes(editor, link)
+    Transforms.insertNodes(editor, footnote)
   } else {
+    Transforms.wrapNodes(editor, footnote, { split: true })
     Transforms.collapse(editor, { edge: 'end' })
-    Transforms.wrapNodes(editor, link, { split: true })
   }
 }
 
+//Footnote button
 const FootnoteButton = ({ format, children }) => {
   const editor = useSlate()
   return (

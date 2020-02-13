@@ -2,14 +2,20 @@ import React, { useRef, useEffect } from 'react'
 import { ReactEditor, useSlate } from 'slate-react'
 import { Editor } from 'slate'
 import { css } from 'emotion'
-import { Menu, Portal } from './components'
+import { Menu, Portal } from './sharedComponents'
 import { Range } from 'slate'
-import { ToolbarButtons } from './SlateRendering'
+import { ToolbarButtons } from './ToolbarButtons'
 
-export const HoveringToolbar = ({ toolbarButtons, wrapLink }) => {
+export const HoveringToolbar = ({
+  toolbarButtons,
+  customToolbarButtons,
+  onChangeComment,
+  ...props,
+}) => {
   const ref = useRef()
   const editor = useSlate()
 
+  // hover toolbar reference to selected text
   useEffect(() => {
     const el = ref.current
     const { selection } = editor
@@ -39,6 +45,11 @@ export const HoveringToolbar = ({ toolbarButtons, wrapLink }) => {
       rect.width / 2}px`
   })
 
+  // On comment change to pass value to parent
+  function handleComments(value) {
+    return onChangeComment(value)
+  }
+
   return (
     <Portal>
       <Menu
@@ -56,7 +67,12 @@ export const HoveringToolbar = ({ toolbarButtons, wrapLink }) => {
           transition: opacity 0.75s;
         `}
       >
-        <ToolbarButtons toolbarButtons={toolbarButtons} wrapLink={wrapLink} />
+        <ToolbarButtons
+          toolbarButtons={toolbarButtons}
+          customToolbarButtons={customToolbarButtons}
+          onChangeComment={value => handleComments(value)}
+          {...props}
+        />
       </Menu>
     </Portal>
   )
