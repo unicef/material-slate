@@ -1,164 +1,200 @@
-import React, { useState, useMemo, useRef, useEffect } from 'react'
-import { Slate, Editable, ReactEditor, withReact, useSlate } from 'slate-react'
-import { Editor, Transforms, Text, createEditor } from 'slate'
-import { css } from 'emotion'
+import React, { useCallback, useMemo, useState } from 'react'
+import PropTypes from 'prop-types'
+import { initialValue } from './data'
+import isHotkey from 'is-hotkey'
+import { Slate, Editable, withReact } from 'slate-react'
+import { createEditor } from 'slate'
 import { withHistory } from 'slate-history'
+import { HoveringToolbar } from './components/HoverToolbar'
+import { toggleMark } from './components/SlateRendering'
+import { Toolbar } from './components/Toolbar'
+// import Footnote from './components/footnotes/Footnote'
+import { wrapFootnote, wrapComment } from './components/SlateRendering'
 
-import { Button, Icon, Menu, Portal } from './components'
-import { Range } from 'slate'
+const HOTKEYS = {
+  'mod+b': 'bold',
+  'mod+i': 'italic',
+  'mod+u': 'underline',
+  'mod+`': 'code',
+}
 
-const UEditor = () => {
+export default function UEditor({ toolbarButtons }) {
   const [value, setValue] = useState(initialValue)
-  const editor = useMemo(() => withHistory(withReact(createEditor())), [])
+  const renderElement = useCallback(props => Element(props), [])
+  const renderLeaf = useCallback(props => Leaf(props), [])
+  const editor = useMemo(
+    () => withComments(withFootnotes(withHistory(withReact(createEditor())))),
+    []
+  )
+
+  const Element = ({ attributes, children, element }) => {
+    // console.log(element)
+    switch (element.type) {
+      case 'block-quote':
+        return <blockquote {...attributes}>{children}</blockquote>
+      case 'bulleted-list':
+        return <ul {...attributes}>{children}</ul>
+      case 'heading-one':
+        return <h1 {...attributes}>{children}</h1>
+      case 'heading-two':
+        return <h2 {...attributes}>{children}</h2>
+      case 'list-item':
+        return <li {...attributes}>{children}</li>
+      case 'numbered-list':
+        return <ol {...attributes}>{children}</ol>
+      case 'comment':
+        return (
+          <CommentElement {...attributes} comments={[]}>
+            {children}
+          </CommentElement>
+        )
+      case 'footnote':
+        return <Footnote {...attributes}>{children}</Footnote>
+      default:
+        return <p {...attributes}>{children}</p>
+      // parentRenderElement({ attributes, children, element })
+    }
+  }
+
+  function CommentElement(props) {
+    const { attributes, children } = props
+    console.log(props)
+
+    return (
+      <span {...attributes} style={{ backgroundColor: 'yellow' }}>
+        {children}
+      </span>
+    )
+  }
+
+  function Footnote(props) {
+    const { attributes, footnotes, children } = props
+    console.log(props)
+
+    return (
+      <span {...attributes}>
+        {children}
+        <sup>2</sup>
+      </span>
+    )
+  }
+
+  const Leaf = ({ attributes, children, leaf }) => {
+    if (leaf.bold) {
+      children = <strong>{children}</strong>
+    }
+
+    if (leaf.code) {
+      children = <code>{children}</code>
+    }
+
+    if (leaf.italic) {
+      children = <em>{children}</em>
+    }
+
+    if (leaf.underline) {
+      children = <u>{children}</u>
+    }
+
+    return <span {...attributes}>{children}</span>
+  }
 
   return (
     <Slate editor={editor} value={value} onChange={value => setValue(value)}>
-      <HoveringToolbar />
+      <HoveringToolbar toolbarButtons={toolbarButtons} />
+      <Toolbar toolbarButtons={toolbarButtons} />
       <Editable
-        renderLeaf={props => <Leaf {...props} />}
-        placeholder="Enter some text..."
-        onDOMBeforeInput={event => {
-          switch (event.inputType) {
-            case 'formatBold':
-              return toggleFormat(editor, 'bold')
-            case 'formatItalic':
-              return toggleFormat(editor, 'italic')
-            case 'formatUnderline':
-              return toggleFormat(editor, 'underline')
+        renderElement={renderElement}
+        renderLeaf={renderLeaf}
+        onKeyDown={event => {
+          for (const hotkey in HOTKEYS) {
+            if (isHotkey(hotkey, event)) {
+              event.preventDefault()
+              const mark = HOTKEYS[hotkey]
+              toggleMark(editor, mark)
+            }
           }
         }}
+        placeholder="Enter some text..."
       />
     </Slate>
   )
 }
 
-const toggleFormat = (editor, format) => {
-  const isActive = isFormatActive(editor, format)
-  Transforms.setNodes(
-    editor,
-    { [format]: isActive ? null : true },
-    { match: Text.isText, split: true }
-  )
+UEditor.propTypes = {
+  /** content to display in the editor*/
+  value: PropTypes.arrayOf(PropTypes.object),
+  /** on change value */
+  onChangeValue: PropTypes.func,
+  /** format Buttons to display on toolbar  */
+  toolbarButtons: PropTypes.arrayOf(PropTypes.object),
 }
 
-const isFormatActive = (editor, format) => {
-  const [match] = Editor.nodes(editor, {
-    match: n => n[format] === true,
-    mode: 'all',
-  })
-  return !!match
+UEditor.defaultProps = {
+  toolbarButtons: [
+    { type: 'Mark', format: 'bold' },
+    { type: 'Mark', format: 'italic' },
+    { type: 'Mark', format: 'underline' },
+    { type: 'Mark', format: 'code' },
+    { type: 'Block', format: 'bulleted-list' },
+    { type: 'Block', format: 'numbered-list' },
+    { type: 'Block', format: 'heading-one' },
+    { type: 'Block', format: 'heading-two' },
+  ],
 }
 
-const Leaf = ({ attributes, children, leaf }) => {
-  if (leaf.bold) {
-    children = <strong>{children}</strong>
+const withComments = editor => {
+  const { insertData, insertText, isInline } = editor
+
+  editor.isInline = element => {
+    return element.type === 'comment' ? true : isInline(element)
   }
 
-  if (leaf.italic) {
-    children = <em>{children}</em>
-  }
-
-  if (leaf.underlined) {
-    children = <u>{children}</u>
-  }
-
-  return <span {...attributes}>{children}</span>
-}
-
-const HoveringToolbar = () => {
-  const ref = useRef()
-  const editor = useSlate()
-
-  useEffect(() => {
-    const el = ref.current
-    const { selection } = editor
-
-    if (!el) {
-      return
+  editor.insertText = text => {
+    if (text && isUrl(text)) {
+      wrapComment(editor, text, 'comment')
+    } else {
+      insertText(text)
     }
+  }
 
-    if (
-      !selection ||
-      !ReactEditor.isFocused(editor) ||
-      Range.isCollapsed(selection) ||
-      Editor.string(editor, selection) === ''
-    ) {
-      el.removeAttribute('style')
-      return
+  editor.insertData = data => {
+    const text = data.getData('text/plain')
+
+    if (text && isUrl(text)) {
+      wrapComment(editor, text, 'comment')
+    } else {
+      insertData(data)
     }
+  }
 
-    const domSelection = window.getSelection()
-    const domRange = domSelection.getRangeAt(0)
-    const rect = domRange.getBoundingClientRect()
-    el.style.opacity = 1
-    el.style.top = `${rect.top + window.pageYOffset - el.offsetHeight}px`
-    el.style.left = `${rect.left +
-      window.pageXOffset -
-      el.offsetWidth / 2 +
-      rect.width / 2}px`
-  })
-
-  return (
-    <Portal>
-      <Menu
-        ref={ref}
-        className={css`
-          padding: 8px 7px 6px;
-          position: absolute;
-          z-index: 1;
-          top: -10000px;
-          left: -10000px;
-          margin-top: -6px;
-          opacity: 0;
-          background-color: #222;
-          border-radius: 4px;
-          transition: opacity 0.75s;
-        `}
-      >
-        <FormatButton format="bold" icon="format_bold" />
-        <FormatButton format="italic" icon="format_italic" />
-        <FormatButton format="underlined" icon="format_underlined" />
-      </Menu>
-    </Portal>
-  )
+  return editor
 }
 
-const FormatButton = ({ format, icon }) => {
-  const editor = useSlate()
-  return (
-    <Button
-      reversed
-      active={isFormatActive(editor, format)}
-      onMouseDown={event => {
-        event.preventDefault()
-        toggleFormat(editor, format)
-      }}
-    >
-      <Icon>{icon}</Icon>
-    </Button>
-  )
+const withFootnotes = editor => {
+  const { insertData, insertText, isInline } = editor
+
+  editor.isInline = element => {
+    return element.type === 'footnote' ? true : isInline(element)
+  }
+
+  editor.insertText = text => {
+    if (text && isUrl(text)) {
+      wrapFootnote(editor, text, 'footnote')
+    } else {
+      insertText(text)
+    }
+  }
+
+  editor.insertData = data => {
+    const text = data.getData('text/plain')
+
+    if (text && isUrl(text)) {
+      wrapFootnote(editor, text, 'footnote')
+    } else {
+      insertData(data)
+    }
+  }
+
+  return editor
 }
-
-const initialValue = [
-  {
-    children: [
-      {
-        text:
-          'This example shows how you can make a hovering menu appear above your content, which you can use to make text ',
-      },
-      { text: 'bold', bold: true },
-      { text: ', ' },
-      { text: 'italic', italic: true },
-      { text: ', or anything else you might want to do!' },
-    ],
-  },
-  {
-    children: [
-      { text: 'Try it out yourself! Just ' },
-      { text: 'select any piece of text and the menu will appear', bold: true },
-      { text: '.' },
-    ],
-  },
-]
-
-export default UEditor

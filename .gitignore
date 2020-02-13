@@ -1,0 +1,6 @@
+.DS_Store/
+*~
+.vscode
+node_modules
+editor-example/node_modules
+dist
