@@ -13,12 +13,18 @@ export const Toolbar = ({
     return onChangeComment(value)
   }
 
+  // On footnote change to pass value to parent
+  function handleChangeFootnotes(value) {
+    return onChangeFootnote(value)
+  }
+
   return (
     <ToolbarMenu>
       <ToolbarButtons
         toolbarButtons={toolbarButtons}
         customToolbarButtons={customToolbarButtons}
         onChangeComment={value => handleComments(value)}
+        onChangeFootnote={value => handleChangeFootnotes(value)}
         {...props}
       />
     </ToolbarMenu>

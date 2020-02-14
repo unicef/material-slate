@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { initialValue } from './data'
+import { initialValue } from 'comp/data'
 import UEditor from '@unicef/material-ui-texteditor'
 import { Box } from '@material-ui/core'
 
@@ -27,7 +27,7 @@ function App() {
         editorId={1}
         value={value}
         toolbar
-        hoveringToolbar={false}
+        // hoveringToolbar={false}
         onChangeValue={handleChangeValue}
         toolbarButtons={toolbarButtons}
         onChangeComment={handleChangeComment}

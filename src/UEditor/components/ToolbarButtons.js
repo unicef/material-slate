@@ -31,6 +31,11 @@ export const ToolbarButtons = ({
     return onChangeComment(value)
   }
 
+  // On Change in comment
+  function handleComments(value) {
+    return onChangeComment(value)
+  }
+
   // Returns toolbar buttons based on the type and format
   return (
     <React.Fragment>
@@ -169,6 +174,8 @@ export const isMarkActive = (editor, format) => {
 export const MarkButton = ({ format, children }) => {
   const editor = useSlate()
 
+  // console.log(editor)
+
   return (
     <Button
       active={isMarkActive(editor, format)}
@@ -262,22 +269,21 @@ export const wrapFootnote = (editor, footnoteText, format) => {
     unwrapFormat(editor, format)
   }
 
-  const { selection } = editor
-  const isCollapsed = selection && Range.isCollapsed(selection)
+  const text = { text: '' }
   const footnote = {
     type: 'footnote',
     id: getDateAndTime(new Date(), 'timestamp'),
     footnoteText,
-    time: getDateAndTime(new Date(), 'time'),
-    children: isCollapsed ? [{ text: footnoteText }] : [],
+    children: [text],
   }
 
-  if (isCollapsed) {
-    Transforms.insertNodes(editor, footnote)
-  } else {
-    Transforms.wrapNodes(editor, footnote, { split: true })
-    Transforms.collapse(editor, { edge: 'end' })
-  }
+  Transforms.insertNodes(editor, footnote)
+
+  const list = Editor.nodes(editor, {
+    match: n => n.type === 'footnote',
+    at: [],
+  })
+  console.log('list', Array.from(list))
 }
 
 //Footnote button

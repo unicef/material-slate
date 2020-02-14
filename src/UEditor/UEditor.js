@@ -8,7 +8,7 @@ import { HoveringToolbar } from './components/HoverToolbar'
 import { toggleMark } from './components/ToolbarButtons'
 import { Toolbar } from './components/Toolbar'
 import { CommentElement } from './components/Comments'
-// import Footnote from './components/footnotes/Footnote'
+import Footnote from './components/Footnote'
 
 // To enable rich text with keys
 const HOTKEYS = {
@@ -45,7 +45,8 @@ export default function UEditor({
   }
 
   // Block level elements
-  const Element = ({ attributes, children, element }) => {
+  const Element = ({ attributes, children, element, ...props }) => {
+    // console.log('eakks', element)
     switch (element.type) {
       case 'block-quote':
         return <blockquote {...attributes}>{children}</blockquote>
@@ -66,7 +67,11 @@ export default function UEditor({
           </CommentElement>
         )
       case 'footnote':
-        return <Footnote {...attributes}>{children}</Footnote>
+        return (
+          <Footnote attributes={attributes} element={element} {...props}>
+            {children}
+          </Footnote>
+        )
       default:
         return parentRenderElement ? (
           parentRenderElement({ attributes, children, element })
@@ -74,16 +79,6 @@ export default function UEditor({
           <p {...attributes}>{children}</p>
         )
     }
-  }
-
-  function Footnote(props) {
-    const { attributes, footnotes, children } = props
-
-    return (
-      <React.Fragment>
-        {children} <sup>2</sup>
-      </React.Fragment>
-    )
   }
 
   // Leaf inline elements
@@ -206,10 +201,14 @@ const withComments = editor => {
 
 // Editor to have footnotes as inline element
 const withFootnotes = editor => {
-  const { isInline } = editor
+  const { isInline, isVoid, insertText } = editor
 
   editor.isInline = element => {
     return element.type === 'footnote' ? true : isInline(element)
+  }
+
+  editor.isVoid = element => {
+    return element.type === 'footnote' ? true : isVoid(element)
   }
 
   return editor

@@ -3,7 +3,7 @@ import commonjs from 'rollup-plugin-commonjs'
 import external from 'rollup-plugin-peer-deps-external'
 import resolve from 'rollup-plugin-node-resolve'
 import url from 'rollup-plugin-url'
-import sourcemaps from 'rollup-plugin-sourcemaps'
+// import sourcemaps from 'rollup-plugin-sourcemaps'
 
 export default {
   input: 'src/index.js',
@@ -11,10 +11,11 @@ export default {
     {
       file: 'dist/index.js',
       format: 'cjs',
+      sourcemap: true,
     },
   ],
   plugins: [
-    sourcemaps(),
+    // sourcemaps(),
     external(),
     url(),
     babel({
