@@ -10,6 +10,7 @@ export const HoveringToolbar = ({
   toolbarButtons,
   customToolbarButtons,
   onChangeComment,
+  onChangeFootnote,
   ...props,
 }) => {
   const ref = useRef()

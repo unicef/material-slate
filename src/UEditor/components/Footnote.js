@@ -1,36 +1,84 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
+import { Transforms } from 'slate'
+import { useSlate } from 'slate-react'
+import { Menu, TextField, Button, Box } from '@material-ui/core'
+// import { unwrapFormat } from './ToolbarButtons'
 
 export default function Footnote(props) {
-  const { attributes, footnotes, children, element } = props
-  const [editMode, setEditMode] = useState(!element.footnoteText)
+  const { attributes, children, element } = props
+  const editor = useSlate()
 
-  const existingFootnote = element.footnoteText ? element : null
+  const [value, setValue] = useState(element.footnoteText)
+  const [anchorEl, setAnchorEl] = useState(false)
+  const [editMode, setEditMode] = useState(!element.footnoteText)
 
   function toggleEditMode() {
     setEditMode(!editMode)
-    // alert(`footnote:${element.footnoteText}`)
-    // setEditMode(!editMode)
+    setAnchorEl(true)
   }
 
-  // useEffect(() => {
-  //   const currentFootnote = footnotes.filter(item => {
-  //     return item.id === existingFootnote.id
-  //   })
-  // }, [footnotes])
+  function handleChange(e) {
+    setValue(e.target.value)
+  }
 
-  // useEffect(() => {}, [element.footnoteText, footnotes])
+  function handleRemove(event) {
+    setTimeout(() => {
+      Transforms.unwrapNodes(editor, {
+        match: n => n.type === 'footnote',
+        split: true,
+      })
+    }, [500])
+
+    toggleEditMode()
+  }
 
   return (
-    <span {...attributes}>
-      {children}
-      <a
-        contentEditable={false}
-        role="link"
-        tabIndex={0}
-        onClick={toggleEditMode}
-      >
-        <sup>{1}</sup>
-      </a>
-    </span>
+    <React.Fragment>
+      <span {...attributes}>
+        <a
+          contentEditable={true}
+          role="link"
+          tabIndex={0}
+          onClick={toggleEditMode}
+        >
+          <sup>{element.number}</sup>
+        </a>
+        {children}
+      </span>
+      {editMode && (
+        <Menu
+          id="footnote-menu"
+          anchorEl={anchorEl}
+          style={{ left: 250 }}
+          MenuListProps={{ component: 'div', style: { display: 'block' } }}
+          open={anchorEl}
+          onClose={toggleEditMode}
+          PaperProps={{ style: { padding: 16, maxWidth: 300 } }}
+        >
+          <TextField
+            label="footnote"
+            name="text"
+            value={value}
+            variant="outlined"
+            fullWidth
+            multiline
+            onChange={handleChange}
+          />
+          <Box style={{ float: 'right', margin: 8 }}>
+            <Button color="primary" variant="contained" type="submit">
+              Update
+            </Button>
+            <Button
+              style={{ marginLeft: 8 }}
+              color="default"
+              variant="contained"
+              onClick={handleRemove}
+            >
+              Remove
+            </Button>
+          </Box>
+        </Menu>
+      )}
+    </React.Fragment>
   )
 }

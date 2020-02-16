@@ -6,6 +6,7 @@ export const Toolbar = ({
   toolbarButtons,
   customToolbarButtons,
   onChangeComment,
+  onChangeFootnote,
   ...props
 }) => {
   // On comment change to pass value to parent

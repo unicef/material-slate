@@ -1,7 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Transforms, Editor, Range } from 'slate'
 import { useSlate } from 'slate-react'
 import { Button } from './sharedComponents'
+import {
+  Menu,
+  Typography,
+  TextField,
+  Button as MButton,
+  Box,
+} from '@material-ui/core'
 import {
   FormatBold,
   FormatItalic,
@@ -24,16 +31,17 @@ export const ToolbarButtons = ({
   toolbarButtons,
   customToolbarButtons,
   onChangeComment,
+  onChangeFootnote,
   ...props
 }) => {
   // On Change in comment
-  function handleComments(value) {
+  function handleComment(value) {
     return onChangeComment(value)
   }
 
-  // On Change in comment
-  function handleComments(value) {
-    return onChangeComment(value)
+  // On Change in footnote
+  function handleChangeFootnote(value) {
+    return onChangeFootnote(value)
   }
 
   // Returns toolbar buttons based on the type and format
@@ -58,7 +66,7 @@ export const ToolbarButtons = ({
               <CommentButton
                 key={'comment'}
                 format="comment"
-                onChangeComment={value => handleComments(value)}
+                onChangeComment={value => handleComment(value)}
                 {...props}
               >
                 <AddCommentIcon />
@@ -66,7 +74,12 @@ export const ToolbarButtons = ({
             )
           case 'Footnote':
             return (
-              <FootnoteButton key={'footnote'} format="footnote" {...props}>
+              <FootnoteButton
+                key={'footnote'}
+                format="footnote"
+                onChangeFootnote={value => handleChangeFootnote(value)}
+                {...props}
+              >
                 <PlaylistAddIcon />
               </FootnoteButton>
             )
@@ -191,6 +204,7 @@ export const MarkButton = ({ format, children }) => {
 
 // Comments
 const insertComment = (editor, url, format, comment) => {
+  // console.log(editor.selection)
   if (editor.selection) {
     wrapComment(editor, url, format, comment)
   }
@@ -211,6 +225,7 @@ export const wrapComment = (editor, commentText, format, comment) => {
   if (isCollapsed) {
     Transforms.insertNodes(editor, comment)
   } else {
+    // Transforms.setNodes()
     Transforms.wrapNodes(editor, comment, { split: true })
     Transforms.collapse(editor, { edge: 'end' })
   }
@@ -218,30 +233,101 @@ export const wrapComment = (editor, commentText, format, comment) => {
 
 //comment button
 const CommentButton = ({ format, children, editorId, onChangeComment }) => {
+  const [openForm, setOpenForm] = useState(false)
+  const [value, setValue] = useState('')
   const editor = useSlate()
 
-  function handleComments(value) {
-    return onChangeComment && onChangeComment(value)
+  const [editorSelection, setEditorSelection] = useState('')
+
+  function handleChange(e) {
+    setValue(e.target.value)
   }
+
+  function onClickCommentButton() {
+    setOpenForm(true)
+  }
+
+  function handleClose() {
+    setOpenForm(false)
+  }
+
+  function handleSubmit(editor) {
+    const comment = {
+      id: getDateAndTime(new Date(), 'timestamp'),
+      editorId: editorId,
+      commentText: value,
+      time: getDateAndTime(new Date(), 'time'),
+    }
+
+    onChangeComment(comment)
+    console.log('at', editor.selection, editorSelection)
+    // editor.selection = editorSelection
+    insertComment(editorSelection, value, format, comment)
+    setValue('')
+    setOpenForm(false)
+  }
+
+  // console.log(editorSelection)
   return (
-    <Button
-      active={isFormatActive(editor, format)}
-      onMouseDown={event => {
-        event.preventDefault()
-        const commentText = window.prompt('Enter the comment')
-        if (!commentText) return
-        const comment = {
-          id: getDateAndTime(new Date(), 'timestamp'),
-          editorId: editorId,
-          commentText,
-          time: getDateAndTime(new Date(), 'time'),
-        }
-        handleComments(comment)
-        insertComment(editor, commentText, format, comment)
-      }}
-    >
-      {children}
-    </Button>
+    <React.Fragment>
+      <Button
+        active={isFormatActive(editor, format)}
+        onMouseDown={event => {
+          event.preventDefault()
+          // console.log(editor.selection)
+          // const ed = editor
+          // Object.freeze(ed)
+          // const value = ''
+          const commentText = ''
+          // if (!commentText) return
+          const comment = {
+            id: getDateAndTime(new Date(), 'timestamp'),
+            editorId: editorId,
+            commentText: commentText,
+            time: getDateAndTime(new Date(), 'time'),
+          }
+          onChangeComment(comment)
+          insertComment(editor, null, format, comment)
+          // onClickCommentButton()
+        }}
+      >
+        {children}
+      </Button>
+      <Menu
+        id="comments-menu"
+        anchorEl={openForm}
+        style={{ left: 100 }}
+        MenuListProps={{ component: 'div', style: { display: 'block' } }}
+        open={Boolean(openForm)}
+        onClose={handleClose}
+        PaperProps={{ style: { padding: 16, maxWidth: 500 } }}
+      >
+        <Typography variant="h6">Comment</Typography>
+        <TextField
+          variant="outlined"
+          margin="dense"
+          id="year"
+          value={value}
+          onChange={handleChange}
+          fullWidth
+          placeholder="Comment"
+          multiline
+        />
+        <Box style={{ float: 'right', margin: 8 }}>
+          <MButton name="cancel" onClick={handleClose} color="default">
+            Cancel
+          </MButton>
+          <MButton
+            type="submit"
+            name="reply"
+            color="primary"
+            onClick={handleSubmit}
+          >
+            Comment
+          </MButton>
+        </Box>
+      </Menu>
+    </React.Fragment>
   )
 }
 
@@ -257,25 +343,20 @@ const isFormatActive = (editor, format) => {
 }
 
 // Footnotes
-const insertFootnote = (editor, text, format) => {
+const insertFootnote = (editor, text, format, footnote) => {
   if (editor.selection) {
-    wrapFootnote(editor, text, format)
+    wrapFootnote(editor, text, format, footnote)
   }
 }
 
 // To wrap footnote nodes
-export const wrapFootnote = (editor, footnoteText, format) => {
+export const wrapFootnote = (editor, footnoteText, format, footnote) => {
   if (isFormatActive(editor, format)) {
     unwrapFormat(editor, format)
   }
 
   const text = { text: '' }
-  const footnote = {
-    type: 'footnote',
-    id: getDateAndTime(new Date(), 'timestamp'),
-    footnoteText,
-    children: [text],
-  }
+  footnote.children = [text]
 
   Transforms.insertNodes(editor, footnote)
 
@@ -287,8 +368,14 @@ export const wrapFootnote = (editor, footnoteText, format) => {
 }
 
 //Footnote button
-const FootnoteButton = ({ format, children }) => {
+const FootnoteButton = ({ format, children, onChangeFootnote }) => {
   const editor = useSlate()
+  // console.log('edptore', editor, Editor, Transforms)
+
+  function handleChangeFootnote(value) {
+    return onChangeFootnote && onChangeFootnote(value)
+  }
+
   return (
     <Button
       active={isFormatActive(editor, format)}
@@ -296,7 +383,13 @@ const FootnoteButton = ({ format, children }) => {
         event.preventDefault()
         const text = window.prompt('Enter the URL of the link:')
         if (!text) return
-        insertFootnote(editor, text, format)
+        const footnote = {
+          type: 'footnote',
+          id: getDateAndTime(new Date(), 'timestamp'),
+          footnoteText: text,
+        }
+        handleChangeFootnote(footnote)
+        insertFootnote(editor, text, format, footnote)
       }}
     >
       {children}

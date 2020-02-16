@@ -24,11 +24,15 @@ export default function UEditor({
   toolbar,
   hoveringToolbar,
   toolbarButtons,
+  comments,
+  footnotes,
   onChangeComment,
+  onChangeFootnote,
   parentRenderElement,
   parentRenderLeaf,
   customToolbarButtons,
   editorId,
+  ...props
 }) {
   const [initialValue, setValue] = useState(value)
   const renderElement = useCallback(props => Element(props), [])
@@ -45,7 +49,7 @@ export default function UEditor({
   }
 
   // Block level elements
-  const Element = ({ attributes, children, element, ...props }) => {
+  const Element = ({ attributes, children, footnotes, element, ...props }) => {
     // console.log('eakks', element)
     switch (element.type) {
       case 'block-quote':
@@ -62,13 +66,23 @@ export default function UEditor({
         return <ol {...attributes}>{children}</ol>
       case 'comment':
         return (
-          <CommentElement {...attributes} comments={[]}>
+          <CommentElement
+            attributes={attributes}
+            comments={comments}
+            element={element}
+            {...props}
+          >
             {children}
           </CommentElement>
         )
       case 'footnote':
         return (
-          <Footnote attributes={attributes} element={element} {...props}>
+          <Footnote
+            attributes={attributes}
+            footnotes={footnotes}
+            element={element}
+            {...props}
+          >
             {children}
           </Footnote>
         )
@@ -107,8 +121,13 @@ export default function UEditor({
   }
 
   // comments to pass to parent
-  function handleComments(value) {
+  function handleComment(value) {
     return onChangeComment(value)
+  }
+
+  // comments to pass to parent
+  function handleChangeFootnote(value) {
+    return onChangeFootnote(value)
   }
 
   return (
@@ -118,7 +137,8 @@ export default function UEditor({
           editorId={editorId}
           toolbarButtons={toolbarButtons}
           customToolbarButtons={customToolbarButtons}
-          onChangeComment={value => handleComments(value)}
+          onChangeComment={value => handleComment(value)}
+          onChangeFootnote={value => handleChangeFootnote(value)}
         />
       )}
       {toolbar && (
@@ -126,7 +146,8 @@ export default function UEditor({
           editorId={editorId}
           toolbarButtons={toolbarButtons}
           customToolbarButtons={customToolbarButtons}
-          onChangeComment={value => handleComments(value)}
+          onChangeComment={value => handleComment(value)}
+          onChangeFootnote={value => handleChangeFootnote(value)}
         />
       )}
       <Editable

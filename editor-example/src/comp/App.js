@@ -6,6 +6,9 @@ import { Box } from '@material-ui/core'
 function App() {
   const [value, setValue] = useState(initialValue)
 
+  const [footnotes, setFootnotes] = useState([])
+  const [comments, setComments] = useState([{ type: 'footnote' }])
+
   const toolbarButtons = [
     { type: 'Mark', format: 'bold' },
     { type: 'Mark', format: 'italic' },
@@ -14,11 +17,17 @@ function App() {
   ]
 
   function handleChangeValue(value) {
+    // console.log('value', value)
     setValue(value)
   }
 
   function handleChangeComment(value) {
     console.log('comment in example app', value)
+  }
+
+  function handleChangeFootnote(value) {
+    value.number = Math.floor(Math.random() * 1000)
+    setFootnotes([...footnotes, value])
   }
 
   return (
@@ -28,9 +37,12 @@ function App() {
         value={value}
         toolbar
         // hoveringToolbar={false}
+        comments={comments}
+        footnotes={footnotes}
         onChangeValue={handleChangeValue}
         toolbarButtons={toolbarButtons}
         onChangeComment={handleChangeComment}
+        onChangeFootnote={handleChangeFootnote}
         parentRenderElement={props => Element(props)}
         parentRenderLeaf={props => Leaf(props)}
       />

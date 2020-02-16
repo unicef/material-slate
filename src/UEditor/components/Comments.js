@@ -14,10 +14,13 @@ import {
 } from '@material-ui/core'
 import { unwrapFormat } from './ToolbarButtons'
 
-export function CommentElement({ attributes, children, ...props }) {
+export function CommentElement({ attributes, children, element, ...props }) {
+  console.log(element)
   const editor = useSlate()
   const { node } = children.props
   const { commentText, time } = node
+  const [value, setValue] = useState('')
+  const [openForm, setOpenForm] = useState(element.commentText === '')
   const [anchorEl, setAnchorEl] = useState(false)
 
   const handleClick = event => {
@@ -29,7 +32,7 @@ export function CommentElement({ attributes, children, ...props }) {
   }
 
   function handleResolve(event) {
-    event.preventDefault()
+    // event.preventDefault()
     unwrapFormat(editor, 'comment')
   }
 
@@ -45,8 +48,42 @@ export function CommentElement({ attributes, children, ...props }) {
       </span>
       <CommentMenu
         id="comments-menu"
+        anchorEl={openForm}
+        style={{ left: 100 }}
+        MenuListProps={{ component: 'div', style: { display: 'block' } }}
+        open={Boolean(openForm)}
+        onClose={handleClose}
+        PaperProps={{ style: { padding: 16, maxWidth: 500 } }}
+      >
+        <Typography variant="h6">Comment</Typography>
+        <TextField
+          variant="outlined"
+          margin="dense"
+          id="year"
+          value={value}
+          // onChange={handleChange}
+          fullWidth
+          placeholder="Comment"
+          multiline
+        />
+        <Box style={{ float: 'right', margin: 8 }}>
+          <Button name="cancel" onClick={handleClose} color="default">
+            Cancel
+          </Button>
+          <Button
+            type="submit"
+            name="reply"
+            color="primary"
+            // onClick={handleSubmit}
+          >
+            Comment
+          </Button>
+        </Box>
+      </CommentMenu>
+      <CommentMenu
+        id="comments-menu"
         anchorEl={anchorEl}
-        style={{ left: 250 }}
+        style={{ left: 100 }}
         MenuListProps={{ component: 'div', style: { display: 'block' } }}
         open={Boolean(anchorEl)}
         onClose={handleClose}
