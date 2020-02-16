@@ -59,6 +59,10 @@ export default function UEditor({
       onChangeFootnote && onChangeFootnote(value)
     }
 
+    function handleChangeComment(value) {
+      onChangeComment && onChangeComment(value)
+    }
+
     switch (element.type) {
       case 'block-quote':
         return <blockquote {...attributes}>{children}</blockquote>
@@ -78,6 +82,7 @@ export default function UEditor({
             attributes={attributes}
             comments={comments}
             element={element}
+            onChangeComment={value => handleChangeComment(value)}
             {...props}
           >
             {children}

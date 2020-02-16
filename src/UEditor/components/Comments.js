@@ -20,19 +20,15 @@ export function CommentElement({
   comments,
   children,
   element,
+  onChangeComment,
   ...props
 }) {
   const editor = useSlate()
-  const { node } = children.props
-  // const { commentText, time } = node
+  console.log(element, comments)
   const [value, setValue] = useState(
     element.commentText ? element.commentText : ''
   )
   const [editMode, setEditMode] = useState(!element.commentText)
-
-  const handleSubmit = event => {
-    setEditMode(!editMode)
-  }
 
   const toggleEditMode = () => {
     setEditMode(!editMode)
@@ -55,12 +51,34 @@ export function CommentElement({
     setEditMode(false)
   }
 
-  // function handleSubmit(event) {
-  //   // let comment = element
-  //   console.log(Transforms.setNodes(editor, { ...element, commentText: value }))
-  //   Transforms.wrapNodes(editor, { ...element, commentText: value })
-  //   setOpenForm(false)
-  // }
+  function handleSubmit() {
+    if (value !== element.commentText) {
+      // get the path of your node
+      const [nodeEntry] = Editor.nodes(editor, {
+        at: [], // if you want to search the whole document instead of the selection (where the cursor is)
+        match: n => n.id === element.id, // predicate function
+      })
+
+      // let commentText = value
+      // if you found the node
+      if (nodeEntry) {
+        const [node, path] = nodeEntry
+        // update the node
+        Transforms.setNodes(
+          editor,
+          { commentText: value, ...element },
+          { at: path }
+        )
+      }
+
+      onChangeComment({
+        type: 'update',
+        commentText: value,
+        comment: { commentText: value, ...element },
+      })
+    }
+    setEditMode(false)
+  }
 
   return (
     <React.Fragment>

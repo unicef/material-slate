@@ -9,6 +9,7 @@ function App() {
   const [footnotes, setFootnotes] = useState([])
   const [comments, setComments] = useState([])
 
+  // Toolbar Buttons
   const toolbarButtons = [
     { type: 'Mark', format: 'bold' },
     { type: 'Mark', format: 'italic' },
@@ -16,16 +17,33 @@ function App() {
     { type: 'Footnote', format: 'footnote' },
   ]
 
+  //On change of value
   function handleChangeValue(value) {
     setValue(value)
   }
 
+  //On change of comments
   function handleChangeComment(value) {
+    const comment = value.comment
     if (value.type === 'add') {
-      setComments([...comments, value])
+      setComments([...comments, comment])
+    } else if (value.type === 'update') {
+      let updatedComments = comments.map(element => {
+        if (element.id === comment.id) {
+          element.commentText = value.commentText
+        }
+        return element
+      })
+      setComments(updatedComments)
+    } else {
+      let updatedComments = comments.filter(element => {
+        return element.id === comment.id
+      })
+      setComments(updatedComments)
     }
   }
 
+  // On change of footnotes
   function handleChangeFootnote(value) {
     let updatedList = []
 

@@ -27,7 +27,6 @@ export default function Footnote(props) {
   }
 
   function handleChange(e) {
-    // console.log(e.target.value, value)
     setValue(e.target.value)
   }
 
