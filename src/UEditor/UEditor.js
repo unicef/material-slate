@@ -35,12 +35,17 @@ export default function UEditor({
   ...props
 }) {
   const [initialValue, setValue] = useState(value)
-  const renderElement = useCallback(props => Element(props), [])
+  const renderElement = useCallback(props => Element(props), [
+    footnotes,
+    comments,
+  ])
   const renderLeaf = useCallback(props => Leaf(props), [])
   const editor = useMemo(
     () => withComments(withFootnotes(withHistory(withReact(createEditor())))),
     []
   )
+
+  // console.log('home', footnotes)
 
   // On change value
   function handleChangeValue(value) {
@@ -49,8 +54,11 @@ export default function UEditor({
   }
 
   // Block level elements
-  const Element = ({ attributes, children, footnotes, element, ...props }) => {
-    // console.log('eakks', element)
+  const Element = ({ attributes, element, children, ...props }) => {
+    function handleChangeFootnote(value) {
+      onChangeFootnote && onChangeFootnote(value)
+    }
+
     switch (element.type) {
       case 'block-quote':
         return <blockquote {...attributes}>{children}</blockquote>
@@ -81,6 +89,7 @@ export default function UEditor({
             attributes={attributes}
             footnotes={footnotes}
             element={element}
+            onChangeFootnote={value => handleChangeFootnote(value)}
             {...props}
           >
             {children}
@@ -151,7 +160,7 @@ export default function UEditor({
         />
       )}
       <Editable
-        renderElement={renderElement}
+        renderElement={props => renderElement(props, footnotes)}
         renderLeaf={renderLeaf}
         onKeyDown={event => {
           for (const hotkey in HOTKEYS) {

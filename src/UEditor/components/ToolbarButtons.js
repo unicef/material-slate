@@ -260,7 +260,7 @@ const CommentButton = ({ format, children, editorId, onChangeComment }) => {
     }
 
     onChangeComment(comment)
-    console.log('at', editor.selection, editorSelection)
+    // console.log('at', editor.selection, editorSelection)
     // editor.selection = editorSelection
     insertComment(editorSelection, value, format, comment)
     setValue('')
@@ -278,15 +278,14 @@ const CommentButton = ({ format, children, editorId, onChangeComment }) => {
           // const ed = editor
           // Object.freeze(ed)
           // const value = ''
-          const commentText = ''
+          // const commentText = window.prompt('Enter the comment')
           // if (!commentText) return
           const comment = {
             id: getDateAndTime(new Date(), 'timestamp'),
             editorId: editorId,
-            commentText: commentText,
             time: getDateAndTime(new Date(), 'time'),
           }
-          onChangeComment(comment)
+          onChangeComment({ type: 'add', comment })
           insertComment(editor, null, format, comment)
           // onClickCommentButton()
         }}
@@ -350,7 +349,15 @@ const insertFootnote = (editor, text, format, footnote) => {
 }
 
 // To wrap footnote nodes
-export const wrapFootnote = (editor, footnoteText, format, footnote) => {
+export const wrapFootnote = (
+  editor,
+  footnoteText,
+  format,
+  footnote
+  // handleChangeFootnote
+) => {
+  // console.log(handleChangeFootnote)
+
   if (isFormatActive(editor, format)) {
     unwrapFormat(editor, format)
   }
@@ -360,11 +367,7 @@ export const wrapFootnote = (editor, footnoteText, format, footnote) => {
 
   Transforms.insertNodes(editor, footnote)
 
-  const list = Editor.nodes(editor, {
-    match: n => n.type === 'footnote',
-    at: [],
-  })
-  console.log('list', Array.from(list))
+  console.log('list')
 }
 
 //Footnote button
@@ -381,15 +384,30 @@ const FootnoteButton = ({ format, children, onChangeFootnote }) => {
       active={isFormatActive(editor, format)}
       onMouseDown={event => {
         event.preventDefault()
-        const text = window.prompt('Enter the URL of the link:')
-        if (!text) return
+        // const text = window.prompt('Enter the footnote text')
+        // if (!text) return
         const footnote = {
           type: 'footnote',
           id: getDateAndTime(new Date(), 'timestamp'),
-          footnoteText: text,
+          // footnoteText: text,
         }
-        handleChangeFootnote(footnote)
-        insertFootnote(editor, text, format, footnote)
+
+        insertFootnote(editor, '', format, footnote)
+
+        const list = Editor.nodes(editor, {
+          match: n => n.type === 'footnote',
+          at: [],
+        })
+
+        const footnoteList = Array.from(list)
+
+        const addFootnoteValue = {
+          type: 'add',
+          footnoteList,
+          footnote,
+        }
+
+        handleChangeFootnote(addFootnoteValue)
       }}
     >
       {children}

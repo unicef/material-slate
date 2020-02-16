@@ -12,47 +12,73 @@ import {
   ListItemText,
   TextField,
 } from '@material-ui/core'
-import { unwrapFormat } from './ToolbarButtons'
+// import { unwrapFormat } from './ToolbarButtons'
+import { Editor, Transforms } from 'slate'
 
-export function CommentElement({ attributes, children, element, ...props }) {
-  console.log(element)
+export function CommentElement({
+  attributes,
+  comments,
+  children,
+  element,
+  ...props
+}) {
   const editor = useSlate()
   const { node } = children.props
-  const { commentText, time } = node
-  const [value, setValue] = useState('')
-  const [openForm, setOpenForm] = useState(element.commentText === '')
-  const [anchorEl, setAnchorEl] = useState(false)
+  // const { commentText, time } = node
+  const [value, setValue] = useState(
+    element.commentText ? element.commentText : ''
+  )
+  const [editMode, setEditMode] = useState(!element.commentText)
 
-  const handleClick = event => {
-    setAnchorEl(event.currentTarget)
+  const handleSubmit = event => {
+    setEditMode(!editMode)
   }
 
-  const handleClose = () => {
-    setAnchorEl(null)
+  const toggleEditMode = () => {
+    setEditMode(!editMode)
   }
 
-  function handleResolve(event) {
-    // event.preventDefault()
-    unwrapFormat(editor, 'comment')
+  function handlChangeValue(e) {
+    setValue(e.target.value)
   }
+
+  function handleRemove(event) {
+    Transforms.unwrapNodes(editor, {
+      at: [],
+      match: n => n.id === element.id,
+    })
+
+    onChangeComment({
+      type: 'remove',
+      element,
+    })
+    setEditMode(false)
+  }
+
+  // function handleSubmit(event) {
+  //   // let comment = element
+  //   console.log(Transforms.setNodes(editor, { ...element, commentText: value }))
+  //   Transforms.wrapNodes(editor, { ...element, commentText: value })
+  //   setOpenForm(false)
+  // }
 
   return (
     <React.Fragment>
       <span
         aria-controls="simple-menu"
         aria-haspopup="true"
-        onClick={handleClick}
+        onClick={toggleEditMode}
         style={{ backgroundColor: 'yellow' }}
       >
         {children}
       </span>
       <CommentMenu
         id="comments-menu"
-        anchorEl={openForm}
+        anchorEl={editMode}
         style={{ left: 100 }}
         MenuListProps={{ component: 'div', style: { display: 'block' } }}
-        open={Boolean(openForm)}
-        onClose={handleClose}
+        open={Boolean(editMode)}
+        onClose={toggleEditMode}
         PaperProps={{ style: { padding: 16, maxWidth: 500 } }}
       >
         <Typography variant="h6">Comment</Typography>
@@ -61,32 +87,32 @@ export function CommentElement({ attributes, children, element, ...props }) {
           margin="dense"
           id="year"
           value={value}
-          // onChange={handleChange}
+          onChange={handlChangeValue}
           fullWidth
           placeholder="Comment"
           multiline
         />
         <Box style={{ float: 'right', margin: 8 }}>
-          <Button name="cancel" onClick={handleClose} color="default">
+          <Button name="cancel" onClick={toggleEditMode} color="default">
             Cancel
           </Button>
           <Button
             type="submit"
             name="reply"
             color="primary"
-            // onClick={handleSubmit}
+            onClick={handleSubmit}
           >
             Comment
           </Button>
         </Box>
       </CommentMenu>
-      <CommentMenu
+      {/* <CommentMenu
         id="comments-menu"
-        anchorEl={anchorEl}
+        anchorEl={editMode}
         style={{ left: 100 }}
         MenuListProps={{ component: 'div', style: { display: 'block' } }}
-        open={Boolean(anchorEl)}
-        onClose={handleClose}
+        open={Boolean(editMode)}
+        onClose={toggleEditMode}
         PaperProps={{ style: { padding: 16, maxWidth: 500 } }}
       >
         <Typography variant="h6">Comment</Typography>
@@ -97,7 +123,7 @@ export function CommentElement({ attributes, children, element, ...props }) {
             </ListItemAvatar>
             <ListItemText primary={1} secondary={time} />
             <Button
-              onClick={e => handleResolve(e, 'comment')}
+              onClick={handleRemove}
               style={{ marginLeft: 8 }}
               color="primary"
               variant="contained"
@@ -123,7 +149,10 @@ export function CommentElement({ attributes, children, element, ...props }) {
             Reply
           </Button>
         </Box>
-      </CommentMenu>
+      </CommentMenu> */}
     </React.Fragment>
   )
+}
+
+{
 }

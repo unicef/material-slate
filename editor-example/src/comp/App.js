@@ -7,7 +7,7 @@ function App() {
   const [value, setValue] = useState(initialValue)
 
   const [footnotes, setFootnotes] = useState([])
-  const [comments, setComments] = useState([{ type: 'footnote' }])
+  const [comments, setComments] = useState([])
 
   const toolbarButtons = [
     { type: 'Mark', format: 'bold' },
@@ -17,17 +17,40 @@ function App() {
   ]
 
   function handleChangeValue(value) {
-    // console.log('value', value)
     setValue(value)
   }
 
   function handleChangeComment(value) {
-    console.log('comment in example app', value)
+    if (value.type === 'add') {
+      setComments([...comments, value])
+    }
   }
 
   function handleChangeFootnote(value) {
-    value.number = Math.floor(Math.random() * 1000)
-    setFootnotes([...footnotes, value])
+    let updatedList = []
+
+    // update footnote
+    if (value.type === 'update') {
+      let footnote = value.footnote
+      updatedList = footnotes.map(element => {
+        if (element.id === footnote.id) {
+          element.footnoteText = value.footnoteText
+        }
+        return element
+      })
+    } else {
+      // add and remove with order
+      const list = value.footnoteList
+      updatedList = list.map((footnote, index) => {
+        const footnoteWithNumber = {
+          ...footnote[0],
+          number: index + 1,
+        }
+        return footnoteWithNumber
+      })
+    }
+
+    setFootnotes(updatedList)
   }
 
   return (
