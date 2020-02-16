@@ -187,8 +187,6 @@ export const isMarkActive = (editor, format) => {
 export const MarkButton = ({ format, children }) => {
   const editor = useSlate()
 
-  // console.log(editor)
-
   return (
     <Button
       active={isMarkActive(editor, format)}
@@ -204,7 +202,6 @@ export const MarkButton = ({ format, children }) => {
 
 // Comments
 const insertComment = (editor, url, format, comment) => {
-  // console.log(editor.selection)
   if (editor.selection) {
     wrapComment(editor, url, format, comment)
   }
@@ -233,100 +230,27 @@ export const wrapComment = (editor, commentText, format, comment) => {
 
 //comment button
 const CommentButton = ({ format, children, editorId, onChangeComment }) => {
-  const [openForm, setOpenForm] = useState(false)
-  const [value, setValue] = useState('')
   const editor = useSlate()
 
-  const [editorSelection, setEditorSelection] = useState('')
-
-  function handleChange(e) {
-    setValue(e.target.value)
-  }
-
-  function onClickCommentButton() {
-    setOpenForm(true)
-  }
-
-  function handleClose() {
-    setOpenForm(false)
-  }
-
-  function handleSubmit(editor) {
-    const comment = {
-      id: getDateAndTime(new Date(), 'timestamp'),
-      editorId: editorId,
-      commentText: value,
-      time: getDateAndTime(new Date(), 'time'),
-    }
-
-    onChangeComment(comment)
-    // console.log('at', editor.selection, editorSelection)
-    // editor.selection = editorSelection
-    insertComment(editorSelection, value, format, comment)
-    setValue('')
-    setOpenForm(false)
-  }
-
-  // console.log(editorSelection)
   return (
-    <React.Fragment>
-      <Button
-        active={isFormatActive(editor, format)}
-        onMouseDown={event => {
-          event.preventDefault()
-          // console.log(editor.selection)
-          // const ed = editor
-          // Object.freeze(ed)
-          // const value = ''
-          // const commentText = window.prompt('Enter the comment')
-          // if (!commentText) return
-          const comment = {
-            id: getDateAndTime(new Date(), 'timestamp'),
-            editorId: editorId,
-            time: getDateAndTime(new Date(), 'time'),
-          }
-          onChangeComment({ type: 'add', comment })
-          insertComment(editor, null, format, comment)
-          // onClickCommentButton()
-        }}
-      >
-        {children}
-      </Button>
-      <Menu
-        id="comments-menu"
-        anchorEl={openForm}
-        style={{ left: 100 }}
-        MenuListProps={{ component: 'div', style: { display: 'block' } }}
-        open={Boolean(openForm)}
-        onClose={handleClose}
-        PaperProps={{ style: { padding: 16, maxWidth: 500 } }}
-      >
-        <Typography variant="h6">Comment</Typography>
-        <TextField
-          variant="outlined"
-          margin="dense"
-          id="year"
-          value={value}
-          onChange={handleChange}
-          fullWidth
-          placeholder="Comment"
-          multiline
-        />
-        <Box style={{ float: 'right', margin: 8 }}>
-          <MButton name="cancel" onClick={handleClose} color="default">
-            Cancel
-          </MButton>
-          <MButton
-            type="submit"
-            name="reply"
-            color="primary"
-            onClick={handleSubmit}
-          >
-            Comment
-          </MButton>
-        </Box>
-      </Menu>
-    </React.Fragment>
+    <Button
+      active={isFormatActive(editor, format)}
+      onMouseDown={event => {
+        event.preventDefault()
+        const { anchor, focus } = editor.selection
+        console.log(anchor, focus)
+        if (anchor.offset === focus.offset) return
+        const comment = {
+          id: getDateAndTime(new Date(), 'timestamp'),
+          editorId: editorId,
+          time: getDateAndTime(new Date(), 'time'),
+        }
+        onChangeComment({ type: 'add', comment })
+        insertComment(editor, null, format, comment)
+      }}
+    >
+      {children}
+    </Button>
   )
 }
 

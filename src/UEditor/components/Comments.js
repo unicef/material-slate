@@ -24,7 +24,6 @@ export function CommentElement({
   ...props
 }) {
   const editor = useSlate()
-  console.log(element, comments)
   const [value, setValue] = useState(
     element.commentText ? element.commentText : ''
   )
