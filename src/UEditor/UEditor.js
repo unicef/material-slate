@@ -21,8 +21,8 @@ const HOTKEYS = {
 export default function UEditor({
   value,
   onChangeValue,
-  toolbar,
-  hoveringToolbar,
+  displayToolbar,
+  displayHoverToolbar,
   toolbarButtons,
   comments,
   footnotes,
@@ -40,12 +40,11 @@ export default function UEditor({
     comments,
   ])
   const renderLeaf = useCallback(props => Leaf(props), [])
+
   const editor = useMemo(
     () => withComments(withFootnotes(withHistory(withReact(createEditor())))),
     []
   )
-
-  // console.log('home', footnotes)
 
   // On change value
   function handleChangeValue(value) {
@@ -146,7 +145,7 @@ export default function UEditor({
 
   return (
     <Slate editor={editor} value={initialValue} onChange={handleChangeValue}>
-      {hoveringToolbar && (
+      {displayHoverToolbar && (
         <HoveringToolbar
           editorId={editorId}
           toolbarButtons={toolbarButtons}
@@ -155,7 +154,7 @@ export default function UEditor({
           onChangeFootnote={value => handleChangeFootnote(value)}
         />
       )}
-      {toolbar && (
+      {displayToolbar && (
         <Toolbar
           editorId={editorId}
           toolbarButtons={toolbarButtons}
@@ -194,10 +193,12 @@ UEditor.propTypes = {
   toolbarButtons: PropTypes.arrayOf(PropTypes.object),
   /** on comment change */
   onChangeComment: PropTypes.func,
+  /** on footnote change */
+  onChangeFootnote: PropTypes.func,
   /** Hover toolbar */
-  hoveringToolbar: PropTypes.bool,
+  displayHoverToolbar: PropTypes.bool,
   /** Toolbar on top of editor*/
-  toolbar: PropTypes.bool,
+  displayToolbar: PropTypes.bool,
   /**To add custom buttons totoolbar */
   customToolbarButtons: PropTypes.fun,
   /** parentRenderLeaf is to add our own inline elements to editor*/

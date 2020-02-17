@@ -2,6 +2,9 @@ import React, { useState } from 'react'
 import { initialValue } from 'data'
 import UEditor from '@unicef/material-ui-texteditor'
 import { Box } from '@material-ui/core'
+import FormatColorTextIcon from '@material-ui/icons/FormatColorText'
+import { Transforms, Editor, Range } from 'slate'
+import { useSlate } from 'slate-react'
 
 function App() {
   const [value, setValue] = useState(initialValue)
@@ -9,12 +12,22 @@ function App() {
   const [footnotes, setFootnotes] = useState([])
   const [comments, setComments] = useState([])
 
+  // function createRichEditor() {
+  //   withComments(withFootnotes(withHistory(withReact(createEditor()))))
+  // }
+
+  // const editor = useMemo(withLinks(createRichEditor()))
   // Toolbar Buttons
   const toolbarButtons = [
     { type: 'Mark', format: 'bold' },
     { type: 'Mark', format: 'italic' },
     { type: 'Comment', format: 'comment' },
     { type: 'Footnote', format: 'footnote' },
+    {
+      type: 'Mark',
+      format: 'blue',
+      icon: <FormatColorTextIcon color="primary" />,
+    },
   ]
 
   //On change of value
@@ -76,8 +89,8 @@ function App() {
       <UEditor
         editorId={1}
         value={value}
-        toolbar
-        // hoveringToolbar={false}
+        displayToolbar
+        displayHoverToolbar={false}
         comments={comments}
         footnotes={footnotes}
         onChangeValue={handleChangeValue}
@@ -90,6 +103,14 @@ function App() {
     </Box>
   )
 }
+
+// To add blocks and use your own Marks
+// Enable it in toolbarButtons
+// Ex:  {
+//       type: 'Block',
+//       format: 'blue',
+//       icon: <FormatColorTextIcon color="primary" />,
+//     },
 
 const Element = ({ attributes, children, element }) => {
   switch (element.type) {
@@ -104,17 +125,25 @@ const Element = ({ attributes, children, element }) => {
   }
 }
 
+// To add marks and use your own Marks
+// Enable it in toolbarButtons
+// Ex:  {
+//       type: 'Mark',
+//       format: 'blue',
+//       icon: <FormatColorTextIcon color="primary" />,
+//     },
+
 const Leaf = ({ attributes, children, leaf }) => {
-  switch (leaf.type) {
-    case 'blue':
-      return (
-        <span {...attributes} style={{ backgroundColor: 'blue' }}>
-          {children}
-        </span>
-      )
-    default:
-      return <span {...attributes}>{children}</span>
+  const editor = useSlate()
+  // console.log('editorValues', editor, Editor, Transforms)
+  if (leaf.blue) {
+    children = (
+      <span {...attributes} style={{ backgroundColor: 'blue' }}>
+        {children}
+      </span>
+    )
   }
+  return <span {...attributes}>{children}</span>
 }
 
 export default App

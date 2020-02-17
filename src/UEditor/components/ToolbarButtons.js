@@ -1,14 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Transforms, Editor, Range } from 'slate'
 import { useSlate } from 'slate-react'
 import { Button } from './sharedComponents'
-import {
-  Menu,
-  Typography,
-  TextField,
-  Button as MButton,
-  Box,
-} from '@material-ui/core'
 import {
   FormatBold,
   FormatItalic,
@@ -222,7 +215,6 @@ export const wrapComment = (editor, commentText, format, comment) => {
   if (isCollapsed) {
     Transforms.insertNodes(editor, comment)
   } else {
-    // Transforms.setNodes()
     Transforms.wrapNodes(editor, comment, { split: true })
     Transforms.collapse(editor, { edge: 'end' })
   }
@@ -238,7 +230,6 @@ const CommentButton = ({ format, children, editorId, onChangeComment }) => {
       onMouseDown={event => {
         event.preventDefault()
         const { anchor, focus } = editor.selection
-        console.log(anchor, focus)
         if (anchor.offset === focus.offset) return
         const comment = {
           id: getDateAndTime(new Date(), 'timestamp'),
@@ -273,15 +264,7 @@ const insertFootnote = (editor, text, format, footnote) => {
 }
 
 // To wrap footnote nodes
-export const wrapFootnote = (
-  editor,
-  footnoteText,
-  format,
-  footnote
-  // handleChangeFootnote
-) => {
-  // console.log(handleChangeFootnote)
-
+export const wrapFootnote = (editor, footnoteText, format, footnote) => {
   if (isFormatActive(editor, format)) {
     unwrapFormat(editor, format)
   }
@@ -290,14 +273,11 @@ export const wrapFootnote = (
   footnote.children = [text]
 
   Transforms.insertNodes(editor, footnote)
-
-  console.log('list')
 }
 
 //Footnote button
 const FootnoteButton = ({ format, children, onChangeFootnote }) => {
   const editor = useSlate()
-  // console.log('edptore', editor, Editor, Transforms)
 
   function handleChangeFootnote(value) {
     return onChangeFootnote && onChangeFootnote(value)
@@ -308,8 +288,6 @@ const FootnoteButton = ({ format, children, onChangeFootnote }) => {
       active={isFormatActive(editor, format)}
       onMouseDown={event => {
         event.preventDefault()
-        // const text = window.prompt('Enter the footnote text')
-        // if (!text) return
         const footnote = {
           type: 'footnote',
           id: getDateAndTime(new Date(), 'timestamp'),
