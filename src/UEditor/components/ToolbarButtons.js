@@ -78,7 +78,7 @@ export const ToolbarButtons = ({
             )
         }
       })}
-      {customToolbarButtons}
+      {customToolbarButtons && customToolbarButtons(props)}
     </React.Fragment>
   )
 }

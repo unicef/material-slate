@@ -1,10 +1,16 @@
 import React, { useState } from 'react'
 import { initialValue } from 'data'
-import UEditor from '@unicef/material-ui-texteditor'
+import isUrl from 'is-url'
+import {
+  UEditor,
+  createRichEditor,
+  SlateButton,
+} from '@unicef/material-ui-texteditor'
 import { Box, Button } from '@material-ui/core'
+import { Editor, Transforms, Range } from 'slate'
 import FormatColorTextIcon from '@material-ui/icons/FormatColorText'
-import { Transforms, Editor, Range } from 'slate'
 import { useSlate } from 'slate-react'
+import LinkIcon from '@material-ui/icons/Link'
 
 function App() {
   const [value, setValue] = useState(initialValue)
@@ -12,11 +18,6 @@ function App() {
   const [footnotes, setFootnotes] = useState([])
   const [comments, setComments] = useState([])
 
-  // function createRichEditor() {
-  //   withComments(withFootnotes(withHistory(withReact(createEditor()))))
-  // }
-
-  // const editor = useMemo(withLinks(createRichEditor()))
   // Toolbar Buttons
   const toolbarButtons = [
     { type: 'Mark', format: 'bold' },
@@ -88,13 +89,15 @@ function App() {
     <Box mt={5}>
       <UEditor
         editorId={1}
+        createRichEditor={withLinks(createRichEditor())}
         value={value}
         displayToolbar
         displayHoverToolbar={false}
+        toolbarButtons={toolbarButtons}
+        customToolbarButtons={customToolbarButtons}
         comments={comments}
         footnotes={footnotes}
         onChangeValue={handleChangeValue}
-        toolbarButtons={toolbarButtons}
         onChangeComment={handleChangeComment}
         onChangeFootnote={handleChangeFootnote}
         extendRenderElement={props => Element(props)}
@@ -102,6 +105,15 @@ function App() {
       />
       <Button onClick={e => setComments([])}>Reset</Button>
     </Box>
+  )
+}
+
+// custom toolbar buttons to extend editor
+const customToolbarButtons = props => {
+  return (
+    <LinkButton key="link">
+      <LinkIcon />
+    </LinkButton>
   )
 }
 
@@ -115,6 +127,12 @@ function App() {
 
 const Element = ({ attributes, children, element }) => {
   switch (element.type) {
+    case 'link':
+      return (
+        <a {...attributes} href={element.url}>
+          {children}
+        </a>
+      )
     case 'block-blue':
       return (
         <p {...attributes} style={{ backgroundColor: 'blue' }}>
@@ -135,8 +153,6 @@ const Element = ({ attributes, children, element }) => {
 //     },
 
 const Leaf = ({ attributes, children, leaf }) => {
-  const editor = useSlate()
-  // console.log('editorValues', editor, Editor, Transforms)
   if (leaf.blue) {
     children = (
       <span {...attributes} style={{ backgroundColor: 'blue' }}>
@@ -148,3 +164,85 @@ const Leaf = ({ attributes, children, leaf }) => {
 }
 
 export default App
+
+// with Links
+const withLinks = editor => {
+  const { insertData, insertText, isInline } = editor
+
+  editor.isInline = element => {
+    return element.type === 'link' ? true : isInline(element)
+  }
+
+  editor.insertText = text => {
+    if (text && isUrl(text)) {
+      wrapLink(editor, text)
+    } else {
+      insertText(text)
+    }
+  }
+
+  editor.insertData = data => {
+    const text = data.getData('text/plain')
+
+    if (text && isUrl(text)) {
+      wrapLink(editor, text)
+    } else {
+      insertData(data)
+    }
+  }
+
+  return editor
+}
+
+const insertLink = (editor, url) => {
+  if (editor.selection) {
+    wrapLink(editor, url)
+  }
+}
+
+const isLinkActive = editor => {
+  const [link] = Editor.nodes(editor, { match: n => n.type === 'link' })
+  return !!link
+}
+
+const unwrapLink = editor => {
+  Transforms.unwrapNodes(editor, { match: n => n.type === 'link' })
+}
+
+const wrapLink = (editor, url) => {
+  if (isLinkActive(editor)) {
+    unwrapLink(editor)
+  }
+
+  const { selection } = editor
+  const isCollapsed = selection && Range.isCollapsed(selection)
+  const link = {
+    type: 'link',
+    url,
+    children: isCollapsed ? [{ text: url }] : [],
+  }
+
+  if (isCollapsed) {
+    Transforms.insertNodes(editor, link)
+  } else {
+    Transforms.wrapNodes(editor, link, { split: true })
+    Transforms.collapse(editor, { edge: 'end' })
+  }
+}
+
+const LinkButton = ({ children, ...props }) => {
+  const editor = useSlate()
+  return (
+    <SlateButton
+      active={isLinkActive(editor)}
+      onMouseDown={event => {
+        event.preventDefault()
+        const url = window.prompt('Enter the URL of the link:')
+        if (!url) return
+        insertLink(editor, url)
+      }}
+    >
+      {children}
+    </SlateButton>
+  )
+}

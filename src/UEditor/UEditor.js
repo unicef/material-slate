@@ -18,8 +18,13 @@ const HOTKEYS = {
   'mod+`': 'code',
 }
 
-export default function UEditor({
+export function createRichEditor() {
+  return withComments(withFootnotes(withHistory(withReact(createEditor()))))
+}
+
+export function UEditor({
   value,
+  createRichEditor,
   onChangeValue,
   displayToolbar,
   displayHoverToolbar,
@@ -41,10 +46,7 @@ export default function UEditor({
   ])
   const renderLeaf = useCallback(props => Leaf(props), [])
 
-  const editor = useMemo(
-    () => withComments(withFootnotes(withHistory(withReact(createEditor())))),
-    []
-  )
+  const editor = useMemo(() => createRichEditor, [])
 
   useEffect(() => {
     const footnotesInEditor = getListByFormat('footnote')
@@ -200,7 +202,12 @@ export default function UEditor({
   }
 
   return (
-    <Slate editor={editor} value={initialValue} onChange={handleChangeValue}>
+    <Slate
+      editor={editor}
+      value={initialValue}
+      onChange={handleChangeValue}
+      {...props}
+    >
       {displayHoverToolbar && (
         <HoveringToolbar
           editorId={editorId}
@@ -208,6 +215,7 @@ export default function UEditor({
           customToolbarButtons={customToolbarButtons}
           onChangeComment={value => handleComment(value)}
           onChangeFootnote={value => handleChangeFootnote(value)}
+          {...props}
         />
       )}
       {displayToolbar && (
@@ -217,6 +225,7 @@ export default function UEditor({
           customToolbarButtons={customToolbarButtons}
           onChangeComment={value => handleComment(value)}
           onChangeFootnote={value => handleChangeFootnote(value)}
+          {...props}
         />
       )}
       <Editable
@@ -232,6 +241,7 @@ export default function UEditor({
           }
         }}
         placeholder="Enter some text..."
+        {...props}
       />
     </Slate>
   )

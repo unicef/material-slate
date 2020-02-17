@@ -1,3 +1,3 @@
-import UEditor from './UEditor'
+import { UEditor, createRichEditor, SlateButton } from './UEditor'
 
-export default UEditor
+export { UEditor, createRichEditor, SlateButton }
