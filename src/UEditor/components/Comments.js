@@ -12,7 +12,6 @@ import {
   ListItemText,
   TextField,
 } from '@material-ui/core'
-// import { unwrapFormat } from './ToolbarButtons'
 import { Editor, Transforms } from 'slate'
 
 export function CommentElement({
@@ -71,7 +70,6 @@ export function CommentElement({
         match: n => n.id === element.id, // predicate function
       })
 
-      // let commentText = value
       // if you found the node
       if (nodeEntry) {
         const [node, path] = nodeEntry
