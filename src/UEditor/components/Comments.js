@@ -28,9 +28,20 @@ export function CommentElement({
     element.commentText ? element.commentText : ''
   )
   const [editMode, setEditMode] = useState(!element.commentText)
+  const [replyMode, setReplyMode] = useState(false)
+
+  const { time, commentText } = element
 
   const toggleEditMode = () => {
     setEditMode(!editMode)
+  }
+
+  const toggleReplyMode = () => {
+    if (commentText) {
+      setReplyMode(!replyMode)
+    } else {
+      setEditMode(!editMode)
+    }
   }
 
   function handlChangeValue(e) {
@@ -45,8 +56,10 @@ export function CommentElement({
 
     onChangeComment({
       type: 'remove',
-      element,
+      comment: element,
     })
+
+    setReplyMode(false)
     setEditMode(false)
   }
 
@@ -84,7 +97,7 @@ export function CommentElement({
       <span
         aria-controls="simple-menu"
         aria-haspopup="true"
-        onClick={toggleEditMode}
+        onClick={toggleReplyMode}
         style={{ backgroundColor: 'yellow' }}
       >
         {children}
@@ -110,12 +123,19 @@ export function CommentElement({
           multiline
         />
         <Box style={{ float: 'right', margin: 8 }}>
-          <Button name="cancel" onClick={toggleEditMode} color="default">
+          <Button
+            name="cancel"
+            onClick={toggleEditMode}
+            variant="contained"
+            color="default"
+            style={{ marginRight: 8 }}
+          >
             Cancel
           </Button>
           <Button
             type="submit"
             name="reply"
+            variant="contained"
             color="primary"
             onClick={handleSubmit}
           >
@@ -123,13 +143,13 @@ export function CommentElement({
           </Button>
         </Box>
       </CommentMenu>
-      {/* <CommentMenu
+      <CommentMenu
         id="comments-menu"
-        anchorEl={editMode}
+        anchorEl={replyMode}
         style={{ left: 100 }}
         MenuListProps={{ component: 'div', style: { display: 'block' } }}
-        open={Boolean(editMode)}
-        onClose={toggleEditMode}
+        open={Boolean(replyMode)}
+        onClose={toggleReplyMode}
         PaperProps={{ style: { padding: 16, maxWidth: 500 } }}
       >
         <Typography variant="h6">Comment</Typography>
@@ -159,17 +179,14 @@ export function CommentElement({
           multiline
         />
         <Box style={{ float: 'right', margin: 8 }}>
-          <Button name="cancel" onClick={handleClose} color="default">
+          <Button name="cancel" color="default" onClick={toggleReplyMode}>
             Cancel
           </Button>
           <Button type="submit" name="reply" color="primary">
             Reply
           </Button>
         </Box>
-      </CommentMenu> */}
+      </CommentMenu>
     </React.Fragment>
   )
-}
-
-{
 }

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { initialValue } from 'comp/data'
+import { initialValue } from 'data'
 import UEditor from '@unicef/material-ui-texteditor'
 import { Box } from '@material-ui/core'
 
