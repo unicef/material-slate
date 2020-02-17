@@ -1,8 +1,8 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useMemo, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import isHotkey from 'is-hotkey'
 import { Slate, Editable, withReact } from 'slate-react'
-import { createEditor } from 'slate'
+import { createEditor, Editor, Transforms } from 'slate'
 import { withHistory } from 'slate-history'
 import { HoveringToolbar } from './components/HoverToolbar'
 import { toggleMark } from './components/ToolbarButtons'
@@ -28,8 +28,8 @@ export default function UEditor({
   footnotes,
   onChangeComment,
   onChangeFootnote,
-  parentRenderElement,
-  parentRenderLeaf,
+  extendRenderElement,
+  extendRenderLeaf,
   customToolbarButtons,
   editorId,
   ...props
@@ -46,6 +46,60 @@ export default function UEditor({
     []
   )
 
+  useEffect(() => {
+    const footnotesInEditor = getListByFormat('footnote')
+    // If there is difference in footnotes in editor and state
+    if (footnotes.length !== footnotesInEditor.length) {
+      // Find the removed footnote
+      let removedFootnotes = footnotesInEditor.filter(
+        obj => !footnotes.some(element => element.id === obj.id)
+      )
+
+      // Remove from editor
+      removedFootnotes.map(footnote => {
+        Transforms.removeNodes(editor, {
+          at: [],
+          match: n => n.id === footnote.id,
+        })
+      })
+    }
+  }, [footnotes])
+
+  useEffect(() => {
+    const commentsInEditor = getListByFormat('comment')
+    // If there is difference in footnotes in editor and state
+    if (comments.length !== commentsInEditor.length) {
+      // Find the removed comment
+      let removedComments = commentsInEditor.filter(
+        obj => !comments.some(element => element.id === obj.id)
+      )
+
+      // unwrap from editor
+      removedComments.map(comment => {
+        Transforms.unwrapNodes(editor, {
+          at: [],
+          match: n => n.id === comment.id,
+        })
+      })
+    }
+  }, [comments])
+
+  // To get list of format exists in editor
+  function getListByFormat(format) {
+    const list = Editor.nodes(editor, {
+      match: n => n.type === format,
+      at: [],
+    })
+
+    // List in editor with path and node
+    const listWithNodesAndPath = Array.from(list)
+    // List with node (element)
+    const listWithNodes = listWithNodesAndPath.map(item => {
+      return item[0]
+    })
+    return listWithNodes
+  }
+
   // On change value
   function handleChangeValue(value) {
     onChangeValue(value)
@@ -54,10 +108,12 @@ export default function UEditor({
 
   // Block level elements
   const Element = ({ attributes, element, children, ...props }) => {
+    //on change in footnote
     function handleChangeFootnote(value) {
       onChangeFootnote && onChangeFootnote(value)
     }
 
+    // on change in comment
     function handleChangeComment(value) {
       onChangeComment && onChangeComment(value)
     }
@@ -100,8 +156,8 @@ export default function UEditor({
           </Footnote>
         )
       default:
-        return parentRenderElement ? (
-          parentRenderElement({ attributes, children, element })
+        return extendRenderElement ? (
+          extendRenderElement({ attributes, children, element })
         ) : (
           <p {...attributes}>{children}</p>
         )
@@ -126,8 +182,8 @@ export default function UEditor({
       children = <u>{children}</u>
     }
 
-    return parentRenderLeaf ? (
-      parentRenderLeaf({ attributes, children, leaf })
+    return extendRenderLeaf ? (
+      extendRenderLeaf({ attributes, children, leaf })
     ) : (
       <span {...attributes}>{children}</span>
     )

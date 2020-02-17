@@ -26,12 +26,16 @@ export function CommentElement({
   const [value, setValue] = useState(
     element.commentText ? element.commentText : ''
   )
+  const canRemove = element.commentText
   const [editMode, setEditMode] = useState(!element.commentText)
   const [replyMode, setReplyMode] = useState(false)
 
   const { time, commentText } = element
 
-  const toggleEditMode = () => {
+  const toggleEditMode = (e, type) => {
+    if (type === 'remove') {
+      handleRemove()
+    }
     setEditMode(!editMode)
   }
 
@@ -106,11 +110,15 @@ export function CommentElement({
         style={{ left: 100 }}
         MenuListProps={{ component: 'div', style: { display: 'block' } }}
         open={Boolean(editMode)}
-        onClose={toggleEditMode}
+        onClose={e => {
+          e.preventDefault()
+          toggleEditMode(e, 'remove')
+        }}
         PaperProps={{ style: { padding: 16, maxWidth: 500 } }}
       >
         <Typography variant="h6">Comment</Typography>
         <TextField
+          autoFocus
           variant="outlined"
           margin="dense"
           id="year"
@@ -123,7 +131,10 @@ export function CommentElement({
         <Box style={{ float: 'right', margin: 8 }}>
           <Button
             name="cancel"
-            onClick={toggleEditMode}
+            onClick={e => {
+              e.preventDefault()
+              toggleEditMode(e, 'remove')
+            }}
             variant="contained"
             color="default"
             style={{ marginRight: 8 }}
@@ -172,6 +183,7 @@ export function CommentElement({
           variant="outlined"
           margin="dense"
           id="year"
+          autoFocus
           fullWidth
           placeholder="Reply..."
           multiline

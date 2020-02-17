@@ -108,6 +108,7 @@ export default function Footnote(props) {
           label="footnote"
           name="text"
           value={value}
+          autoFocus
           variant="outlined"
           fullWidth
           multiline

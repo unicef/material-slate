@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { initialValue } from 'data'
 import UEditor from '@unicef/material-ui-texteditor'
-import { Box } from '@material-ui/core'
+import { Box, Button } from '@material-ui/core'
 import FormatColorTextIcon from '@material-ui/icons/FormatColorText'
 import { Transforms, Editor, Range } from 'slate'
 import { useSlate } from 'slate-react'
@@ -97,9 +97,10 @@ function App() {
         toolbarButtons={toolbarButtons}
         onChangeComment={handleChangeComment}
         onChangeFootnote={handleChangeFootnote}
-        parentRenderElement={props => Element(props)}
-        parentRenderLeaf={props => Leaf(props)}
+        extendRenderElement={props => Element(props)}
+        extendRenderLeaf={props => Leaf(props)}
       />
+      <Button onClick={e => setComments([])}>Reset</Button>
     </Box>
   )
 }
