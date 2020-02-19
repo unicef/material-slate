@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState, useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import isHotkey from 'is-hotkey'
 import { Editable, useSlate } from 'slate-react'
@@ -22,8 +22,6 @@ export default function RichEditable({
   onChangeFootnote,
   extendRenderElement,
   extendRenderLeaf,
-  customToolbarButtons,
-  editorId,
   autoFocus,
   onKeyDown,
   style,
@@ -192,4 +190,20 @@ export default function RichEditable({
       {...props}
     />
   )
+}
+
+// PropTypes
+RichEditable.propTypes = {
+  /**list comments in the editor */
+  comments: PropTypes.array,
+  /**list footnotes in the editor */
+  footnotes: PropTypes.array,
+  /** on comment change */
+  onChangeComment: PropTypes.func,
+  /** on footnote change */
+  onChangeFootnote: PropTypes.func,
+  /** extendRenderLeaf is to add our own inline elements to editor*/
+  extendRenderLeaf: PropTypes.func,
+  /** extendRenderElement is to add our own block level elements to editor*/
+  extendRenderElement: PropTypes.func,
 }

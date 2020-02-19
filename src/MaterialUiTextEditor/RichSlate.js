@@ -1,8 +1,7 @@
-import React, { useCallback, useMemo, useState, useEffect } from 'react'
+import React, { useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
-import isHotkey from 'is-hotkey'
-import { Slate, Editable, withReact } from 'slate-react'
-import { createEditor, Editor, Transforms } from 'slate'
+import { Slate, withReact } from 'slate-react'
+import { createEditor } from 'slate'
 import { withHistory } from 'slate-history'
 
 export function createRichEditor() {
@@ -58,39 +57,6 @@ RichSlate.propTypes = {
   value: PropTypes.arrayOf(PropTypes.object),
   /** on change value */
   onChangeValue: PropTypes.func,
-  /** format Buttons to display on toolbar  */
-  toolbarButtons: PropTypes.arrayOf(PropTypes.object),
-  /** on comment change */
-  onChangeComment: PropTypes.func,
-  /** on footnote change */
-  onChangeFootnote: PropTypes.func,
-  /** Hover toolbar */
-  displayHoverToolbar: PropTypes.bool,
-  /** Toolbar on top of editor*/
-  displayToolbar: PropTypes.bool,
-  /**To add custom buttons totoolbar */
-  customToolbarButtons: PropTypes.fun,
-  /** parentRenderLeaf is to add our own inline elements to editor*/
-  parentRenderLeaf: PropTypes.func,
-  /** parentRenderElement is to add our own block level elements to editor*/
-  parentRenderElement: PropTypes.func,
-}
-
-// Default props
-RichSlate.defaultProps = {
-  toolbarButtons: [
-    { type: 'Mark', format: 'bold' },
-    { type: 'Mark', format: 'italic' },
-    { type: 'Mark', format: 'underline' },
-    { type: 'Mark', format: 'code' },
-    { type: 'Block', format: 'bulleted-list' },
-    { type: 'Block', format: 'numbered-list' },
-    { type: 'Block', format: 'heading-one' },
-    { type: 'Block', format: 'heading-two' },
-    { type: 'Comment', format: 'comment' },
-    { type: 'Footnote', format: 'footnote' },
-  ],
-  hoveringToolbar: true,
 }
 
 // Editor to have comments as inline element

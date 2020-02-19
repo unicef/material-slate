@@ -26,7 +26,6 @@ export function CommentElement({
   const [value, setValue] = useState(
     element.commentText ? element.commentText : ''
   )
-  const canRemove = element.commentText
   const [editMode, setEditMode] = useState(!element.commentText)
   const [replyMode, setReplyMode] = useState(false)
 

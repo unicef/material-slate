@@ -21,6 +21,7 @@ import getDateAndTime from './getDateAndTime'
 const LIST_TYPES = ['numbered-list', 'bulleted-list']
 
 export const ToolbarButtons = ({
+  editorId,
   toolbarButtons,
   onChangeComment,
   onChangeFootnote,
@@ -276,7 +277,7 @@ export const wrapFootnote = (editor, footnoteText, format, footnote) => {
 }
 
 //Footnote button
-const FootnoteButton = ({ format, children, onChangeFootnote }) => {
+const FootnoteButton = ({ format, children, editorId, onChangeFootnote }) => {
   const editor = useSlate()
 
   function handleChangeFootnote(value) {
@@ -292,6 +293,7 @@ const FootnoteButton = ({ format, children, onChangeFootnote }) => {
           type: 'footnote',
           id: getDateAndTime(new Date(), 'timestamp'),
           // footnoteText: text,
+          editorId: editorId,
         }
 
         insertFootnote(editor, '', format, footnote)

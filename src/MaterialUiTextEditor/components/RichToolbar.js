@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Toolbar as ToolbarMenu } from './sharedComponents'
 import { ToolbarButtons } from './ToolbarButtons'
 
@@ -41,3 +42,27 @@ const RichToolbar = ({
   )
 }
 export default RichToolbar
+
+// PropTypes
+RichToolbar.propTypes = {
+  /** unique id of the editor */
+  editorId: PropTypes.number,
+  /** format Buttons to display on toolbar  */
+  toolbarButtons: PropTypes.arrayOf(PropTypes.object),
+  /** on comment change */
+  onChangeComment: PropTypes.func,
+  /** on footnote change */
+  onChangeFootnote: PropTypes.func,
+}
+
+// Default props
+RichToolbar.defaultProps = {
+  toolbarButtons: [
+    { type: 'Mark', format: 'bold' },
+    { type: 'Mark', format: 'italic' },
+    { type: 'Mark', format: 'underline' },
+    { type: 'Mark', format: 'code' },
+    { type: 'Comment', format: 'comment' },
+    { type: 'Footnote', format: 'footnote' },
+  ],
+}

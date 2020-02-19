@@ -91,12 +91,12 @@ function App() {
   return (
     <Box mt={8}>
       <RichSlate
-        editorId={1}
         createRichEditor={withLinks(createRichEditor())}
         value={value}
         onChangeValue={handleChangeValue}
       >
         <RichHoveringToolbar
+          editorId={1}
           toolbarButtons={toolbarButtons}
           comments={comments}
           footnotes={footnotes}
@@ -108,6 +108,7 @@ function App() {
           </LinkButton>
         </RichHoveringToolbar>
         <RichToolbar
+          editorId={1}
           toolbarButtons={toolbarButtons}
           comments={comments}
           footnotes={footnotes}
