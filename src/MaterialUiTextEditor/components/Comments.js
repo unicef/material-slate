@@ -23,6 +23,7 @@ export function CommentElement({
   ...props
 }) {
   const editor = useSlate()
+  const [error, setError] = useState(false)
   const [value, setValue] = useState(
     element.commentText ? element.commentText : ''
   )
@@ -66,6 +67,9 @@ export function CommentElement({
   }
 
   function handleSubmit() {
+    if (value === '') {
+      return setError(true)
+    }
     if (value !== element.commentText) {
       // get the path of your node
       const [nodeEntry] = Editor.nodes(editor, {
@@ -124,6 +128,8 @@ export function CommentElement({
           value={value}
           onChange={handlChangeValue}
           fullWidth
+          error={error}
+          helperText={error && 'This field is required'}
           placeholder="Comment"
           multiline
         />

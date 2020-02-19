@@ -10,6 +10,8 @@ export default function Footnote(props) {
   const [value, setValue] = useState(
     element.footnoteText ? element.footnoteText : ''
   )
+
+  const [error, setError] = useState(false)
   const canRemove = element.footnoteText
   const [editMode, setEditMode] = useState(!element.footnoteText)
 
@@ -53,6 +55,9 @@ export default function Footnote(props) {
   }
 
   function handleSubmit() {
+    if (value === '') {
+      return setError(true)
+    }
     if (value !== element.footnoteText) {
       // get the path of your node
       const [nodeEntry] = Editor.nodes(editor, {
@@ -77,6 +82,7 @@ export default function Footnote(props) {
       })
     }
     setEditMode(false)
+    setError(false)
   }
 
   return (
@@ -112,6 +118,8 @@ export default function Footnote(props) {
           variant="outlined"
           fullWidth
           multiline
+          error={error}
+          helperText={error && 'This field is required'}
           onChange={handleChange}
         />
         <Box style={{ float: 'right', margin: 8 }}>
@@ -121,7 +129,7 @@ export default function Footnote(props) {
             type="submit"
             onClick={handleSubmit}
           >
-            Update
+            {canRemove ? 'Update' : 'Submit'}
           </Button>
           {canRemove && (
             <Button

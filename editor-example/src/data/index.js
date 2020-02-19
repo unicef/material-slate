@@ -1,36 +1,25 @@
 export const initialValue = [
   {
-    type: 'paragraph',
-    children: [
-      { text: 'This is editable ' },
-      { text: 'rich', bold: true },
-      { text: ' text, ' },
-      { text: 'much', italic: true },
-      { text: ' better than a ' },
-      { text: '<textarea>', code: true },
-      { text: '!' },
-    ],
-  },
-  {
-    type: 'paragraph',
     children: [
       {
-        text:
-          "Since it's rich text, you can do things like turn a selection of text ",
+        text: 'In addition to block nodes, you can create inline nodes, like ',
       },
-      { text: 'bold', bold: true },
       {
-        text:
-          ', or add a semantically rendered block quote in the middle of the page, like this:',
+        type: 'link',
+        url: 'https://en.wikipedia.org/wiki/Hypertext',
+        children: [{ text: 'hyperlinks' }],
+      },
+      {
+        text: '!',
       },
     ],
   },
   {
-    type: 'block-quote',
-    children: [{ text: 'A wise quote.' }],
-  },
-  {
-    type: 'paragraph',
-    children: [{ text: 'Try it out for yourself!' }],
+    children: [
+      {
+        text:
+          'This example shows hyperlinks in action. It features two ways to add links. You can either add a link via the toolbar icon above, or if you want in on a little secret, copy a URL to your keyboard and paste it while a range of text is selected.',
+      },
+    ],
   },
 ]
