@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { ReactEditor, useSlate } from 'slate-react'
 import { Editor } from 'slate'
-import { css,cx } from 'emotion'
+import { css, cx } from 'emotion'
 import { Menu, Portal } from './sharedComponents'
 import { Range } from 'slate'
 import { ToolbarButtons } from './ToolbarButtons'
@@ -14,7 +14,7 @@ const RichHoveringToolbar = ({
   onChangeFootnote,
   children,
   className,
-  ...props,
+  ...props
 }) => {
   const ref = useRef()
   const editor = useSlate()
@@ -54,8 +54,8 @@ const RichHoveringToolbar = ({
     return onChangeComment(value)
   }
 
-   // On footnote change to pass value to parent
-   function handleChangeFootnotes(value) {
+  // On footnote change to pass value to parent
+  function handleChangeFootnotes(value) {
     return onChangeFootnote(value)
   }
 
@@ -63,19 +63,22 @@ const RichHoveringToolbar = ({
     <Portal>
       <Menu
         ref={ref}
-        className={cx(className, css`
-          padding: 8px 7px 6px;
-          position: absolute;
-          z-index: 1200;
-          top: -10000px;
-          left: -10000px;
-          margin-top: -6px;
-          opacity: 0;
-          border: 1px solid rgba(0,103,181,1);
-          background-color: #fff;
-          border-radius: 4px;
-          transition: opacity 0.75s;
-        `)}
+        className={cx(
+          className,
+          css`
+            padding: 8px 7px 6px;
+            position: absolute;
+            z-index: 1200;
+            top: -10000px;
+            left: -10000px;
+            margin-top: -6px;
+            opacity: 0;
+            border: 1px solid rgba(0, 103, 181, 1);
+            background-color: #fff;
+            border-radius: 4px;
+            transition: opacity 0.75s;
+          `
+        )}
       >
         <ToolbarButtons
           toolbarButtons={toolbarButtons}

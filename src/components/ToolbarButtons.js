@@ -1,7 +1,7 @@
 import React from 'react'
 import { Transforms, Editor, Range } from 'slate'
 import { useSlate } from 'slate-react'
-import { RichSlateButton } from './sharedComponents'
+import RichSlateButton from './RichSlateButton'
 import {
   FormatBold,
   FormatItalic,

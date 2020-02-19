@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { initialValue } from 'data'
-import { useTheme } from '@material-ui/styles'
 import isUrl from 'is-url'
 import {
   RichSlate,
@@ -19,18 +18,14 @@ import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles(theme => ({
   slate: {
-    border: `1px solid ${theme.palette.secondary.main}`,
+    border: `1px solid ${theme.palette.primary.main}`,
     borderRadius: theme.spacing(1),
     padding: theme.spacing(1),
+    margin: theme.spacing(1),
   },
-  // toolbar: {
-  //   border: `1px solid ${theme.palette.primary.main}`,
-  //   borderRadius: theme.spacing(1),
-  // },
 }))
 
 function App() {
-  const theme = useTheme()
   const classes = useStyles()
   const [value, setValue] = useState(initialValue)
 
@@ -139,6 +134,7 @@ function App() {
       {/* <Button onClick={e => setComments([])}>Reset</Button> */}
       <Grid>
         <RichSlate
+          className={classes.slate}
           createRichEditor={withLinks(createRichEditor())}
           value={value}
           onChangeValue={handleChangeValue}
