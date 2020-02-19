@@ -42,7 +42,7 @@ export default function Footnote(props) {
     })
 
     const footnoteList = Array.from(list)
-    // console.log('afteRemove', footnoteList)
+
     onChangeFootnote({
       type: 'remove',
       footnoteList: footnoteList,
@@ -69,7 +69,7 @@ export default function Footnote(props) {
           { at: path }
         )
       }
-      // console.log({ footnoteText: value})
+
       onChangeFootnote({
         type: 'update',
         footnoteText: value,

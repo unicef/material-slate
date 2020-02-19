@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { Slate, withReact } from 'slate-react'
 import { createEditor } from 'slate'
 import { withHistory } from 'slate-history'
+import { Box } from '@material-ui/core'
 
 export function createRichEditor() {
   return withComments(withFootnotes(withHistory(withReact(createEditor()))))
@@ -25,10 +26,10 @@ export function RichSlate({
   editorId,
   autoFocus,
   children,
+  className,
   ...props
 }) {
   const [initialValue, setValue] = useState(value)
-
   const editor = useMemo(() => createRichEditor, [])
 
   // On change value
@@ -44,7 +45,7 @@ export function RichSlate({
       onChange={handleChangeValue}
       {...props}
     >
-      {children}
+      <Box className={className}>{children}</Box>
     </Slate>
   )
 }

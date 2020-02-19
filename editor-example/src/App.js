@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { initialValue } from 'data'
+import { useTheme } from '@material-ui/styles'
 import isUrl from 'is-url'
 import {
   RichSlate,
@@ -9,13 +10,28 @@ import {
   RichToolbar,
   RichSlateButton,
 } from '@unicef/material-ui-texteditor'
-import { Box, Button } from '@material-ui/core'
 import { Editor, Transforms, Range } from 'slate'
 import FormatColorTextIcon from '@material-ui/icons/FormatColorText'
 import { useSlate } from 'slate-react'
 import LinkIcon from '@material-ui/icons/Link'
+import { Grid } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
+
+const useStyles = makeStyles(theme => ({
+  slate: {
+    border: `1px solid ${theme.palette.secondary.main}`,
+    borderRadius: theme.spacing(1),
+    padding: theme.spacing(1),
+  },
+  // toolbar: {
+  //   border: `1px solid ${theme.palette.primary.main}`,
+  //   borderRadius: theme.spacing(1),
+  // },
+}))
 
 function App() {
+  const theme = useTheme()
+  const classes = useStyles()
   const [value, setValue] = useState(initialValue)
 
   const [footnotes, setFootnotes] = useState([])
@@ -30,7 +46,7 @@ function App() {
     {
       type: 'Mark',
       format: 'blue',
-      icon: <FormatColorTextIcon color="primary" />,
+      icon: <FormatColorTextIcon />,
     },
   ]
 
@@ -89,47 +105,67 @@ function App() {
   }
 
   return (
-    <Box mt={8}>
-      <RichSlate
-        createRichEditor={withLinks(createRichEditor())}
-        value={value}
-        onChangeValue={handleChangeValue}
-      >
-        <RichHoveringToolbar
-          editorId={1}
-          toolbarButtons={toolbarButtons}
-          comments={comments}
-          footnotes={footnotes}
-          onChangeComment={handleChangeComment}
-          onChangeFootnote={handleChangeFootnote}
+    <Grid mt={8} container>
+      <Grid item>
+        <RichSlate
+          className={classes.slate}
+          createRichEditor={withLinks(createRichEditor())}
+          value={value}
+          onChangeValue={handleChangeValue}
         >
-          <LinkButton key="link">
-            <LinkIcon />
-          </LinkButton>
-        </RichHoveringToolbar>
-        <RichToolbar
-          editorId={1}
-          toolbarButtons={toolbarButtons}
-          comments={comments}
-          footnotes={footnotes}
-          onChangeComment={handleChangeComment}
-          onChangeFootnote={handleChangeFootnote}
+          <RichToolbar
+            className={classes.toolbar}
+            editorId={1}
+            toolbarButtons={toolbarButtons}
+            comments={comments}
+            footnotes={footnotes}
+            onChangeComment={handleChangeComment}
+            onChangeFootnote={handleChangeFootnote}
+          >
+            <LinkButton key="link">
+              <LinkIcon />
+            </LinkButton>
+          </RichToolbar>
+          <RichEditable
+            extendRenderElement={props => Element(props)}
+            extendRenderLeaf={props => Leaf(props)}
+            comments={comments}
+            footnotes={footnotes}
+            onChangeComment={handleChangeComment}
+            onChangeFootnote={handleChangeFootnote}
+          />
+        </RichSlate>
+      </Grid>
+      {/* <Button onClick={e => setComments([])}>Reset</Button> */}
+      <Grid>
+        <RichSlate
+          createRichEditor={withLinks(createRichEditor())}
+          value={value}
+          onChangeValue={handleChangeValue}
         >
-          <LinkButton key="link">
-            <LinkIcon />
-          </LinkButton>
-        </RichToolbar>
-        <RichEditable
-          comments={comments}
-          footnotes={footnotes}
-          onChangeComment={handleChangeComment}
-          onChangeFootnote={handleChangeFootnote}
-          extendRenderElement={props => Element(props)}
-          extendRenderLeaf={props => Leaf(props)}
-        />
-      </RichSlate>
-      <Button onClick={e => setComments([])}>Reset</Button>
-    </Box>
+          <RichHoveringToolbar
+            editorId={2}
+            toolbarButtons={toolbarButtons}
+            comments={comments}
+            footnotes={footnotes}
+            onChangeComment={handleChangeComment}
+            onChangeFootnote={handleChangeFootnote}
+          >
+            <LinkButton key="link">
+              <LinkIcon />
+            </LinkButton>
+          </RichHoveringToolbar>
+          <RichEditable
+            extendRenderElement={props => Element(props)}
+            extendRenderLeaf={props => Leaf(props)}
+            comments={comments}
+            footnotes={footnotes}
+            onChangeComment={handleChangeComment}
+            onChangeFootnote={handleChangeFootnote}
+          />
+        </RichSlate>
+      </Grid>
+    </Grid>
   )
 }
 

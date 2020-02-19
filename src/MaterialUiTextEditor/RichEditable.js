@@ -25,6 +25,7 @@ export default function RichEditable({
   autoFocus,
   onKeyDown,
   style,
+  className,
   ...props
 }) {
   const editor = useSlate()
@@ -194,6 +195,10 @@ export default function RichEditable({
 
 // PropTypes
 RichEditable.propTypes = {
+  /** className*/
+  className: PropTypes.object,
+  /** styles */
+  style: PropTypes.object,
   /**list comments in the editor */
   comments: PropTypes.array,
   /**list footnotes in the editor */

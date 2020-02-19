@@ -45,13 +45,13 @@ export const ToolbarButtons = ({
         switch (type) {
           case 'Mark':
             return (
-              <MarkButton key={format} format={format}>
+              <MarkButton key={format} format={format} {...props}>
                 {icon ? icon : <Icon format={format} />}
               </MarkButton>
             )
           case 'Block':
             return (
-              <BlockButton key={format} format={format}>
+              <BlockButton key={format} format={format} {...props}>
                 {icon ? icon : <Icon format={format} />}
               </BlockButton>
             )
@@ -115,11 +115,12 @@ const Icon = ({ format }) => {
 // Some of the constants are resuable so it is exported to use in other components
 
 //Block Button
-export const BlockButton = ({ format, children }) => {
+export const BlockButton = ({ format, children, buttonClasses }) => {
   const editor = useSlate()
 
   return (
     <RichSlateButton
+      className={buttonClasses}
       active={isBlockActive(editor, format)}
       onMouseDown={event => {
         event.preventDefault()
@@ -178,11 +179,12 @@ export const isMarkActive = (editor, format) => {
 }
 
 // Mark Button
-export const MarkButton = ({ format, children }) => {
+export const MarkButton = ({ format, children, buttonClasses }) => {
   const editor = useSlate()
 
   return (
     <RichSlateButton
+      className={buttonClasses}
       active={isMarkActive(editor, format)}
       onMouseDown={event => {
         event.preventDefault()
@@ -222,12 +224,19 @@ export const wrapComment = (editor, commentText, format, comment) => {
 }
 
 //comment button
-const CommentButton = ({ format, children, editorId, onChangeComment }) => {
+const CommentButton = ({
+  format,
+  children,
+  editorId,
+  onChangeComment,
+  buttonClasses,
+}) => {
   const editor = useSlate()
 
   return (
     <RichSlateButton
       active={isFormatActive(editor, format)}
+      className={buttonClasses}
       onMouseDown={event => {
         event.preventDefault()
         const { anchor, focus } = editor.selection
@@ -277,16 +286,24 @@ export const wrapFootnote = (editor, footnoteText, format, footnote) => {
 }
 
 //Footnote button
-const FootnoteButton = ({ format, children, editorId, onChangeFootnote }) => {
+const FootnoteButton = ({
+  format,
+  children,
+  editorId,
+  onChangeFootnote,
+  buttonClasses,
+}) => {
   const editor = useSlate()
 
   function handleChangeFootnote(value) {
     return onChangeFootnote && onChangeFootnote(value)
   }
+  console.log(buttonClasses)
 
   return (
     <RichSlateButton
       active={isFormatActive(editor, format)}
+      className={buttonClasses}
       onMouseDown={event => {
         event.preventDefault()
         const footnote = {

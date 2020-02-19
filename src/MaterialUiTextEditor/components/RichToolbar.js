@@ -11,13 +11,6 @@ const RichToolbar = ({
   children,
   ...props
 }) => {
-  console.log({
-    toolbarButtons,
-    onChangeComment,
-    onChangeFootnote,
-    children,
-    ...props,
-  })
   // On comment change to pass value to parent
   function handleComments(value) {
     return onChangeComment(value)
@@ -29,7 +22,7 @@ const RichToolbar = ({
   }
 
   return (
-    <ToolbarMenu>
+    <ToolbarMenu {...props}>
       <ToolbarButtons
         toolbarButtons={toolbarButtons}
         onChangeComment={value => handleComments(value)}
@@ -45,6 +38,10 @@ export default RichToolbar
 
 // PropTypes
 RichToolbar.propTypes = {
+  /** To override and style toolbar */
+  className: PropTypes.object,
+  /** To override and add styles of toolbar buttons */
+  buttonClasses: PropTypes.object,
   /** unique id of the editor */
   editorId: PropTypes.number,
   /** format Buttons to display on toolbar  */

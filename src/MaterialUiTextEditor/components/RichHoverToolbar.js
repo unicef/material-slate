@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { ReactEditor, useSlate } from 'slate-react'
 import { Editor } from 'slate'
-import { css } from 'emotion'
+import { css,cx } from 'emotion'
 import { Menu, Portal } from './sharedComponents'
 import { Range } from 'slate'
 import { ToolbarButtons } from './ToolbarButtons'
@@ -13,6 +13,7 @@ const RichHoveringToolbar = ({
   onChangeComment,
   onChangeFootnote,
   children,
+  className,
   ...props,
 }) => {
   const ref = useRef()
@@ -62,7 +63,7 @@ const RichHoveringToolbar = ({
     <Portal>
       <Menu
         ref={ref}
-        className={css`
+        className={cx(className, css`
           padding: 8px 7px 6px;
           position: absolute;
           z-index: 1200;
@@ -74,11 +75,10 @@ const RichHoveringToolbar = ({
           background-color: #fff;
           border-radius: 4px;
           transition: opacity 0.75s;
-        `}
+        `)}
       >
         <ToolbarButtons
           toolbarButtons={toolbarButtons}
-          customToolbarButtons={children}
           onChangeComment={value => handleComments(value)}
           onChangeFootnote={value => handleChangeFootnotes(value)}
           {...props}
@@ -94,8 +94,12 @@ export default RichHoveringToolbar
 
 // PropTypes
 RichHoveringToolbar.propTypes = {
+  /** To override and style toolbar */
+  className: PropTypes.object,
   /** unique id of the editor */
   editorId: PropTypes.number,
+  /** To override and add styles of toolbar buttons */
+  buttonClasses: PropTypes.object,
   /** format Buttons to display on toolbar  */
   toolbarButtons: PropTypes.arrayOf(PropTypes.object),
   /** on comment change */
