@@ -2,9 +2,12 @@ import React, { useState } from 'react'
 import { initialValue } from 'data'
 import isUrl from 'is-url'
 import {
-  UEditor,
+  RichSlate,
+  RichEditable,
   createRichEditor,
-  SlateButton,
+  RichHoveringToolbar,
+  RichToolbar,
+  RichSlateButton,
 } from '@unicef/material-ui-texteditor'
 import { Box, Button } from '@material-ui/core'
 import { Editor, Transforms, Range } from 'slate'
@@ -86,34 +89,49 @@ function App() {
   }
 
   return (
-    <Box mt={5}>
-      <UEditor
+    <Box mt={8}>
+      <RichSlate
         editorId={1}
         createRichEditor={withLinks(createRichEditor())}
         value={value}
-        displayToolbar
-        displayHoverToolbar={false}
-        toolbarButtons={toolbarButtons}
-        customToolbarButtons={customToolbarButtons}
-        comments={comments}
-        footnotes={footnotes}
         onChangeValue={handleChangeValue}
-        onChangeComment={handleChangeComment}
-        onChangeFootnote={handleChangeFootnote}
-        extendRenderElement={props => Element(props)}
-        extendRenderLeaf={props => Leaf(props)}
-      />
+      >
+        <RichHoveringToolbar
+          toolbarButtons={toolbarButtons}
+          comments={comments}
+          footnotes={footnotes}
+          onChangeValue={handleChangeValue}
+          onChangeComment={handleChangeComment}
+          onChangeFootnote={handleChangeFootnote}
+        >
+          <LinkButton key="link">
+            <LinkIcon />
+          </LinkButton>
+        </RichHoveringToolbar>
+        <RichToolbar
+          toolbarButtons={toolbarButtons}
+          comments={comments}
+          footnotes={footnotes}
+          onChangeValue={handleChangeValue}
+          onChangeComment={handleChangeComment}
+          onChangeFootnote={handleChangeFootnote}
+        >
+          <LinkButton key="link">
+            <LinkIcon />
+          </LinkButton>
+        </RichToolbar>
+        <RichEditable
+          comments={comments}
+          footnotes={footnotes}
+          onChangeValue={handleChangeValue}
+          onChangeComment={handleChangeComment}
+          onChangeFootnote={handleChangeFootnote}
+          extendRenderElement={props => Element(props)}
+          extendRenderLeaf={props => Leaf(props)}
+        />
+      </RichSlate>
       <Button onClick={e => setComments([])}>Reset</Button>
     </Box>
-  )
-}
-
-// custom toolbar buttons to extend editor
-const customToolbarButtons = props => {
-  return (
-    <LinkButton key="link">
-      <LinkIcon />
-    </LinkButton>
   )
 }
 
@@ -233,7 +251,7 @@ const wrapLink = (editor, url) => {
 const LinkButton = ({ children, ...props }) => {
   const editor = useSlate()
   return (
-    <SlateButton
+    <RichSlateButton
       active={isLinkActive(editor)}
       onMouseDown={event => {
         event.preventDefault()
@@ -243,6 +261,6 @@ const LinkButton = ({ children, ...props }) => {
       }}
     >
       {children}
-    </SlateButton>
+    </RichSlateButton>
   )
 }

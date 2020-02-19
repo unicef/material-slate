@@ -1,7 +1,7 @@
 import React from 'react'
 import { Transforms, Editor, Range } from 'slate'
 import { useSlate } from 'slate-react'
-import { Button } from './sharedComponents'
+import { RichSlateButton } from './sharedComponents'
 import {
   FormatBold,
   FormatItalic,
@@ -22,9 +22,9 @@ const LIST_TYPES = ['numbered-list', 'bulleted-list']
 
 export const ToolbarButtons = ({
   toolbarButtons,
-  customToolbarButtons,
   onChangeComment,
   onChangeFootnote,
+  children,
   ...props
 }) => {
   // On Change in comment
@@ -78,7 +78,7 @@ export const ToolbarButtons = ({
             )
         }
       })}
-      {customToolbarButtons && customToolbarButtons(props)}
+      {children}
     </React.Fragment>
   )
 }
@@ -118,7 +118,7 @@ export const BlockButton = ({ format, children }) => {
   const editor = useSlate()
 
   return (
-    <Button
+    <RichSlateButton
       active={isBlockActive(editor, format)}
       onMouseDown={event => {
         event.preventDefault()
@@ -126,7 +126,7 @@ export const BlockButton = ({ format, children }) => {
       }}
     >
       {children}
-    </Button>
+    </RichSlateButton>
   )
 }
 
@@ -181,7 +181,7 @@ export const MarkButton = ({ format, children }) => {
   const editor = useSlate()
 
   return (
-    <Button
+    <RichSlateButton
       active={isMarkActive(editor, format)}
       onMouseDown={event => {
         event.preventDefault()
@@ -189,7 +189,7 @@ export const MarkButton = ({ format, children }) => {
       }}
     >
       {children}
-    </Button>
+    </RichSlateButton>
   )
 }
 
@@ -225,7 +225,7 @@ const CommentButton = ({ format, children, editorId, onChangeComment }) => {
   const editor = useSlate()
 
   return (
-    <Button
+    <RichSlateButton
       active={isFormatActive(editor, format)}
       onMouseDown={event => {
         event.preventDefault()
@@ -241,7 +241,7 @@ const CommentButton = ({ format, children, editorId, onChangeComment }) => {
       }}
     >
       {children}
-    </Button>
+    </RichSlateButton>
   )
 }
 
@@ -284,7 +284,7 @@ const FootnoteButton = ({ format, children, onChangeFootnote }) => {
   }
 
   return (
-    <Button
+    <RichSlateButton
       active={isFormatActive(editor, format)}
       onMouseDown={event => {
         event.preventDefault()
@@ -313,6 +313,6 @@ const FootnoteButton = ({ format, children, onChangeFootnote }) => {
       }}
     >
       {children}
-    </Button>
+    </RichSlateButton>
   )
 }

@@ -2,13 +2,21 @@ import React from 'react'
 import { Toolbar as ToolbarMenu } from './sharedComponents'
 import { ToolbarButtons } from './ToolbarButtons'
 
-export const Toolbar = ({
+const RichToolbar = ({
   toolbarButtons,
   customToolbarButtons,
   onChangeComment,
   onChangeFootnote,
+  children,
   ...props
 }) => {
+  console.log({
+    toolbarButtons,
+    onChangeComment,
+    onChangeFootnote,
+    children,
+    ...props,
+  })
   // On comment change to pass value to parent
   function handleComments(value) {
     return onChangeComment(value)
@@ -23,11 +31,13 @@ export const Toolbar = ({
     <ToolbarMenu>
       <ToolbarButtons
         toolbarButtons={toolbarButtons}
-        customToolbarButtons={customToolbarButtons}
         onChangeComment={value => handleComments(value)}
         onChangeFootnote={value => handleChangeFootnotes(value)}
         {...props}
-      />
+      >
+        {children}
+      </ToolbarButtons>
     </ToolbarMenu>
   )
 }
+export default RichToolbar

@@ -1,12 +1,9 @@
 import React, { useCallback, useMemo, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import isHotkey from 'is-hotkey'
-import { Slate, Editable, withReact } from 'slate-react'
-import { createEditor, Editor, Transforms } from 'slate'
-import { withHistory } from 'slate-history'
-import { HoveringToolbar } from './components/HoverToolbar'
+import { Editable, useSlate } from 'slate-react'
+import { Editor, Transforms } from 'slate'
 import { toggleMark } from './components/ToolbarButtons'
-import { Toolbar } from './components/Toolbar'
 import { CommentElement } from './components/Comments'
 import Footnote from './components/Footnote'
 
@@ -18,17 +15,7 @@ const HOTKEYS = {
   'mod+`': 'code',
 }
 
-export function createRichEditor() {
-  return withComments(withFootnotes(withHistory(withReact(createEditor()))))
-}
-
-export function UEditor({
-  value,
-  createRichEditor,
-  onChangeValue,
-  displayToolbar,
-  displayHoverToolbar,
-  toolbarButtons,
+export default function RichEditable({
   comments,
   footnotes,
   onChangeComment,
@@ -37,16 +24,18 @@ export function UEditor({
   extendRenderLeaf,
   customToolbarButtons,
   editorId,
+  autoFocus,
+  onKeyDown,
+  style,
   ...props
 }) {
-  const [initialValue, setValue] = useState(value)
+  const editor = useSlate()
   const renderElement = useCallback(props => Element(props), [
     footnotes,
     comments,
   ])
+  // const [editorFocus, setEditorFocus] = useState(autoFocus)
   const renderLeaf = useCallback(props => Leaf(props), [])
-
-  const editor = useMemo(() => createRichEditor, [])
 
   useEffect(() => {
     const footnotesInEditor = getListByFormat('footnote')
@@ -100,12 +89,6 @@ export function UEditor({
       return item[0]
     })
     return listWithNodes
-  }
-
-  // On change value
-  function handleChangeValue(value) {
-    onChangeValue(value)
-    setValue(value)
   }
 
   // Block level elements
@@ -191,127 +174,22 @@ export function UEditor({
     )
   }
 
-  // comments to pass to parent
-  function handleComment(value) {
-    return onChangeComment(value)
-  }
-
-  // comments to pass to parent
-  function handleChangeFootnote(value) {
-    return onChangeFootnote(value)
-  }
-
   return (
-    <Slate
-      editor={editor}
-      value={initialValue}
-      onChange={handleChangeValue}
-      {...props}
-    >
-      {displayHoverToolbar && (
-        <HoveringToolbar
-          editorId={editorId}
-          toolbarButtons={toolbarButtons}
-          customToolbarButtons={customToolbarButtons}
-          onChangeComment={value => handleComment(value)}
-          onChangeFootnote={value => handleChangeFootnote(value)}
-          {...props}
-        />
-      )}
-      {displayToolbar && (
-        <Toolbar
-          editorId={editorId}
-          toolbarButtons={toolbarButtons}
-          customToolbarButtons={customToolbarButtons}
-          onChangeComment={value => handleComment(value)}
-          onChangeFootnote={value => handleChangeFootnote(value)}
-          {...props}
-        />
-      )}
-      <Editable
-        renderElement={props => renderElement(props, footnotes)}
-        renderLeaf={renderLeaf}
-        onKeyDown={event => {
-          for (const hotkey in HOTKEYS) {
-            if (isHotkey(hotkey, event)) {
-              event.preventDefault()
-              const mark = HOTKEYS[hotkey]
-              toggleMark(editor, mark)
-            }
+    <Editable
+      renderElement={props => renderElement(props)}
+      renderLeaf={props => renderLeaf(props)}
+      onKeyDown={event => {
+        for (const hotkey in HOTKEYS) {
+          if (isHotkey(hotkey, event)) {
+            event.preventDefault()
+            const mark = HOTKEYS[hotkey]
+            toggleMark(editor, mark)
           }
-        }}
-        placeholder="Enter some text..."
-        {...props}
-      />
-    </Slate>
+        }
+        onKeyDown && onKeyDown()
+      }}
+      placeholder="Enter some text..."
+      {...props}
+    />
   )
-}
-
-// PropTypes
-UEditor.propTypes = {
-  /** unique id of the editor */
-  editorId: PropTypes.number,
-  /** content to display in the editor*/
-  value: PropTypes.arrayOf(PropTypes.object),
-  /** on change value */
-  onChangeValue: PropTypes.func,
-  /** format Buttons to display on toolbar  */
-  toolbarButtons: PropTypes.arrayOf(PropTypes.object),
-  /** on comment change */
-  onChangeComment: PropTypes.func,
-  /** on footnote change */
-  onChangeFootnote: PropTypes.func,
-  /** Hover toolbar */
-  displayHoverToolbar: PropTypes.bool,
-  /** Toolbar on top of editor*/
-  displayToolbar: PropTypes.bool,
-  /**To add custom buttons totoolbar */
-  customToolbarButtons: PropTypes.fun,
-  /** parentRenderLeaf is to add our own inline elements to editor*/
-  parentRenderLeaf: PropTypes.func,
-  /** parentRenderElement is to add our own block level elements to editor*/
-  parentRenderElement: PropTypes.func,
-}
-
-// Default props
-UEditor.defaultProps = {
-  toolbarButtons: [
-    { type: 'Mark', format: 'bold' },
-    { type: 'Mark', format: 'italic' },
-    { type: 'Mark', format: 'underline' },
-    { type: 'Mark', format: 'code' },
-    { type: 'Block', format: 'bulleted-list' },
-    { type: 'Block', format: 'numbered-list' },
-    { type: 'Block', format: 'heading-one' },
-    { type: 'Block', format: 'heading-two' },
-    { type: 'Comment', format: 'comment' },
-    { type: 'Footnote', format: 'footnote' },
-  ],
-  hoveringToolbar: true,
-}
-
-// Editor to have comments as inline element
-const withComments = editor => {
-  const { isInline } = editor
-
-  editor.isInline = element => {
-    return element.type === 'comment' ? true : isInline(element)
-  }
-
-  return editor
-}
-
-// Editor to have footnotes as inline element
-const withFootnotes = editor => {
-  const { isInline, isVoid, insertText } = editor
-
-  editor.isInline = element => {
-    return element.type === 'footnote' ? true : isInline(element)
-  }
-
-  editor.isVoid = element => {
-    return element.type === 'footnote' ? true : isVoid(element)
-  }
-
-  return editor
 }

@@ -1,3 +1,17 @@
-import { UEditor, createRichEditor, SlateButton } from './UEditor'
+import {
+  RichSlate,
+  RichEditable,
+  createRichEditor,
+  RichHoveringToolbar,
+  RichToolbar,
+  RichSlateButton,
+} from './MaterialUiTextEditor'
 
-export { UEditor, createRichEditor, SlateButton }
+export {
+  RichSlate,
+  RichEditable,
+  createRichEditor,
+  RichHoveringToolbar,
+  RichToolbar,
+  RichSlateButton,
+}

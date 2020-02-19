@@ -6,11 +6,12 @@ import { Menu, Portal } from './sharedComponents'
 import { Range } from 'slate'
 import { ToolbarButtons } from './ToolbarButtons'
 
-export const HoveringToolbar = ({
+const RichHoveringToolbar = ({
   toolbarButtons,
   customToolbarButtons,
   onChangeComment,
   onChangeFootnote,
+  children,
   ...props,
 }) => {
   const ref = useRef()
@@ -75,12 +76,16 @@ export const HoveringToolbar = ({
       >
         <ToolbarButtons
           toolbarButtons={toolbarButtons}
-          customToolbarButtons={customToolbarButtons}
+          customToolbarButtons={children}
           onChangeComment={value => handleComments(value)}
           onChangeFootnote={value => handleChangeFootnotes(value)}
           {...props}
-        />
+        >
+          {children}
+        q</ToolbarButtons>
       </Menu>
     </Portal>
   )
 }
+
+export default RichHoveringToolbar
