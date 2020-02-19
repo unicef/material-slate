@@ -100,7 +100,6 @@ function App() {
           toolbarButtons={toolbarButtons}
           comments={comments}
           footnotes={footnotes}
-          onChangeValue={handleChangeValue}
           onChangeComment={handleChangeComment}
           onChangeFootnote={handleChangeFootnote}
         >
@@ -112,7 +111,6 @@ function App() {
           toolbarButtons={toolbarButtons}
           comments={comments}
           footnotes={footnotes}
-          onChangeValue={handleChangeValue}
           onChangeComment={handleChangeComment}
           onChangeFootnote={handleChangeFootnote}
         >
@@ -123,7 +121,6 @@ function App() {
         <RichEditable
           comments={comments}
           footnotes={footnotes}
-          onChangeValue={handleChangeValue}
           onChangeComment={handleChangeComment}
           onChangeFootnote={handleChangeFootnote}
           extendRenderElement={props => Element(props)}
