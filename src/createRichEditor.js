@@ -32,7 +32,7 @@ export default function createRichEditor() {
     }
 
     return editor
-
-    return withComments(withFootnotes(withHistory(withReact(createEditor()))))
   }
+
+  return withComments(withFootnotes(withHistory(withReact(createEditor()))))
 }

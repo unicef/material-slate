@@ -37,40 +37,44 @@ export default function RichEditable({
   const renderLeaf = useCallback(props => Leaf(props), [])
 
   useEffect(() => {
-    const footnotesInEditor = getListByFormat('footnote')
-    // If there is difference in footnotes in editor and state
-    if (footnotes.length !== footnotesInEditor.length) {
-      // Find the removed footnote
-      let removedFootnotes = footnotesInEditor.filter(
-        obj => !footnotes.some(element => element.id === obj.id)
-      )
+    if (footnotes) {
+      const footnotesInEditor = getListByFormat('footnote')
+      // If there is difference in footnotes in editor and state
+      if (footnotes.length !== footnotesInEditor.length) {
+        // Find the removed footnote
+        let removedFootnotes = footnotesInEditor.filter(
+          obj => !footnotes.some(element => element.id === obj.id)
+        )
 
-      // Remove from editor
-      removedFootnotes.map(footnote => {
-        Transforms.removeNodes(editor, {
-          at: [],
-          match: n => n.id === footnote.id,
+        // Remove from editor
+        removedFootnotes.map(footnote => {
+          Transforms.removeNodes(editor, {
+            at: [],
+            match: n => n.id === footnote.id,
+          })
         })
-      })
+      }
     }
   }, [footnotes])
 
   useEffect(() => {
-    const commentsInEditor = getListByFormat('comment')
-    // If there is difference in footnotes in editor and state
-    if (comments.length !== commentsInEditor.length) {
-      // Find the removed comment
-      let removedComments = commentsInEditor.filter(
-        obj => !comments.some(element => element.id === obj.id)
-      )
+    if (comments) {
+      const commentsInEditor = getListByFormat('comment')
+      // If there is difference in footnotes in editor and state
+      if (comments.length !== commentsInEditor.length) {
+        // Find the removed comment
+        let removedComments = commentsInEditor.filter(
+          obj => !comments.some(element => element.id === obj.id)
+        )
 
-      // unwrap from editor
-      removedComments.map(comment => {
-        Transforms.unwrapNodes(editor, {
-          at: [],
-          match: n => n.id === comment.id,
+        // unwrap from editor
+        removedComments.map(comment => {
+          Transforms.unwrapNodes(editor, {
+            at: [],
+            match: n => n.id === comment.id,
+          })
         })
-      })
+      }
     }
   }, [comments])
 

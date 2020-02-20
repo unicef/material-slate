@@ -15,7 +15,7 @@ import { makeStyles } from '@material-ui/core/styles'
 const useStyles = makeStyles(theme => ({
   slate: {
     border: `1px solid ${theme.palette.primary.main}`,
-    borderRadius: theme.spacing(1),
+    borderRadius: theme.spacing(0.5),
     padding: theme.spacing(1),
     margin: theme.spacing(1),
   },
@@ -196,7 +196,7 @@ const initialValue = [
     children: [
       {
         text:
-          'This example shows hyperlinks in action. It features two ways to add links. You can either add a link via the toolbar icon above, or if you want in on a little secret, copy a URL to your keyboard and paste it while a range of text is selected.',
+          'This example shows hyperlinks in action. It features two ways to add links. You can either add a link via the toolbar icon above, or if you want in on a little secret.',
       },
     ],
   },
