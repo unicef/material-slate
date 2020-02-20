@@ -121,6 +121,7 @@ export const BlockButton = ({ format, children, buttonClasses }) => {
   return (
     <RichSlateButton
       className={buttonClasses}
+      title={format.charAt(0).toUpperCase() + format.substring(1)}
       active={isBlockActive(editor, format)}
       onMouseDown={event => {
         event.preventDefault()
@@ -185,6 +186,7 @@ export const MarkButton = ({ format, children, buttonClasses }) => {
   return (
     <RichSlateButton
       className={buttonClasses}
+      title={format.charAt(0).toUpperCase() + format.substring(1)}
       active={isMarkActive(editor, format)}
       onMouseDown={event => {
         event.preventDefault()
@@ -236,6 +238,7 @@ const CommentButton = ({
   return (
     <RichSlateButton
       active={isFormatActive(editor, format)}
+      title={format.charAt(0).toUpperCase() + format.substring(1)}
       className={buttonClasses}
       onMouseDown={event => {
         event.preventDefault()
@@ -304,6 +307,7 @@ const FootnoteButton = ({
     <RichSlateButton
       active={isFormatActive(editor, format)}
       className={buttonClasses}
+      title={format.charAt(0).toUpperCase() + format.substring(1)}
       onMouseDown={event => {
         event.preventDefault()
         const footnote = {

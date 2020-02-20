@@ -10,7 +10,10 @@ export default function App() {
       <Grid item direction="column">
         <Typography variant="h6" style={{ paddingLeft: 8 }}>
           RichText{' '}
-          <Link variant="body1" href="/">
+          <Link
+            variant="body1"
+            href="https://github.com/unicef/material-ui-texteditor/blob/master/example/src/examples/RichText.js"
+          >
             [View source]
           </Link>
         </Typography>
@@ -21,7 +24,10 @@ export default function App() {
       <Grid item direction="column">
         <Typography variant="h6" style={{ paddingLeft: 8 }}>
           Hovering Toolbar{' '}
-          <Link variant="body1" href="/">
+          <Link
+            variant="body1"
+            href="https://github.com/unicef/material-ui-texteditor/blob/master/example/src/examples/HoverToolbar.js"
+          >
             [View source]
           </Link>
         </Typography>
@@ -32,7 +38,10 @@ export default function App() {
       <Grid item direction="column">
         <Typography variant="h6" style={{ paddingLeft: 8 }}>
           Custom Hook (Links){' '}
-          <Link variant="body1" href="/">
+          <Link
+            variant="body1"
+            href="https://github.com/unicef/material-ui-texteditor/blob/master/example/src/examples/Links.js"
+          >
             [View source]
           </Link>
         </Typography>

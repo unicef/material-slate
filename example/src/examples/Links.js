@@ -164,6 +164,7 @@ const LinkButton = ({ children, ...props }) => {
     // Use RichSlateButton
     <RichSlateButton
       active={isLinkActive(editor)}
+      title="Link"
       onMouseDown={event => {
         event.preventDefault()
         const url = window.prompt('Enter the URL of the link:')
