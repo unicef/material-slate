@@ -2,5 +2,7 @@
 *~
 .vscode
 node_modules
+gh-pages-build/*
+styleguide
 editor-example/node_modules
 dist
