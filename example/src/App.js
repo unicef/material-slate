@@ -12,12 +12,11 @@ export default function App() {
           RichText{' '}
           <Link
             variant="body1"
-            href="https://github.com/unicef/material-ui-texteditor/blob/master/example/src/examples/RichText.js"
+            href="https://github.com/unicef/material-ui-richeditor/blob/master/example/src/examples/RichText.js"
           >
             [View source]
           </Link>
         </Typography>
-        {/* <Button onClick={e => setComments([])}>Reset</Button> */}
         <RichTextExample />
       </Grid>
       <Grid item direction="column">
@@ -25,7 +24,7 @@ export default function App() {
           Hovering Toolbar{' '}
           <Link
             variant="body1"
-            href="https://github.com/unicef/material-ui-texteditor/blob/master/example/src/examples/HoverToolbar.js"
+            href="https://github.com/unicef/material-ui-richeditor/blob/master/example/src/examples/HoverToolbar.js"
           >
             [View source]
           </Link>
@@ -37,7 +36,7 @@ export default function App() {
           Custom Hook (Links){' '}
           <Link
             variant="body1"
-            href="https://github.com/unicef/material-ui-texteditor/blob/master/example/src/examples/Links.js"
+            href="https://github.com/unicef/material-ui-richeditor/blob/master/example/src/examples/Links.js"
           >
             [View source]
           </Link>

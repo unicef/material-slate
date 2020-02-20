@@ -5,15 +5,15 @@
   "main": "./dist/index.js",
   "homepage": "https://unicef.github.io/material-ui-richeditor",
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/unicef/material-ui-ritcheditor"
+    "type": "git",
+    "url": "https://github.com/unicef/material-ui-ritcheditor"
   },
   "scripts": {
     "build": "rollup -c",
     "start": "rollup -c -w",
     "styleguide": "styleguidist server",
     "styleguide:build": "styleguidist build",
-    "build:site": "npm run styleguide:build && cp -R styleguide/* ./gh-pages-build/ && cd example && npm run build && cp -R build ../gh-pages-build/example/",
+    "build:site": "npm run styleguide:build && cp -R styleguide/* ./gh-pages-build/ && cd example && npm run build && cp -R build/ ../gh-pages-build/example/",
     "deploy": "gh-pages -d gh-pages-build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
