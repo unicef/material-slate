@@ -10,7 +10,7 @@ import { Box } from '@material-ui/core'
  * - In order to create and use existing editor of Material ui text editor
  * - import createRichEditor and pass it as editor prop in RichSlate. Ex:  editor ={createRichEditor}
  * - To extend editor to add new utils, wrap it with the createRichEditor. Ex: editor ={withLinks(createRichEditor)}
- * - <a href="https://github.com/unicef/material-ui-texteditor/blob/master/editor-example/src/App.js"> Example view source</a>
+ * - <a href="https://github.com/unicef/material-ui-texteditor/blob/master/example/src/examples/RichText.js"> Example view source</a>
  */
 
 export default function RichSlate({
