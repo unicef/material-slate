@@ -135,8 +135,5 @@ RichHoveringToolbar.defaultProps = {
   toolbarButtons: [
     { type: 'Mark', format: 'bold' },
     { type: 'Mark', format: 'italic' },
-    { type: 'Mark', format: 'underline' },
-    { type: 'Mark', format: 'code' },
-    { type: 'Comment', format: 'comment' },
   ],
 }

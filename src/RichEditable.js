@@ -14,7 +14,9 @@ const HOTKEYS = {
   'mod+u': 'underline',
   'mod+`': 'code',
 }
-/** The RichEditable component acts like contenteditable. Anywhere you render it will render an editable richtext document for the nearest editor context. */
+/** The RichEditable component acts like contenteditable.
+ * Anywhere you render it will render an editable richtext document for the nearest editor context.
+ * */
 export default function RichEditable({
   comments,
   footnotes,
