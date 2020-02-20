@@ -1,5 +1,5 @@
 import RichSlate from './RichSlate'
-import createRichEditor from './createRichEditor'
+import createRichEditor from './CreateRichEditor'
 import RichEditable from './RichEditable'
 import { RichHoveringToolbar, RichToolbar, RichSlateButton } from './components'
 

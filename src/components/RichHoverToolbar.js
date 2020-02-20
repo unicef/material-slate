@@ -7,6 +7,9 @@ import { Menu, Portal } from './sharedComponents'
 import { Range } from 'slate'
 import { ToolbarButtons } from './ToolbarButtons'
 
+/**
+ * RichHoverToolbar is the container of the rich util buttons, which will only display hovering toolbar upon selecting the content in the editor.
+ */
 const RichHoveringToolbar = ({
   toolbarButtons,
   customToolbarButtons,
@@ -103,7 +106,23 @@ RichHoveringToolbar.propTypes = {
   editorId: PropTypes.number,
   /** To override and add styles of toolbar buttons */
   buttonClasses: PropTypes.object,
-  /** format Buttons to display on toolbar  */
+  /** 
+   * format Buttons to display on toolbar 
+   * 
+   * Ex: Availble buttons 
+   * 
+   * [
+    { type: 'Mark', format: 'bold' },
+    { type: 'Mark', format: 'italic' },
+    { type: 'Mark', format: 'underline' },
+    { type: 'Mark', format: 'code' },
+    { type: 'Block', format: 'bulleted-list' },
+    { type: 'Block', format: 'numbered-list' },
+    { type: 'Block', format: 'heading-one' },
+    { type: 'Block', format: 'heading-two' },
+    { type: 'Comment', format: 'comment' }
+  ]
+   */
   toolbarButtons: PropTypes.arrayOf(PropTypes.object),
   /** on comment change */
   onChangeComment: PropTypes.func,

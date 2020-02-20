@@ -6,8 +6,10 @@ module.exports = {
   theme,
   showUsage: true,
   getComponentPathLine: componentPath => {
-    const dirname = path.dirname(componentPath, '.js')
-    const name = dirname.split('/').slice(-1)[0]
+    const name = componentPath
+      .split('/')
+      .pop()
+      .split('.js')[0]
 
     return `import { ${name} } from '@unicef/material-ui-texteditor`
   },
@@ -56,6 +58,7 @@ module.exports = {
       components: () => [
         path.resolve(__dirname, 'src/', 'RichSlate.js'),
         path.resolve(__dirname, 'src/', 'RichEditable.js'),
+        path.resolve(__dirname, 'src/', 'createRichEditor.js'),
         path.resolve(__dirname, 'src/components/', 'RichToolbar.js'),
         path.resolve(__dirname, 'src/components/', 'RichHoverToolbar.js'),
         path.resolve(__dirname, 'src/components', 'RichSlateButton.js'),

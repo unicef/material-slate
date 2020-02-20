@@ -3,6 +3,9 @@ import PropTypes from 'prop-types'
 import { Toolbar as ToolbarMenu } from './sharedComponents'
 import { ToolbarButtons } from './ToolbarButtons'
 
+/**
+ * RichToolbar is the container of the rich util buttons.
+ */
 const RichToolbar = ({
   toolbarButtons,
   customToolbarButtons,
@@ -44,7 +47,24 @@ RichToolbar.propTypes = {
   buttonClasses: PropTypes.object,
   /** unique id of the editor */
   editorId: PropTypes.number,
-  /** format Buttons to display on toolbar  */
+  /** 
+   * format Buttons to display on toolbar 
+   * 
+   * Ex: Availble buttons 
+   * 
+   * [
+    { type: 'Mark', format: 'bold' },
+    { type: 'Mark', format: 'italic' },
+    { type: 'Mark', format: 'underline' },
+    { type: 'Mark', format: 'code' },
+    { type: 'Block', format: 'bulleted-list' },
+    { type: 'Block', format: 'numbered-list' },
+    { type: 'Block', format: 'heading-one' },
+    { type: 'Block', format: 'heading-two' },
+    { type: 'Comment', format: 'comment' },
+    { type: 'Footnote', format: 'footnote' }
+  ]
+   */
   toolbarButtons: PropTypes.arrayOf(PropTypes.object),
   /** on comment change */
   onChangeComment: PropTypes.func,
@@ -57,9 +77,5 @@ RichToolbar.defaultProps = {
   toolbarButtons: [
     { type: 'Mark', format: 'bold' },
     { type: 'Mark', format: 'italic' },
-    { type: 'Mark', format: 'underline' },
-    { type: 'Mark', format: 'code' },
-    { type: 'Comment', format: 'comment' },
-    { type: 'Footnote', format: 'footnote' },
   ],
 }
