@@ -1,9 +1,13 @@
 {
-  "name": "@unicef/material-ui-texteditor",
+  "name": "@unicef/material-ui-richeditor",
   "version": "0.1.0",
   "description": "",
   "main": "./dist/index.js",
-  "homepage": "https://unicef.github.io/material-ui-texteditor",
+  "homepage": "https://unicef.github.io/material-ui-richeditor",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/unicef/material-ui-ritcheditor"
+  },
   "scripts": {
     "build": "rollup -c",
     "start": "rollup -c -w",
