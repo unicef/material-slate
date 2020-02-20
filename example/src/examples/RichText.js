@@ -3,12 +3,8 @@ import {
   RichSlate,
   RichEditable,
   createRichEditor,
-  RichHoveringToolbar,
   RichToolbar,
-  RichSlateButton,
 } from '@unicef/material-ui-texteditor'
-import { Editor, Transforms, Range } from 'slate'
-import { useSlate } from 'slate-react'
 import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles(theme => ({

@@ -1,18 +1,11 @@
 import React, { useState } from 'react'
-import isUrl from 'is-url'
 import {
   RichSlate,
   RichEditable,
   createRichEditor,
   RichHoveringToolbar,
-  RichToolbar,
-  RichSlateButton,
 } from '@unicef/material-ui-texteditor'
-import { Editor, Transforms, Range } from 'slate'
 import FormatColorTextIcon from '@material-ui/icons/FormatColorText'
-import { useSlate } from 'slate-react'
-import LinkIcon from '@material-ui/icons/Link'
-import { Grid } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles(theme => ({

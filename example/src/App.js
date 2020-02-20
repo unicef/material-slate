@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import LinksExample from './examples/Links'
 import HoveringToolbarExample from './examples/HoverToolbar'
 import RichTextExample from './examples/RichText.js'
