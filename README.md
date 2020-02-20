@@ -48,6 +48,14 @@ We use [styleguidelist](https://react-styleguidist.js.org/) for documenting our 
 
 Builds the styleguide for production. The output is stored in `styleguide` folder.
 
+### `npm run build:site`
+
+Builds the both example and styleguide for production. Leaves the output in the `gh-pages-build` folder.
+
+### `npm run deploy`
+
+Deploy's the app to the [gh-pages site](https://unicef.github.io/material-ui-richeditor/).
+
 ## License
 
 Distributed under GLPv3.

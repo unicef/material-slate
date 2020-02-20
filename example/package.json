@@ -1,7 +1,8 @@
 {
-  "name": "editor-example",
+  "name": "@unicef/material-ui-richeditor-example",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://unicef.github.io/material-ui-richeditor/example",
   "dependencies": {
     "@material-ui/core": "^4.9.3",
     "@testing-library/jest-dom": "^4.2.4",

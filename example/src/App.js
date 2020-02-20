@@ -18,7 +18,6 @@ export default function App() {
           </Link>
         </Typography>
         {/* <Button onClick={e => setComments([])}>Reset</Button> */}
-
         <RichTextExample />
       </Grid>
       <Grid item direction="column">
@@ -31,8 +30,6 @@ export default function App() {
             [View source]
           </Link>
         </Typography>
-        {/* <Button onClick={e => setComments([])}>Reset</Button> */}
-
         <HoveringToolbarExample />
       </Grid>
       <Grid item direction="column">
@@ -45,8 +42,6 @@ export default function App() {
             [View source]
           </Link>
         </Typography>
-        {/* <Button onClick={e => setComments([])}>Reset</Button> */}
-
         <LinksExample />
       </Grid>
     </Grid>
