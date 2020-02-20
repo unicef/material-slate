@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.js": "/static/js/main.8ca89af5.chunk.js",
-    "main.js.map": "/static/js/main.8ca89af5.chunk.js.map",
-    "runtime-main.js": "/static/js/runtime-main.8acf9165.js",
-    "runtime-main.js.map": "/static/js/runtime-main.8acf9165.js.map",
-    "static/js/2.880b09c5.chunk.js": "/static/js/2.880b09c5.chunk.js",
-    "static/js/2.880b09c5.chunk.js.map": "/static/js/2.880b09c5.chunk.js.map",
-    "index.html": "/index.html",
-    "precache-manifest.41ca1107d6a85adf8ca825a30f8c33e5.js": "/precache-manifest.41ca1107d6a85adf8ca825a30f8c33e5.js",
-    "service-worker.js": "/service-worker.js",
-    "static/js/2.880b09c5.chunk.js.LICENSE.txt": "/static/js/2.880b09c5.chunk.js.LICENSE.txt"
+    "main.js": "/material-ui-texteditor/example/static/js/main.0c7a02d3.chunk.js",
+    "main.js.map": "/material-ui-texteditor/example/static/js/main.0c7a02d3.chunk.js.map",
+    "runtime-main.js": "/material-ui-texteditor/example/static/js/runtime-main.58230115.js",
+    "runtime-main.js.map": "/material-ui-texteditor/example/static/js/runtime-main.58230115.js.map",
+    "static/js/2.880b09c5.chunk.js": "/material-ui-texteditor/example/static/js/2.880b09c5.chunk.js",
+    "static/js/2.880b09c5.chunk.js.map": "/material-ui-texteditor/example/static/js/2.880b09c5.chunk.js.map",
+    "index.html": "/material-ui-texteditor/example/index.html",
+    "precache-manifest.7849e03df9ccd3cdedfe46e5ab05b890.js": "/material-ui-texteditor/example/precache-manifest.7849e03df9ccd3cdedfe46e5ab05b890.js",
+    "service-worker.js": "/material-ui-texteditor/example/service-worker.js",
+    "static/js/2.880b09c5.chunk.js.LICENSE.txt": "/material-ui-texteditor/example/static/js/2.880b09c5.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.8acf9165.js",
+    "static/js/runtime-main.58230115.js",
     "static/js/2.880b09c5.chunk.js",
-    "static/js/main.8ca89af5.chunk.js"
+    "static/js/main.0c7a02d3.chunk.js"
   ]
 }
