@@ -49,7 +49,7 @@ module.exports = {
         {
           name: 'Example',
           external: true,
-          href: 'https://unicef.github.io/material-ui-texteditor',
+          href: 'https://unicef.github.io/material-ui-texteditor/example',
         },
       ],
     },
