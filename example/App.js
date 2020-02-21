@@ -1,14 +1,13 @@
 
-import React, { Component} from "react";
+import React from "react";
+import { RichSlate } from '../src';
 
-class App extends Component{
-  render(){
+export default function App() {
     return(
-      <div className="App">
+        <div className="App">
         <h1> Hello, World! </h1>
+        <RichSlate></RichSlate>
       </div>
     );
-  }
 }
 
-export default App;
