@@ -2,7 +2,8 @@
 import React from "react"
 import { useState, useMemo } from "react"
 import { hot } from "react-hot-loader" //Auto refresh load
-import { RichSlate, RichEditable, createRichEditor } from '../src'
+import { RichSlate, RichEditable, createRichEditor, Toolbar, BoldButton, ItalicButton, CodeButton } from '../src'
+
 
 
 const initialValue = [
@@ -51,6 +52,11 @@ export default hot(module)(function App() {
     <div className="App">
       <h1>Basic Editor</h1>
       <RichSlate editor={editor} value={value} onChange={(value) => setValue(value)}>
+        <Toolbar>
+          <BoldButton />
+          <ItalicButton />
+          <CodeButton />
+        </Toolbar>
         <RichEditable
         ></RichEditable>
       </RichSlate>
