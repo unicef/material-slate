@@ -7,15 +7,14 @@ import RichSlate from './components/RichSlate'
 import RichEditable from './components/RichEditable'
 import createRichEditor from './helpers/createRichEditor'
 
-//Toolbar base components
+//Toolbar and base button components
 import Toolbar from './components/Toolbars/Toolbar'
-import ToolbarButton from './components/Toolbars/ToolbarButton'
+import ToolbarButton from './components/Buttons/ToolbarButton'
 
-//Buttons
-import BoldButton from './components/Toolbars/BoldButton'
-import ItalicButton from './components/Toolbars/ItalicButton'
-import CodeButton from './components/Toolbars/CodeButton'
-
+//Block and mark Buttons
+import BoldButton from './components/Buttons/BoldButton'
+import ItalicButton from './components/Buttons/ItalicButton'
+import CodeButton from './components/Buttons/CodeButton'
 
 
 export {
