@@ -1,7 +1,7 @@
 
-import React from "react" 
-import {useState, useMemo} from "react"
-import {hot} from "react-hot-loader" //Auto refresh load
+import React from "react"
+import { useState, useMemo } from "react"
+import { hot } from "react-hot-loader" //Auto refresh load
 import { RichSlate, RichEditable, createRichEditor } from '../src'
 
 
@@ -44,16 +44,17 @@ const initialValue = [
 
 export default hot(module)(function App() {
 
-    const [value, setValue] = useState(initialValue)
-    const editor = useMemo(() => createRichEditor(), [])
+  const [value, setValue] = useState(initialValue)
+  const editor = useMemo(() => createRichEditor(), [])
 
-    return(
-        <div className="App">
-          <h1> Hello, World!</h1>
-            <RichSlate editor={editor} value={value} onChange={(value) => setValue(value)}>
-              <RichEditable></RichEditable>
-            </RichSlate>
-      </div>
-    );
+  return (
+    <div className="App">
+      <h1>Basic Editor</h1>
+      <RichSlate editor={editor} value={value} onChange={(value) => setValue(value)}>
+        <RichEditable
+        ></RichEditable>
+      </RichSlate>
+    </div>
+  );
 })
 

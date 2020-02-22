@@ -10,12 +10,12 @@ import { Box } from '@material-ui/core'
  * 
  * 
  */
-export default function RichSlate({value, editor, onChange, children, className }) {
-    return(
-        <Slate value={value} editor={editor} onChange={(value) => onChange(value)} >
-              <Box className={className}>{children}</Box>
-        </Slate>
-    )
+export default function RichSlate({ value, editor, onChange, children, className }) {
+  return (
+    <Slate value={value} editor={editor} onChange={(value) => onChange(value)} >
+      <Box className={className}>{children}</Box>
+    </Slate>
+  )
 }
 
 RichSlate.propTypes = {

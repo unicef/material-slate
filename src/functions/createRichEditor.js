@@ -3,5 +3,5 @@ import { withReact } from 'slate-react'
 import { withHistory } from 'slate-history'
 
 export default function createRichEditor(editorId = 0) {
-    return withHistory(withReact(createEditor()))
+  return withHistory(withReact(createEditor()))
 }
