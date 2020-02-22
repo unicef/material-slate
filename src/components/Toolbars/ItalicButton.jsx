@@ -1,10 +1,10 @@
 import React from 'react'
-import MarkButton from './MarkButton'
+import ToolbarButton from './ToolbarButton'
 import { FormatItalicOutlined } from '@material-ui/icons'
 
 const ItalicButton = React.forwardRef(
   (props, ref) => (
-    <MarkButton icon={<FormatItalicOutlined />} mark="italic" ref={ref} {...props} />
+    <ToolbarButton icon={<FormatItalicOutlined />} mark="italic" ref={ref} {...props} />
   )
 )
 export default ItalicButton  

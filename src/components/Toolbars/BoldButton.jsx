@@ -1,10 +1,10 @@
 import React from 'react'
-import MarkButton from './MarkButton'
+import ToolbarButton from './ToolbarButton'
 import { FormatBold } from '@material-ui/icons'
 
 const BoldButton = React.forwardRef(
   (props, ref) => (
-    <MarkButton icon={<FormatBold />} mark="bold" ref={ref} {...props} />
+    <ToolbarButton icon={<FormatBold />} mark="bold" ref={ref} {...props} />
   )
 )
 export default BoldButton  

@@ -9,8 +9,7 @@ import createRichEditor from './helpers/createRichEditor'
 
 //Toolbar base components
 import Toolbar from './components/Toolbars/Toolbar'
-import MarkButton from './components/Toolbars/MarkButton'
-import BlockButton from './components/Toolbars/MarkButton'
+import ToolbarButton from './components/Toolbars/ToolbarButton'
 
 //Buttons
 import BoldButton from './components/Toolbars/BoldButton'
@@ -25,8 +24,7 @@ export {
     RichEditable,
     createRichEditor,
     Toolbar,
-    MarkButton,
-    BlockButton,
+    ToolbarButton,
     BoldButton,
     ItalicButton,
     CodeButton

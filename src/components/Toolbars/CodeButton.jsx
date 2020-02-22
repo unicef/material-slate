@@ -1,9 +1,9 @@
 import React from 'react'
-import MarkButton from './MarkButton'
+import ToolbarButton from './ToolbarButton'
 
 const CodeButton = React.forwardRef(
   (props, ref) => (
-    <MarkButton mark="code" ref={ref} {...props} />
+    <ToolbarButton mark="code" ref={ref} {...props} />
   )
 )
 export default CodeButton  
