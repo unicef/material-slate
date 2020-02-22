@@ -21,7 +21,7 @@ const withMarks = editor => {
    *   
    * @param {String} mark Mark to validate For example: 'bold', 'italic'
    */ 
-   editor.toggleMark = (mark) => { 
+   editor.toggleMark = mark => { 
     editor.isMarkActive(mark) ? RichEditor.removeMark(editor, mark) : RichEditor.addMark(editor, mark, true)
   }
   return editor

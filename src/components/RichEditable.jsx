@@ -40,7 +40,10 @@ export default function RichEditable({ renderElement, renderLeaf, placeholder, c
     if (leaf.italic) {
       children = <em>{children}</em>
     }
-    if (leaf.underline) {
+    if (leaf.strikethrough) {
+      children = <del>{children}</del>
+    }
+    if (leaf.underlined) {
       children = <u>{children}</u>
     }
     return renderLeaf({ leaf, attributes, children, rest })

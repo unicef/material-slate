@@ -2,7 +2,18 @@
 import React from "react"
 import { useState, useMemo } from "react"
 import { hot } from "react-hot-loader" //Auto refresh load
-import { RichSlate, RichEditable, createRichEditor, Toolbar, BoldButton, ItalicButton, CodeButton, UnderlinedButton } from '../src'
+import { RichSlate, 
+  RichEditable, 
+  createRichEditor, 
+  Toolbar, 
+  BoldButton, 
+  ItalicButton, 
+  CodeButton, 
+  UnderlinedButton, 
+  StrikethroughButton,
+  BulletedListButton,
+  NumberedListButton
+  } from '../src'
 
 
 
@@ -56,7 +67,11 @@ export default hot(module)(function App() {
           <BoldButton />
           <ItalicButton />
           <UnderlinedButton />
+          <StrikethroughButton /> 
           <CodeButton />
+          <BulletedListButton />
+          <NumberedListButton />
+       
         </Toolbar>
         <RichEditable></RichEditable>
       </RichSlate>

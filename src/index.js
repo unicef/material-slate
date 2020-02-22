@@ -14,9 +14,11 @@ import ToolbarButton from './components/Buttons/ToolbarButton'
 //Block and mark Buttons
 import BoldButton from './components/Buttons/BoldButton'
 import ItalicButton from './components/Buttons/ItalicButton'
+import StrikethroughButton from './components/Buttons/StrikethroughButton'
 import CodeButton from './components/Buttons/CodeButton'
 import UnderlinedButton from './components/Buttons/UnderlinedButton'
-
+import BulletedListButton from './components/Buttons/BulletedListButton'
+import NumberedListButton from './components/Buttons/NumberedListButton'
 
 export {
     RichEditor,
@@ -27,8 +29,11 @@ export {
     ToolbarButton,
     BoldButton,
     ItalicButton,
+    StrikethroughButton,
     CodeButton,
-    UnderlinedButton
+    UnderlinedButton,
+    BulletedListButton,
+    NumberedListButton
 }
 
 
