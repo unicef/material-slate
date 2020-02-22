@@ -23,6 +23,7 @@ In order to extend the components, clone the project and install the dependencie
 
 ```bash
 git clone https://github.com/unicef/material-ui-texteditor.git
+cd material-ui-texteditor
 npm install
 ```
 
