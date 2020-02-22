@@ -15,6 +15,7 @@ import ToolbarButton from './components/Buttons/ToolbarButton'
 import BoldButton from './components/Buttons/BoldButton'
 import ItalicButton from './components/Buttons/ItalicButton'
 import CodeButton from './components/Buttons/CodeButton'
+import UnderlinedButton from './components/Buttons/UnderlinedButton'
 
 
 export {
@@ -26,7 +27,8 @@ export {
     ToolbarButton,
     BoldButton,
     ItalicButton,
-    CodeButton
+    CodeButton,
+    UnderlinedButton
 }
 
 
