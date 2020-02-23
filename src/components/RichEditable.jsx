@@ -1,12 +1,26 @@
 import React, { useCallback } from 'react'
 import { Editable } from 'slate-react'
 import PropTypes from 'prop-types'
+import { Box } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core'
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    paddingLeft: theme.spacing(1),
+    paddingRight: theme.spacing(1),
+    paddingBottom: theme.spacing(1),
+    fontFamily: theme.typography.fontFamily
+    
+  }
+}))
 
 /**
  * Wrapper of Slate Editable
  *  
  */
 export default function RichEditable({ renderElement, renderLeaf, placeholder, children }) {
+
+  const classes = useStyles()
 
   // Define a rendering function based on the element passed to `props`. 
   // Props is deconstructed in the {element, attributes, children, rest (any other prop)
@@ -50,11 +64,13 @@ export default function RichEditable({ renderElement, renderLeaf, placeholder, c
   }, [])
 
   return (
-    <Editable
-      renderElement={props => handleRenderElement(props)}
-      renderLeaf={props => handleRenderLeaf(props)}
-      placeholder={placeholder}
-    >{children}</Editable>
+    <Box className={classes.root}>
+      <Editable
+        renderElement={props => handleRenderElement(props)}
+        renderLeaf={props => handleRenderLeaf(props)}
+        placeholder={placeholder}
+      >{children}</Editable>
+    </Box>
   )
 }
 

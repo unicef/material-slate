@@ -1,7 +1,13 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import { Slate } from 'slate-react'
-import { Box } from '@material-ui/core'
+import { Box, makeStyles } from '@material-ui/core'
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    border: "1px solid",
+  }
+}))
 
 /**
  * Rich Slate
@@ -11,9 +17,10 @@ import { Box } from '@material-ui/core'
  * 
  */
 export default function RichSlate({ value, editor, onChange, children, className }) {
+  const classes = useStyles()
   return (
     <Slate value={value} editor={editor} onChange={(value) => onChange(value)} >
-      <Box className={className}>{children}</Box>
+      <Box className={classes.root} borderRadius="borderRadius">{children}</Box>
     </Slate>
   )
 }
