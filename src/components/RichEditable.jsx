@@ -39,6 +39,10 @@ export default function RichEditable({ renderElement, renderLeaf, placeholder, h
     'mod+`': {
       type: 'mark',
       value: 'code'
+    },
+    'shift+enter':  {
+      type: 'newline',
+      value: ''
     }
   }
 
@@ -90,17 +94,19 @@ export default function RichEditable({ renderElement, renderLeaf, placeholder, h
   }, [])
 
   const handleOnKeyDown = (event) => {
-    for (const pressedKeys in allHotkeys) {
+     for (const pressedKeys in allHotkeys) {
       if (isHotkey(pressedKeys, event)) {
         const hotkey = allHotkeys[pressedKeys]
-        console.log(pressedKeys)
         console.log(hotkey)
         event.preventDefault()
         if (hotkey.type === 'mark') {
           editor.toggleMark(hotkey.value)
         }
         if (hotkey.type === 'block') {
-          editor.toggleBlock(hotkeys.value)
+          editor.toggleBlock(hotkey.value)
+        }
+        if (hotkey.type === 'newline') {
+          editor.insertText('\n')
         }
         return onHotkey && onHotkey({ event, editor, hotkey, pressedKeys, allHotkeys })
       }
