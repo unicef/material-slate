@@ -89,7 +89,7 @@ ToolbarButton.propTypes = {
    *  
    * `renderElement` of the `RichEditable` component will need to handle the actual conversion from mark to HTML/Component on render time.
   */
-  block: PropTypes.block,
+  block: PropTypes.string,
 
   /* Icon of the button typically from @material-ui/icons */
   icon: PropTypes.object,
