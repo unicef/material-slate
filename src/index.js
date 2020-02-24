@@ -5,7 +5,7 @@ import MaterialEditor from './helpers/MaterialEditor'
 // General components
 import MaterialSlate from './components/MaterialSlate'
 import MaterialEditable from './components/MaterialEditable'
-import createRichEditor from './helpers/createMaterialEditor'
+import createMaterialEditor from './helpers/createMaterialEditor'
 
 //Toolbar and base button components
 import Toolbar from './components/Toolbars/Toolbar'
@@ -24,7 +24,7 @@ export {
     MaterialEditor,
     MaterialSlate,
     MaterialEditable,
-    createRichEditor,
+    createMaterialEditor,
     Toolbar,
     ToolbarButton,
     BoldButton,

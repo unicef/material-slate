@@ -25,7 +25,7 @@ export default function MaterialSlate({ value, editor, onChange, children, class
   )
 }
 
-RichSlate.propTypes = {
+MaterialSlate.propTypes = {
   /** editor created using createRichEditor() */
   editor: PropTypes.object.isRequired,
   /** content to display in the editor*/
