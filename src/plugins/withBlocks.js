@@ -1,9 +1,10 @@
 import RichEditor from '../helpers/RichEditor'
 import { Transforms } from 'slate'
 
-const LIST_TYPES = ['numbered-list', 'bulleted-list']
+
 
 const withBlocks = editor => {
+  editor.LIST_TYPES = ['numbered-list', 'bulleted-list']
   /**
    * checks if a block is active
    */
@@ -15,10 +16,10 @@ const withBlocks = editor => {
   }
   editor.toggleBlock = (block) => {
     const isActive = editor.isBlockActive(block)
-    const isList = LIST_TYPES.includes(block)
+    const isList = editor.LIST_TYPES.includes(block)
 
     Transforms.unwrapNodes(editor, {
-      match: n => LIST_TYPES.includes(n.type),
+      match: n => editor.LIST_TYPES.includes(n.type),
       split: true,
     })
 
