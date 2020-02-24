@@ -10,7 +10,7 @@ import createRichEditor from './helpers/createRichEditor'
 //Toolbar and base button components
 import Toolbar from './components/Toolbars/Toolbar'
 import ToolbarButton from './components/Buttons/ToolbarButton'
-
+import SimpleDialog from './components/SimpleDialog'
 //Block and mark Buttons
 import BoldButton from './components/Buttons/BoldButton'
 import ItalicButton from './components/Buttons/ItalicButton'
@@ -33,7 +33,9 @@ export {
     CodeButton,
     UnderlinedButton,
     BulletedListButton,
-    NumberedListButton
+    NumberedListButton,
+
+    SimpleDialog
 }
 
 

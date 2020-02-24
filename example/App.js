@@ -12,10 +12,66 @@ import { RichSlate,
   UnderlinedButton, 
   StrikethroughButton,
   BulletedListButton,
-  NumberedListButton
+  NumberedListButton,
+  ToolbarButton,
+  SimpleDialog
   } from '../src'
 
 
+
+
+export default hot(module)(function App() {
+
+  const [value, setValue] = useState(initialValue)
+  const editor = useMemo(() => createRichEditor(), [])
+  const [openCommentDialog, setOpenCommentDialog] = useState(false)
+
+
+  const onCommentButton = ({event, mark, editor}) => {
+    console.log('buttonComment')
+    setOpenCommentDialog(true)
+  }
+
+  const handleCommentCancel = () => {
+    console.log('comment cancelled')
+    setOpenCommentDialog(false)
+  }
+
+  const handleCommentSave = (value) => {
+    console.log('comment Save:' + value)
+    setOpenCommentDialog(false)
+  }
+
+  return (
+    <div className="App">
+      <h1>Basic Editor</h1>
+      <RichSlate editor={editor} value={value} onChange={(value) => setValue(value)}>
+        <Toolbar>
+          <BoldButton />
+          <ItalicButton />
+          <UnderlinedButton />
+          <StrikethroughButton /> 
+          <CodeButton />
+          <BulletedListButton />
+          <NumberedListButton />
+          <ToolbarButton mark='comment' fullButtonControl onMouseDown={(event) => onCommentButton(event)} />
+        </Toolbar>
+        <RichEditable
+
+        ></RichEditable>
+      </RichSlate>
+      { /*Comment dialog */}
+      <SimpleDialog 
+        open={openCommentDialog}
+        title='Add comment' 
+        label='Comment' 
+        defaultValue=''
+        onCancel={ () => handleCommentCancel()}
+        onSave={ (value) => handleCommentSave(value)}
+        />
+    </div>
+  );
+})
 
 const initialValue = [
   {
@@ -51,31 +107,7 @@ const initialValue = [
   {
     type: 'paragraph',
     children: [{ text: 'Try it out for yourself!' }],
-  },
+  }
 ]
 
-export default hot(module)(function App() {
-
-  const [value, setValue] = useState(initialValue)
-  const editor = useMemo(() => createRichEditor(), [])
-
-  return (
-    <div className="App">
-      <h1>Basic Editor</h1>
-      <RichSlate editor={editor} value={value} onChange={(value) => setValue(value)}>
-        <Toolbar>
-          <BoldButton />
-          <ItalicButton />
-          <UnderlinedButton />
-          <StrikethroughButton /> 
-          <CodeButton />
-          <BulletedListButton />
-          <NumberedListButton />
-       
-        </Toolbar>
-        <RichEditable></RichEditable>
-      </RichSlate>
-    </div>
-  );
-})
 
