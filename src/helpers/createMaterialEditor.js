@@ -17,7 +17,7 @@ import withBlocks from '../plugins/withBlocks'
  * @param {string} editorId Optional unique identifier in case you have more than one editor. Defaults to default.
  * @public
  */
-export default function createRichEditor(editorId = "default") {
+export default function createMaterialEditor(editorId = "default") {
   const editor =  
   withBlocks( 
     withMarks(

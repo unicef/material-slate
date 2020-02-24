@@ -1,8 +1,8 @@
 {
-  "name": "@unicef/material-ui-richeditor",
-  "version": "0.1.0",
+  "name": "@unicef/material-ui-slate",
+  "version": "0.2.0",
   "description": "Material UI rich text editor based on Slate JS",
-  "main": "index.js",
+  "main": "dist/bundle.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack-dev-server --mode development",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/unicef/material-ui-richeditor.git"
+    "url": "git+https://github.com/unicef/material-ui-slate.git"
   },
   "keywords": [
     "material-design",
@@ -21,15 +21,15 @@
     "rte",
     "rich",
     "text",
-    "editor",
-    "editor"
+    "material",
+    "slate"
   ],
   "author": "UNICEF",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/unicef/material-ui-richeditor/issues"
+    "url": "https://github.com/unicef/material-ui-slate/issues"
   },
-  "homepage": "https://github.com/unicef/material-ui-richeditor/",
+  "homepage": "https://github.com/unicef/material-ui-slate/",
   "devDependencies": {
     "@babel/cli": "^7.8.4",
     "@babel/core": "^7.8.4",

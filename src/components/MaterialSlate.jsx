@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
  * 
  * 
  */
-export default function RichSlate({ value, editor, onChange, children, className }) {
+export default function MaterialSlate({ value, editor, onChange, children, className }) {
   const classes = useStyles()
   return (
     <Slate value={value} editor={editor} onChange={(value) => onChange(value)} >

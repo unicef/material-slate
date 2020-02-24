@@ -1,4 +1,4 @@
-import RichEditor from '../helpers/RichEditor'
+import MaterialEditor from '../helpers/MaterialEditor'
 import { Transforms } from 'slate'
 
 
@@ -9,7 +9,7 @@ const withBlocks = editor => {
    * checks if a block is active
    */
   editor.isBlockActive = (block) => {
-    const [match] = RichEditor.nodes(editor, {
+    const [match] = MaterialEditor.nodes(editor, {
       match: n => n.type === block,
     })
     return !!match

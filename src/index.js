@@ -1,11 +1,11 @@
 
 // Editor stuff
-import RichEditor from './helpers/RichEditor'
+import MaterialEditor from './helpers/MaterialEditor'
 
 // General components
-import RichSlate from './components/RichSlate'
-import RichEditable from './components/RichEditable'
-import createRichEditor from './helpers/createRichEditor'
+import MaterialSlate from './components/MaterialSlate'
+import MaterialEditable from './components/MaterialEditable'
+import createRichEditor from './helpers/createMaterialEditor'
 
 //Toolbar and base button components
 import Toolbar from './components/Toolbars/Toolbar'
@@ -21,9 +21,9 @@ import BulletedListButton from './components/Buttons/BulletedListButton'
 import NumberedListButton from './components/Buttons/NumberedListButton'
 
 export {
-    RichEditor,
-    RichSlate,
-    RichEditable,
+    MaterialEditor,
+    MaterialSlate,
+    MaterialEditable,
     createRichEditor,
     Toolbar,
     ToolbarButton,

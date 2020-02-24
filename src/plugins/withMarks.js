@@ -1,4 +1,4 @@
-import RichEditor from '../helpers/RichEditor'
+import MaterialEditor from '../helpers/MaterialEditor'
 
 /**
  * Helper functions for managing inline marks
@@ -13,7 +13,7 @@ const withMarks = editor => {
    * @param {String} mark Mark to validate For example: 'bold', 'italic'
    */
    editor.isMarkActive = mark => {
-    const marks = RichEditor.marks(editor)
+    const marks = MaterialEditor.marks(editor)
     return marks ? marks[mark] === true : false
     }
   /**
@@ -22,7 +22,7 @@ const withMarks = editor => {
    * @param {String} mark Mark to validate For example: 'bold', 'italic'
    */ 
    editor.toggleMark = mark => { 
-    editor.isMarkActive(mark) ? RichEditor.removeMark(editor, mark) : RichEditor.addMark(editor, mark, true)
+    editor.isMarkActive(mark) ? MaterialEditor.removeMark(editor, mark) : MaterialEditor.addMark(editor, mark, true)
   }
   return editor
 }

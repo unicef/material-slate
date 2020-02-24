@@ -2,9 +2,9 @@
 import React from "react"
 import { useState, useMemo } from "react"
 import { hot } from "react-hot-loader" //Auto refresh load
-import { RichSlate, 
-  RichEditable, 
-  createRichEditor, 
+import { MaterialSlate, 
+  MaterialEditable, 
+  createMaterialEditor, 
   Toolbar, 
   BoldButton, 
   ItalicButton, 
@@ -23,7 +23,7 @@ import { RichSlate,
 export default hot(module)(function App() {
 
   const [value, setValue] = useState(initialValue)
-  const editor = useMemo(() => createRichEditor(), [])
+  const editor = useMemo(() => createMaterialEditor(), [])
   const [openCommentDialog, setOpenCommentDialog] = useState(false)
 
 
@@ -45,7 +45,7 @@ export default hot(module)(function App() {
   return (
     <div className="App">
       <h1>Basic Editor</h1>
-      <RichSlate editor={editor} value={value} onChange={(value) => setValue(value)}>
+      <MaterialSlate editor={editor} value={value} onChange={(value) => setValue(value)}>
         <Toolbar>
           <BoldButton />
           <ItalicButton />
@@ -56,10 +56,10 @@ export default hot(module)(function App() {
           <NumberedListButton />
           <ToolbarButton mark='comment' fullButtonControl onMouseDown={(event) => onCommentButton(event)} />
         </Toolbar>
-        <RichEditable
+        <MaterialEditable
 
-        ></RichEditable>
-      </RichSlate>
+        ></MaterialEditable>
+      </MaterialSlate>
       { /*Comment dialog */}
       <SimpleDialog 
         open={openCommentDialog}
