@@ -1,12 +1,11 @@
 import React, {useState} from 'react'
-import PropTypes from 'prop-types';
-import { Button, 
-  TextField, 
-  Dialog,
-  DialogTitle, DialogContent , 
-  DialogActions 
-} from '@material-ui/core'
-
+import PropTypes from 'prop-types'
+import Button from '@material-ui/core/BUtton'
+import TextField from '@material-ui/core/TextField'
+import Dialog from '@material-ui/core/Dialog'
+import DialogTitle from '@material-ui/core/DialogTitle' 
+import DialogContent from '@material-ui/core/DialogContent' 
+import DialogActions from '@material-ui/core/DialogActions'
 
 export default function SimpleDialog({ open, title, label, defaultValue, onCancel, onSave, ...props }) {
 

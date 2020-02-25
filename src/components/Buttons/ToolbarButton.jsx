@@ -1,8 +1,9 @@
 import React from 'react'
 import { useSlate } from 'slate-react'
 import PropTypes from 'prop-types'
-import { IconButton, Tooltip } from '@material-ui/core'
-import { RadioButtonUnchecked } from '@material-ui/icons'
+import IconButton  from '@material-ui/core/IconButton'
+import Tooltip from '@material-ui/core/Tooltip'
+import RadioButtonUnchecked from '@material-ui/icons/RadioButtonUnchecked'
 
 /** 
  * ToolbarButton is the base button for the toolbar.  

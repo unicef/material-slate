@@ -1,6 +1,6 @@
 import React from 'react'
 import ToolbarButton from './ToolbarButton'
-import {FormatListBulleted} from '@material-ui/icons'
+import FormatListBulleted from '@material-ui/icons/FormatListBulleted'
 
 const BulletedListButton = React.forwardRef(
   (props, ref) => (

@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import { Slate } from 'slate-react'
-import { Box, makeStyles } from '@material-ui/core'
+import Box  from '@material-ui/core/Box'
+import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles(theme => ({
   root: {

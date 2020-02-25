@@ -1,6 +1,6 @@
 import React from 'react'
 import ToolbarButton from './ToolbarButton'
-import { FormatUnderlined} from '@material-ui/icons'
+import FormatUnderlined  from '@material-ui/icons/FormatUnderlined'
 
 const UnderlinedButton = React.forwardRef(
   (props, ref) => (

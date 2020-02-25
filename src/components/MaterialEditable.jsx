@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react'
 import { Editable, useSlate } from 'slate-react'
 import PropTypes from 'prop-types'
-import { Box } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core'
+import Box from '@material-ui/core/Box'
+import { makeStyles } from '@material-ui/core/styles'
 import isHotkey from 'is-hotkey'
 
 const useStyles = makeStyles(theme => ({

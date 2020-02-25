@@ -1,6 +1,6 @@
 import React from 'react'
 import ToolbarButton from './ToolbarButton'
-import {FormatListNumbered} from '@material-ui/icons'
+import FormatListNumbered from '@material-ui/icons/FormatListNumbered'
 
 const NumberedListButton = React.forwardRef(
   (props, ref) => (

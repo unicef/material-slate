@@ -46,7 +46,7 @@ const witSyncedMarks= editor => {
   /**
    * Gets from current editor content the list of items of a particular type
    */
-  editor.findNodes = (type) => {
+  editor.findNodesByTypen = (type) => {
     const list = RichEditor.nodes(editor, {
       match: n => n.type === type,
       at: [],
@@ -58,6 +58,12 @@ const witSyncedMarks= editor => {
       return item[0]
     })
     return listWithNodes
+  }
+  /**
+   * 
+   */
+  editor.wrapNode(type, id, data) {
+
   }
 
   return editor
