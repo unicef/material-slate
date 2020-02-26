@@ -10,7 +10,7 @@ module.exports = {
       example: './example/index.js'
   },
   mode: "development",
-  devtool: 'inline-source-map',,
+  devtool: 'inline-source-map',
   module: {
     rules: [
       {
