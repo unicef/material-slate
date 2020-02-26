@@ -19,8 +19,9 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/,
-        exclude: /(node_modules)/,
+        test: /\.(js|jsx|ts|tsx)$/,
+        //exclude: /(node_modules)/,
+        exclude: /node_modules\/(?![slate|slate-react|slate-history])/,
         loader: "babel-loader",
         options: { presets: ["@babel/env",'@babel/react'] }
       }
@@ -29,6 +30,7 @@ module.exports = {
   resolve: { 
     extensions: ["*", ".js", ".jsx"],
   },
+  //externals: [nodeExternals({whitelist: ['slate','slate-react','slate-history']})],
   externals: [nodeExternals()],
   output: {
     filename: '[name].js',
