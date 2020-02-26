@@ -20,6 +20,13 @@ import UnderlinedButton from './components/Buttons/UnderlinedButton'
 import BulletedListButton from './components/Buttons/BulletedListButton'
 import NumberedListButton from './components/Buttons/NumberedListButton'
 
+
+if (process.env.NODE_ENV !== 'production') {
+  console.log('MaterialEditor: not in production');
+} else {
+  console.log('MaterialEditor: production mode');
+}
+
 export {
     MaterialEditor,
     MaterialSlate,
