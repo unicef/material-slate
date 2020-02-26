@@ -2,10 +2,13 @@ const path = require("path");
 const webpack = require("webpack");
 const CopyPlugin = require('copy-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const nodeExternals = require('webpack-node-externals');
 //const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 // Webpack for production. Default config
 // For development use webpack.dev.config.js
+
+// Ref https://webpack.js.org/guides/author-libraries/
 
 module.exports = {
   entry: { 
@@ -26,31 +29,12 @@ module.exports = {
   resolve: { 
     extensions: ["*", ".js", ".jsx"],
   },
-  externals: [{
-    react: 'react',
-    reactDOM: 'react-dom',
-    slate: 'slate',
-    slateReact: 'slate-react',
-    materialUI: /^@material-ui\/core\/.*/,
-    reactHotLoader: 'react-hot-loader'
-    }
-  ],
-  optimization: {
-    splitChunks: {
-      cacheGroups: {
-        commons: {
-          test: /[\\/]node_modules[\\/]/,
-          name: "vendors",
-          chunks: "all"
-        }
-      }
-    }
-  },
-
+  externals: [nodeExternals()],
   output: {
     filename: '[name].js',
     path: path.resolve(__dirname, "dist/"),
-    publicPath: "/dist/"
+    library: '',
+    libraryTarget: 'commonjs',
   },
 
   plugins: [
