@@ -3,7 +3,7 @@ import resolve from '@rollup/plugin-node-resolve';
 import babel from 'rollup-plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
 
-import * as react from 'react';
+import * as react from 'react'; //https://stackoverflow.com/questions/56988390/not-able-to-get-namedexports-for-reactdom-in-commonjs-plugin-in-rollup
 import * as reactDom from 'react-dom';
 import * as reactIs from 'react-is';
 import * as propTypes from 'prop-types';
