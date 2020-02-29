@@ -54,7 +54,7 @@ export default hot(module)(function App() {
           <CodeButton />
           <BulletedListButton />
           <NumberedListButton />
-          <ToolbarButton mark='comment' fullButtonControl onMouseDown={(event) => onCommentButton(event)} />
+          <ToolbarButton format='comment' onMouseDown={(event) => onCommentButton(event)} />
         </Toolbar>
         <MaterialEditable
 

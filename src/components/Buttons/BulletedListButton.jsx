@@ -4,7 +4,7 @@ import FormatListBulleted from '@material-ui/icons/FormatListBulleted'
 
 const BulletedListButton = React.forwardRef(
   (props, ref) => (
-    <ToolbarButton icon={<FormatListBulleted />} block="bulleted-list" ref={ref} {...props} />
+    <ToolbarButton icon={<FormatListBulleted />} type="block" format="bulleted-list" ref={ref} {...props} />
   )
 )
 export default BulletedListButton  
