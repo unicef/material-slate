@@ -16,7 +16,9 @@ import { MaterialSlate,
   ToolbarButton,
   SimpleDialog
   } from '../src'
-
+  
+import AddCommentIcon from '@material-ui/icons/AddComment'
+import CallToActionOutlinedIcon from '@material-ui/icons/CallToActionOutlined';
 
 
 
@@ -24,22 +26,42 @@ export default hot(module)(function App() {
 
   const [value, setValue] = useState(initialValue)
   const editor = useMemo(() => createMaterialEditor(), [])
-  const [openCommentDialog, setOpenCommentDialog] = useState(false)
+  const [openDialog, setOpenDialog] = useState(false)
+  const [dialogTitle, setDialogTitle] = useState('Title')
+  const [dialogLabel, setDialogLabel] = useState('Label')
+  
 
-
-  const onCommentButton = ({event, mark, editor}) => {
-    console.log('buttonComment')
-    setOpenCommentDialog(true)
+  const onCustomButtonDown = ({event,type, format, editor}) => {
+    switch(format) {
+      case 'comment':
+        setDialogTitle('Add comment')
+        setDialogLabel('Comment')
+        setOpenDialog(true)
+      case 'endnote':
+        setDialogTitle('Add endnote')
+        setDialogLabel('Endnote')
+        setOpenDialog(true)
+    }
   }
 
-  const handleCommentCancel = () => {
-    console.log('comment cancelled')
-    setOpenCommentDialog(false)
+  const handleDialogCancel = () => {
+    console.log('Dialog cancelled')
+    setOpenDialog(false)
   }
 
-  const handleCommentSave = (value) => {
-    console.log('comment Save:' + value)
-    setOpenCommentDialog(false)
+  const handleDialogSave = (format, value) => {
+    
+    setOpenDialog(false)
+    //Here you could call an API to store the comment
+    switch(format) { 
+      case 'comment':
+        console.log('save Comment:' + value)
+        //editor.addComment(id, {comment: value})
+      case 'endnote': 
+        console.log('save Endnote:' + value)
+        //editor.addEndnote(id, {endnote: value})
+    }
+    
   }
 
   return (
@@ -54,20 +76,30 @@ export default hot(module)(function App() {
           <CodeButton />
           <BulletedListButton />
           <NumberedListButton />
-          <ToolbarButton format='comment' onMouseDown={(event) => onCommentButton(event)} />
+  <ToolbarButton 
+    icon={<AddCommentIcon />} 
+    tooltip="Add comment" 
+    format='comment' 
+    onMouseDown={(event) => onCustomButtonDown(event)} />
+    <ToolbarButton 
+    icon={<CallToActionOutlinedIcon />} 
+    tooltip="Add endnote" 
+    format='endnote' 
+    onMouseDown={(event) => onCustomButtonDown(event)} />
         </Toolbar>
         <MaterialEditable
 
         ></MaterialEditable>
       </MaterialSlate>
-      { /*Comment dialog */}
+      { /* A simple dialog box that displays a field */}
       <SimpleDialog 
-        open={openCommentDialog}
-        title='Add comment' 
-        label='Comment' 
+        open={openDialog}
+        title={dialogTitle} 
+        label={dialogLabel} 
         defaultValue=''
-        onCancel={ () => handleCommentCancel()}
-        onSave={ (value) => handleCommentSave(value)}
+        format={dialogFormat}
+        onCancel={ () => handleDialogCancel()}
+        onSave={ ({format, value}) => handleDialogSave(format, value)}
         />
     </div>
   );

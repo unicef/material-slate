@@ -1,8 +1,8 @@
-import RichEditor from '../helpers/RichEditor'
+import MaterialEditor from '../helpers/MaterialEditor'
 import { Transforms } from 'slate'
 
  /**
-  * There are situations in which you need to sync and manage some marks
+  * There are situations in which you need to sync and manage some element contents
   * from outside the editor and then sync them back.
   * 
   * Comments are a very good example. You want to allow users to comment inline in the editor
@@ -12,41 +12,31 @@ import { Transforms } from 'slate'
   * Another use case are endnotes. You want user to be able to add endnotes but you may also give the user control of 
   * these endnotes outside of the editor. 
   * 
+  * Note that what is synced is the metadata, not the contents of the noded. For example, in a comment, the comment itself, 
+  * not the text 
+  * 
   * @param {Editor} editor 
   */
-const witSyncedMarks= editor => {
+const withSyncedElements= editor => {
+  
   /**
-   * Initializes the external collection as an empty object on creation time.
-   * 
-   */
-  editor.external = {}
-
-  /**
-   * Search for collection
-   * 
-   * It will search on the 
-   * 
-   * @param {string} collectionName Name of the collection to sync
+   * newData is an array with objects that conform the following format: 
+   * ```
+   *    id: { any object that holds the data that eventually may need to be displayed by the editor }
+   *  }
+   * ```
    * 
    */
   editor.syncNodes = (type, newData) => {
-    //Check if collection
-    if (typeOf (editor.external[collectionType]) === 'undefined') {
-      //create an empty collection
-      editor.external[collectionType] = []
-    }
-    //Current collection
-    collection = editor.external[collectionType] 
-    //For each item in new collection search for it by key.
-    // 
-      
-    }
+    //search notes
+    //Compare node by node if it is in the new data
+    editorNodes = editor.findNodesByType(type)
   }
   
   /**
    * Gets from current editor content the list of items of a particular type
    */
-  editor.findNodesByTypen = (type) => {
+  editor.findNodesByType = (type) => {
     const list = RichEditor.nodes(editor, {
       match: n => n.type === type,
       at: [],
@@ -59,14 +49,15 @@ const witSyncedMarks= editor => {
     })
     return listWithNodes
   }
+
   /**
    * 
    */
-  editor.wrapNode(type, id, data) {
+  editor.wrapNode = (type, id, data) => {
 
   }
 
   return editor
 }
 
-export default withBlocks
+export default withSyncedElements
