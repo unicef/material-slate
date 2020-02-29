@@ -1,10 +1,11 @@
 {
   "presets": [
-    ["@babel/preset-env", {}], 
+    ["@babel/preset-env", {"useBuiltIns": "usage", "forceAllTransforms": true }], 
     "@babel/preset-react"],
   "plugins": [
     "@babel/plugin-transform-react-jsx",
     "@babel/plugin-proposal-object-rest-spread",
+    "@babel/plugin-transform-arrow-functions",
     [
       'babel-plugin-import',
       {
@@ -24,6 +25,6 @@
         'camel2DashComponentName': false
       },
       'icons'
-    ],
+    ]
   ]
 }

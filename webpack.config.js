@@ -20,18 +20,37 @@ module.exports = {
     rules: [
       {
         test: /\.(js|jsx|ts|tsx)$/,
-        //exclude: /(node_modules)/,
-        exclude: /node_modules\/(?![slate|slate-react|slate-history])/,
+        include: [
+          path.resolve(__dirname, "src"),
+          path.resolve(__dirname, "node_modules/slate-react"),
+          path.resolve(__dirname, "node_modules/@material-ui/core"),
+          path.resolve(__dirname, "node_modules/@material-ui/core/esm/Box/index.js")
+          
+        ],
+        //exclude: /node_modules/,
         loader: "babel-loader",
-        options: { presets: ["@babel/env",'@babel/react'] }
+        options: { 
+          presets: [
+            ["@babel/env", {targets: "> 0.25%, not dead", modules: false, debug: true}],
+            '@babel/react'
+          ], 
+          plugins: [
+            "@babel/plugin-transform-react-jsx",
+            "@babel/plugin-proposal-object-rest-spread",
+            ["@babel/plugin-transform-arrow-functions", {
+              "spec": true
+            }]
+          ]
+        }
       }
     ]
   },
+  
   resolve: { 
     extensions: ["*", ".js", ".jsx"],
   },
-  //externals: [nodeExternals({whitelist: ['slate','slate-react','slate-history']})],
-  externals: [nodeExternals()],
+  externals: [nodeExternals({whitelist: ['slate','slate-react','slate-history', '@material-ui/core']})],
+  //externals: [nodeExternals()],
   output: {
     filename: '[name].js',
     path: path.resolve(__dirname, "dist/"),

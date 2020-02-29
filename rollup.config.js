@@ -8,7 +8,6 @@ import * as reactDom from 'react-dom';
 import * as reactIs from 'react-is';
 import * as propTypes from 'prop-types';
 
-
 export default {
   input: 'src/index.js',
   output: {
@@ -18,7 +17,7 @@ export default {
   },
   plugins: [
     resolve({
-      extensions: ['.js', '.jsx'], 
+      extensions: ['.js', '.jsx', '.es.jsx'], 
     }),
     babel({
       babelrc: false,
@@ -32,7 +31,12 @@ export default {
         '@babel/preset-react',
       ],
       exclude: 'node_modules/**',
-      plugins: ["@babel/external-helpers"],
+      //include: ['.', 'node_modules/slate','node_modules/slate-react', 'node_modules/slate-history'],
+      //plugins: ["@babel/external-helpers"]
+      plugins: [
+      "@babel/plugin-transform-react-jsx",
+      "@babel/plugin-proposal-object-rest-spread",
+      "@babel/plugin-transform-arrow-functions"]
     }),
     commonjs({
       namedExports: {

@@ -17,7 +17,12 @@ module.exports = {
         test: /\.(js|jsx)$/,
         exclude: /(node_modules|bower_components)/,
         loader: "babel-loader",
-        options: { presets: ["@babel/env",'@babel/react'] }
+        options: { 
+          presets: [
+            ["@babel/env"],
+            '@babel/react'
+          ] 
+        }
       }
     ]
   },
@@ -41,11 +46,11 @@ module.exports = {
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new CleanWebpackPlugin(),
-    new CopyPlugin([
-      {
-        from: 'src/**/*',
-        to: '',
-      }]),
-    new BundleAnalyzerPlugin()
+    //new CopyPlugin([
+    //  {
+    //    from: 'src/**/*',
+    //    to: '',
+    //  }]),
+    //new BundleAnalyzerPlugin()
   ] 
 };
