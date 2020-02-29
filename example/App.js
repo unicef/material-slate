@@ -29,18 +29,25 @@ export default hot(module)(function App() {
   const [openDialog, setOpenDialog] = useState(false)
   const [dialogTitle, setDialogTitle] = useState('Title')
   const [dialogLabel, setDialogLabel] = useState('Label')
+  const [dialogFormat, setDialogFormat] = useState('Format')
+  
   
 
   const onCustomButtonDown = ({event,type, format, editor}) => {
     switch(format) {
       case 'comment':
+        //Setup the dialog
         setDialogTitle('Add comment')
         setDialogLabel('Comment')
+        setDialogFormat('comment')
         setOpenDialog(true)
+        return
       case 'endnote':
         setDialogTitle('Add endnote')
         setDialogLabel('Endnote')
+        setDialogFormat('endnote')
         setOpenDialog(true)
+        return
     }
   }
 
@@ -50,16 +57,17 @@ export default hot(module)(function App() {
   }
 
   const handleDialogSave = (format, value) => {
-    
     setOpenDialog(false)
     //Here you could call an API to store the comment
     switch(format) { 
       case 'comment':
         console.log('save Comment:' + value)
         //editor.addComment(id, {comment: value})
+        return
       case 'endnote': 
         console.log('save Endnote:' + value)
         //editor.addEndnote(id, {endnote: value})
+        return
     }
     
   }
