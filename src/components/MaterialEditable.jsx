@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import Box from '@material-ui/core/Box'
 import { makeStyles } from '@material-ui/core/styles'
 import isHotkey from 'is-hotkey'
+import { Transforms } from 'slate'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -56,6 +57,7 @@ export default function RichEditable({ renderElement, renderLeaf, placeholder, h
   // Props is deconstructed in the {element, attributes, children, rest (any other prop)
   // We use `useCallback` here to memoize the function for subsequent renders.
   const handleRenderElement = useCallback(({ element, children, attributes, ...rest }) => {
+    console.log('render base')
     switch (element.type) {
       case 'block-quote':
         return <blockquote {...attributes}>{children}</blockquote>
@@ -107,6 +109,9 @@ export default function RichEditable({ renderElement, renderLeaf, placeholder, h
         }
         if (hotkey.type === 'newline') {
           editor.insertText('\n')
+          //The following line updates the cursor
+          Transforms.move(editor,{distance:0, unit:'offset'})
+
         }
         return onHotkey && onHotkey({ event, editor, hotkey, pressedKeys, allHotkeys })
       }

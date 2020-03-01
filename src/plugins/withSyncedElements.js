@@ -31,6 +31,8 @@ const withSyncedElements= editor => {
     //search notes
     //Compare node by node if it is in the new data
     editorNodes = editor.findNodesByType(type)
+    console.log(editorNodes)
+    console.log(newData)
   }
   
   /**
@@ -48,13 +50,6 @@ const withSyncedElements= editor => {
       return item[0]
     })
     return listWithNodes
-  }
-
-  /**
-   * 
-   */
-  editor.wrapNode = (type, id, data) => {
-
   }
 
   return editor
