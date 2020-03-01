@@ -2,10 +2,18 @@ import React from 'react'
 import { useRef, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 
-import { Editor, Range} from 'slate'
+import { Editor, Range } from 'slate'
 import { ReactEditor, useSlate } from 'slate-react'
-import { makeStyles} from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/core/styles'
 import Box from '@material-ui/core/Box'
+
+import BoldButton from '../Buttons/BoldButton'
+import ItalicButton from '../Buttons/ItalicButton'
+import UnderlinedButton from '../Buttons/UnderlinedButton'
+import StrikethroughButton from '../Buttons/StrikethroughButton'
+import CodeButton from '../Buttons/CodeButton'
+
+
 
 const Portal = ({ children }) => {
   return ReactDOM.createPortal(children, document.body)
@@ -14,7 +22,7 @@ const Portal = ({ children }) => {
 const useStyles = makeStyles(theme => ({
   hoveringToolbar: {
     position: 'absolute',
-    padding: theme.spacing(1/4),
+    padding: theme.spacing(1 / 4),
     zIndex: 1,
     top: "-10000px",
     left: "-10000px",
@@ -67,7 +75,15 @@ export default function HoveringToolbar({ children, className, ...props }) {
         className={className ? className : classes.hoveringToolbar}
         {...props}
       >
-        {children}
+        {!children && <>
+          <BoldButton />
+          <ItalicButton />
+          <UnderlinedButton />
+          <StrikethroughButton />
+          <CodeButton />
+        </>
+        }
+        {children && children}
       </Box>
     </Portal>
   )
