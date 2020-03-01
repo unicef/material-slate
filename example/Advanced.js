@@ -1,9 +1,4 @@
-
-import React from "react"
-import Basic from './Basic'
-import Advanced from './Advanced'
 import { useState, useMemo, useCallback } from "react"
-import { hot } from "react-hot-loader" //Auto refresh load
 import {
   MaterialSlate,
   MaterialEditable,
@@ -24,7 +19,6 @@ import {
 } from '../src'
 
 import { makeStyles } from '@material-ui/core/styles'
-import AddCommentButton from "../src/components/Buttons/CommentButton"
 
 // Initial content of the editor 
 import initialValue from './initialValue'
@@ -35,7 +29,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default hot(module)(function App() {
+export default function Advanced() {
 
   const classes = useStyles()
 
@@ -43,7 +37,6 @@ export default hot(module)(function App() {
   const editor = useMemo(() => createMaterialEditor(), [])
   const [openCommentDialog, setOpenCommentDialog] = useState(false)
   const [openEndnoteDialog, setOpenEndnoteDialog] = useState(false)
-
 
   const onCustomButtonDown = ({ event, type, format, editor }) => {
     switch (format) {
@@ -96,15 +89,56 @@ export default hot(module)(function App() {
   return (
     <div className="App">
       <h1>Basic Editor Example</h1>
-      <a href="http://url">Source code</a> 
-      <Basic />
+      <a href="http://url">See code</a> 
+      <Basic></Basic>
 
-      <h1>Advanced usage </h1>
-      <a href="http://url">Source code</a>
-      <Advanced />
+      <h1>Full charged editor</h1>
+      <MaterialSlate editor={editor} value={value} onChange={(value) => setValue(value)}>
+        <Toolbar>
+          <BoldButton />
+          <ItalicButton />
+          <UnderlinedButton />
+          <StrikethroughButton />
+          <CodeButton />
+          <BulletedListButton />
+          <NumberedListButton />
+          <ToolbarButton type="block" format="blockquote" />
+          {/*These buttons require actions to be handled as they are not */}
+          <AddCommentButton onMouseDown={(event) => onCustomButtonDown(event)} />
+          <EndnoteButton onMouseDown={(event) => onCustomButtonDown(event)} />
+        </Toolbar>
+        <HoveringToolbar>
+          <BoldButton />
+          <ItalicButton />
+          <UnderlinedButton />
+          <StrikethroughButton />
+        </HoveringToolbar>
+        <MaterialEditable
+          renderElement={(props) => handleRenderElement(props)}
+        ></MaterialEditable>
+      </MaterialSlate>
+      { /* A simple dialog box that displays a field */}
+      <SimpleDialog
+        open={openCommentDialog}
+        title="Add comment"
+        label="Comment"
+        defaultValue=''
+        format='comment'
+        onCancel={() => handleDialogCancel()}
+        onSave={({ format, value }) => handleDialogSave(format, value)}
+      />
+      <SimpleDialog
+        open={openEndnoteDialog}
+        title="Add endnote"
+        label="Endnote"
+        defaultValue=''
+        format='endnote'
+        onCancel={() => handleDialogCancel()}
+        onSave={({ format, value }) => handleDialogSave(format, value)}
+      />
     </div>
   );
-})
+}
 
 
 
