@@ -6,6 +6,7 @@ import {
   createMaterialEditor,
   Toolbar,
   ToolbarButton,
+  ButtonSeparator,
   BoldButton,
   ItalicButton,
   CodeButton,
@@ -96,6 +97,7 @@ export default function Advanced() {
           <UnderlinedButton />
           <StrikethroughButton />
           <CodeButton />
+          <ButtonSeparator />
           <BulletedListButton />
           <NumberedListButton />
           <ToolbarButton type="block" format="blockquote" />

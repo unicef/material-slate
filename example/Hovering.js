@@ -20,7 +20,7 @@ export default function Basic() {
 
   return (
       <MaterialSlate editor={editor} value={value} onChange={(value) => setValue(value)}>
-        <Toolbar />
+        <HoveringToolbar />
         <MaterialEditable />
       </MaterialSlate>
   );
