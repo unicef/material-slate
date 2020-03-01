@@ -20,6 +20,8 @@ import CodeButton from './components/Buttons/CodeButton'
 import UnderlinedButton from './components/Buttons/UnderlinedButton'
 import BulletedListButton from './components/Buttons/BulletedListButton'
 import NumberedListButton from './components/Buttons/NumberedListButton'
+import CommentButton from './components/Buttons/CommentButton'
+import EndnoteButton from './components/Buttons/EndnoteButton'
 
 
 if (process.env.NODE_ENV !== 'production') {
@@ -43,7 +45,9 @@ export {
     UnderlinedButton,
     BulletedListButton,
     NumberedListButton,
-
+    CommentButton,
+    EndnoteButton,
+  
     SimpleDialog
 }
 
