@@ -20,7 +20,7 @@ import CodeButton from './components/Buttons/CodeButton'
 import UnderlinedButton from './components/Buttons/UnderlinedButton'
 import BulletedListButton from './components/Buttons/BulletedListButton'
 import NumberedListButton from './components/Buttons/NumberedListButton'
-import CommentButton from './components/Buttons/CommentButton'
+import AddCommentButton from './components/Buttons/CommentButton'
 import EndnoteButton from './components/Buttons/EndnoteButton'
 
 
@@ -45,7 +45,7 @@ export {
     UnderlinedButton,
     BulletedListButton,
     NumberedListButton,
-    CommentButton,
+    AddCommentButton,
     EndnoteButton,
   
     SimpleDialog
