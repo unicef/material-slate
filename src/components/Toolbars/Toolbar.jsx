@@ -5,6 +5,7 @@ import {Box} from '@material-ui/core'
 const useStyles = makeStyles( theme => ({
   root: {
     backgroundColor: theme.palette.grey[200],
+    padding: theme.spacing(1/4)
   }
   }))
 

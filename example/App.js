@@ -15,7 +15,8 @@ import {
   BulletedListButton,
   NumberedListButton,
   ToolbarButton,
-  SimpleDialog
+  SimpleDialog,
+  HoveringToolbar
 } from '../src'
 
 import { makeStyles } from '@material-ui/core/styles'
@@ -112,6 +113,9 @@ export default hot(module)(function App() {
             format='endnote'
             onMouseDown={(event) => onCustomButtonDown(event)} />
         </Toolbar>
+        <HoveringToolbar>
+          <BoldButton />
+        </HoveringToolbar>
         <MaterialEditable
           renderElement={(props) => handleRenderElement(props)}
         ></MaterialEditable>

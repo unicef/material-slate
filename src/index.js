@@ -9,6 +9,7 @@ import createMaterialEditor from './helpers/createMaterialEditor'
 
 //Toolbar and base button components
 import Toolbar from './components/Toolbars/Toolbar'
+import HoveringToolbar from './components/Toolbars/HoveringToolbar'
 import ToolbarButton from './components/Buttons/ToolbarButton'
 import SimpleDialog from './components/SimpleDialog'
 //Block and mark Buttons
@@ -33,6 +34,7 @@ export {
     MaterialEditable,
     createMaterialEditor,
     Toolbar,
+    HoveringToolbar,
     ToolbarButton,
     BoldButton,
     ItalicButton,
