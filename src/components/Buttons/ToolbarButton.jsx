@@ -17,7 +17,7 @@ const ToolbarButton = React.forwardRef(
     const editor = useSlate()
 
     const defaultTooltip = () => {
-      return format.charAt(0).toUpperCase() + format.substring(1) 
+      return (format.charAt(0).toUpperCase() + format.substring(1)).replace('-', ' ')
     }
 
     /** 
