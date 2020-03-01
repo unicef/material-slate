@@ -1,9 +1,11 @@
+import React from "react"
 import { useState, useMemo, useCallback } from "react"
 import {
   MaterialSlate,
   MaterialEditable,
   createMaterialEditor,
   Toolbar,
+  ToolbarButton,
   BoldButton,
   ItalicButton,
   CodeButton,
@@ -13,7 +15,6 @@ import {
   NumberedListButton,
   AddCommentButton,
   EndnoteButton,
-  ToolbarButton,
   SimpleDialog,
   HoveringToolbar
 } from '../src'
@@ -87,12 +88,7 @@ export default function Advanced() {
   }, [])
 
   return (
-    <div className="App">
-      <h1>Basic Editor Example</h1>
-      <a href="http://url">See code</a> 
-      <Basic></Basic>
-
-      <h1>Full charged editor</h1>
+    <>
       <MaterialSlate editor={editor} value={value} onChange={(value) => setValue(value)}>
         <Toolbar>
           <BoldButton />
@@ -117,7 +113,6 @@ export default function Advanced() {
           renderElement={(props) => handleRenderElement(props)}
         ></MaterialEditable>
       </MaterialSlate>
-      { /* A simple dialog box that displays a field */}
       <SimpleDialog
         open={openCommentDialog}
         title="Add comment"
@@ -136,7 +131,7 @@ export default function Advanced() {
         onCancel={() => handleDialogCancel()}
         onSave={({ format, value }) => handleDialogSave(format, value)}
       />
-    </div>
+    </>
   );
 }
 

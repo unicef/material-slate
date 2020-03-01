@@ -11,6 +11,7 @@ import createMaterialEditor from './helpers/createMaterialEditor'
 import Toolbar from './components/Toolbars/Toolbar'
 import HoveringToolbar from './components/Toolbars/HoveringToolbar'
 import ToolbarButton from './components/Buttons/ToolbarButton'
+import ButtonSeparator from './components/Buttons/ButtonSeparator'
 import SimpleDialog from './components/SimpleDialog'
 //Block and mark Buttons
 import BoldButton from './components/Buttons/BoldButton'
@@ -38,6 +39,7 @@ export {
     Toolbar,
     HoveringToolbar,
     ToolbarButton,
+    ButtonSeparator,
     BoldButton,
     ItalicButton,
     StrikethroughButton,
