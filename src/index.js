@@ -20,7 +20,7 @@ import CodeButton from './components/Buttons/CodeButton'
 import UnderlinedButton from './components/Buttons/UnderlinedButton'
 import BulletedListButton from './components/Buttons/BulletedListButton'
 import NumberedListButton from './components/Buttons/NumberedListButton'
-import AddCommentButton from './components/Buttons/CommentButton'
+import AddCommentButton from './components/Buttons/AddCommentButton'
 import EndnoteButton from './components/Buttons/EndnoteButton'
 
 
