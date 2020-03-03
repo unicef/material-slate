@@ -23,6 +23,8 @@ import BulletedListButton from './components/Buttons/BulletedListButton'
 import NumberedListButton from './components/Buttons/NumberedListButton'
 import AddCommentButton from './components/Buttons/AddCommentButton'
 import EndnoteButton from './components/Buttons/EndnoteButton'
+// Render Elements
+import CommentElement from './components/Elements/CommentElement'
 
 
 if (process.env.NODE_ENV !== 'production') {
@@ -36,8 +38,10 @@ export {
     MaterialSlate,
     MaterialEditable,
     createMaterialEditor,
+
     Toolbar,
     HoveringToolbar,
+    
     ToolbarButton,
     ButtonSeparator,
     BoldButton,
@@ -49,7 +53,9 @@ export {
     NumberedListButton,
     AddCommentButton,
     EndnoteButton,
-  
+
+    CommentElement,
+
     SimpleDialog
 }
 

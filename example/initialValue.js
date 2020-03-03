@@ -30,7 +30,9 @@ const initialValue = [
     children: [{ text: 'A wise quote.' }],
   },
   {
-    type: 'paragraph',
+    type: 'comment',
+    commentText: 'hola',
+    id: 123,
     children: [{ text: 'Try it out for yourself!' }],
   }
 ]

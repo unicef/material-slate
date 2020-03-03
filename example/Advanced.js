@@ -5,6 +5,7 @@ import {
   MaterialEditable,
   createMaterialEditor,
   Toolbar,
+  HoveringToolbar,
   ToolbarButton,
   ButtonSeparator,
   BoldButton,
@@ -17,7 +18,8 @@ import {
   AddCommentButton,
   EndnoteButton,
   SimpleDialog,
-  HoveringToolbar
+ 
+  CommentElement
 } from '../src'
 
 import { makeStyles } from '@material-ui/core/styles'
@@ -45,7 +47,7 @@ export default function Advanced() {
       case 'comment':
         //Setup the dialog
         console.log('selection', editor.selection)
-        editor.startAddComment()
+        editor.rememberCurrentSelection()
         setOpenCommentDialog(true)
         return
       case 'endnote':
@@ -68,7 +70,7 @@ export default function Advanced() {
         setOpenCommentDialog(false)
         console.log('save Comment:' + dialogValue)
         const id = new Date().getTime();
-        editor.addComment(id, { comment: dialogValue })
+        editor.addComment(id, { commentText: dialogValue })
 
         return
       case 'endnote':
@@ -83,7 +85,9 @@ export default function Advanced() {
     switch (element.type) {
       case 'comment':
         console.log('render comment')
-        return <span className={classes.comment} {...attributes}>{children}</span>
+        console.log('element', element)
+        return  <CommentElement element={element} attributes={attributes}>{children}</CommentElement>
+        //return <CommentElement element={element} {...attributes}>{children}</CommentElement>
     }
     return <p {...attributes} {...rest}>{children}</p>
   }, [])

@@ -13,15 +13,22 @@ const withComments = editor => {
     return element.type === 'comment' ? true : isInline(element)
   }
 
-  editor.addComment = (id, data) => {
+  /**
+   *  If the editor loses focus upon pressing the `AddCommentButtoncall`, you need to call editor.rememberCurrentSelection() before the 
+   * editor loses the focus  
+   * 
+   * `data` cannot contain the following items: id, type or children.
+   */ 
+  editor.addComment = (id, attributes) => {
     const node = {
       id: id,
       type: 'comment',
-      data: data,
-      children: [{text: 'comentario'}]
-    }
-    console.log(node)
-    editor.wrapNode(node)
+      children: [], 
+      ...attributes //any data of the comment will be an attribute.
+    } 
+    console.log('addcomment node to be added: ', node)
+    console.log('addComment: rememberedSelection:', editor.rememberedSelection)
+    editor.wrapNode(node, editor.selection || editor.rememberedSelection)
   }
 
   editor.unwrapNode = type => {
@@ -33,10 +40,10 @@ const withComments = editor => {
     return !!node
   }
 
-  editor.comment = {}
+  editor.rememberedSelection = {}
 
-  editor.startAddComment = () => {
-    editor.comment.selection = editor.selection
+  editor.rememberCurrentSelection = () => {
+    editor.rememberedSelection = editor.selection
   }
 
   editor.isCollapsed = () => {
@@ -45,18 +52,21 @@ const withComments = editor => {
     return selection && Range.isCollapsed(selection)
   }
 
-  editor.wrapNode = (node) => {
-    console.log(editor)
-    editor.selection = editor.comment.selection
+  editor.wrapNode = (node, wrapSelection = null ) => {
+    
+    //if wrapSelecion is passed => we use it. Use editor selection in other case
+    editor.selection = wrapSelection ?  wrapSelection : editor.selection
+     
+    // if the node is already wrapped with current node we unwrap it first.
     if (editor.isNodeTypeActive(node.type)) {
       unwrapNode(node.type)
     }
-    
+    // if there is no text selected => insert the node.
     if (editor.isCollapsed()) {
       Transforms.insertNodes(editor, node)
     } else {
-      console.log("wrapNode")
-      console.log(editor.children)
+      //text is selected => add the node
+      
       Transforms.wrapNodes(editor, node, { split: true })
       console.log("editor", editor.children)
       Transforms.collapse(editor, { edge: 'end' })
