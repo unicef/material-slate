@@ -114,6 +114,7 @@ export default function Advanced() {
           <ItalicButton />
           <UnderlinedButton />
           <StrikethroughButton />
+          <AddCommentButton onMouseDown={(event) => onCustomButtonDown(event)} />
         </HoveringToolbar>
         <MaterialEditable
           renderElement={(props) => handleRenderElement(props)}
