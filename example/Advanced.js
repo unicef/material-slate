@@ -1,5 +1,5 @@
-import React from "react"
-import { useState, useMemo, useCallback } from "react"
+import React from 'react'
+import { useState, useMemo, useCallback } from 'react'
 import {
   MaterialSlate,
   MaterialEditable,
@@ -23,6 +23,10 @@ import {
 } from '../src'
 
 import { makeStyles } from '@material-ui/core/styles'
+import List from '@material-ui/core/List'
+import  ListItem from '@material-ui/core/ListItem'
+import DeleteOutline from '@material-ui/icons/DeleteOutline'
+import IconButton from '@material-ui/core/IconButton'
 
 // Initial content of the editor 
 import initialValue from './initialValue'
@@ -33,6 +37,9 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
+/**
+ * Example of advanced usage of the editor
+ */
 export default function Advanced() {
 
   const classes = useStyles()
@@ -41,6 +48,9 @@ export default function Advanced() {
   const editor = useMemo(() => createMaterialEditor(), [])
   const [openCommentDialog, setOpenCommentDialog] = useState(false)
   const [openEndnoteDialog, setOpenEndnoteDialog] = useState(false)
+
+  const [comments, setComments] = useState([])
+
 
   const onCustomButtonDown = ({ event, type, format, editor }) => {
     switch (format) {
@@ -70,7 +80,9 @@ export default function Advanced() {
         setOpenCommentDialog(false)
         console.log('save Comment:' + dialogValue)
         const id = new Date().getTime();
-        editor.addComment(id, { commentText: dialogValue })
+        //update the comment array and add comment in editor
+        setComments([...comments, {id: id, body: dialogValue}])
+        editor.addComment(id, {body: dialogValue })
 
         return
       case 'endnote':
@@ -87,7 +99,6 @@ export default function Advanced() {
         console.log('render comment')
         console.log('element', element)
         return  <CommentElement element={element} attributes={attributes}>{children}</CommentElement>
-        //return <CommentElement element={element} {...attributes}>{children}</CommentElement>
     }
     return <p {...attributes} {...rest}>{children}</p>
   }, [])
@@ -95,6 +106,7 @@ export default function Advanced() {
   return (
     <>
       <MaterialSlate editor={editor} value={value} onChange={(value) => setValue(value)}>
+        { /* By passing Buttons as children of the Toolbar you can customize it */}
         <Toolbar>
           <BoldButton />
           <ItalicButton />
@@ -105,6 +117,7 @@ export default function Advanced() {
           <BulletedListButton />
           <NumberedListButton />
           <ToolbarButton type="block" format="blockquote" />
+          
           {/*These buttons require actions to be handled as they are not */}
           <AddCommentButton onMouseDown={(event) => onCustomButtonDown(event)} />
           <EndnoteButton onMouseDown={(event) => onCustomButtonDown(event)} />
@@ -138,6 +151,10 @@ export default function Advanced() {
         onCancel={() => handleDialogCancel()}
         onSave={({ format, value }) => handleDialogSave(format, value)}
       />
+      <h3>Comments </h3>
+      <List>
+        {comments.map( comment => (<ListItem>{comment.body} <IconButton><DeleteOutline /></IconButton></ListItem>))}
+      </List>
     </>
   );
 }
