@@ -59,7 +59,7 @@ const withComments = editor => {
      
     // if the node is already wrapped with current node we unwrap it first.
     if (editor.isNodeTypeActive(node.type)) {
-      unwrapNode(node.type)
+      editor.unwrapNode(node.type)
     }
     // if there is no text selected => insert the node.
     if (editor.isCollapsed()) {
