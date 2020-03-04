@@ -4,7 +4,7 @@ import FormatUnderlined  from '@material-ui/icons/FormatUnderlined'
 
 const UnderlinedButton = React.forwardRef(
   (props, ref) => (
-    <ToolbarButton icon={<FormatUnderlined />} mark="underlined" ref={ref} {...props} />
+    <ToolbarButton icon={<FormatUnderlined />} type="mark" format="underlined" ref={ref} {...props} />
   )
 )
 export default UnderlinedButton  

@@ -1,12 +1,12 @@
 {
-  "name": "@unicef/material-ui-richeditor",
+  "name": "@unicef/material-ui-slate",
   "version": "0.1.0",
   "description": "",
   "main": "./dist/index.js",
-  "homepage": "https://unicef.github.io/material-ui-richeditor",
+  "homepage": "https://unicef.github.io/material-ui-slate",
   "repository": {
     "type": "git",
-    "url": "https://github.com/unicef/material-ui-ritcheditor"
+    "url": "https://github.com/unicef/material-ui-slate"
   },
   "scripts": {
     "build": "rollup -c",

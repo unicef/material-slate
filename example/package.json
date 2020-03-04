@@ -8,7 +8,7 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
-    "@unicef/material-ui-richeditor": "file:..",
+    "@unicef/material-ui-slate": "file:..",
     "is-url": "^1.2.4",
     "react": "file:../node_modules/react",
     "react-dom": "file:../node_modules/react-dom",

@@ -7,54 +7,53 @@ import RadioButtonUnchecked from '@material-ui/icons/RadioButtonUnchecked'
 
 /** 
  * ToolbarButton is the base button for the toolbar.  
- * It requires to have either the string prop block (to add a block mark) or the string prop mark (to add an inline mark)
+ * It requires the 'type' of action to perform and the format that will be added.
  * 
- * It displays the tooltip text on hover. If tooltip text is not passed it will use the  block/mark
+ * It displays a tooltip text on hover. If tooltip text is not passed as a prop it will use the capitalized text of the format
  */
 const ToolbarButton = React.forwardRef(
-  ({ tooltip, placement, icon, block, mark, fullButtonControl, onMouseDown, ...props }, ref) => {
+  ({ tooltip, placement, icon, type, format, onMouseDown, isActive, ...props }, ref) => {
 
     const editor = useSlate()
 
-
-    console.assert(mark || block, 'ToolbarButton. You need to set either prop.mark or prop.block')
-    console.assert(!(mark && block), 'ToolbarButton should have only one. Either prop.mark or prop.block')
-
     const defaultTooltip = () => {
-      if (mark) { return mark.charAt(0).toUpperCase() + mark.substring(1) }
-      if (block) { return block.charAt(0).toUpperCase() + block.substring(1) }
-      return "Mark or Block missing"
+      return (format.charAt(0).toUpperCase() + format.substring(1)).replace('-', ' ')
     }
 
-    /** Toggles mark| block and forwards the onClick event except if fullButtonControl is true that
-     * directly forwards onMouseDown to parent.
+    /** 
+     * Toggles mark| block and forwards the onMouseDown event 
      */
     const handleOnMouseDown = (event) => {
       event.preventDefault()
-      if (fullButtonControl) {
-        return onMouseDown({ editor, mark, event })
+      switch(type) {
+        case 'mark':
+          editor.toggleMark(format)
+        case 'block':
+          editor.toggleBlock(format)
       }
-      if (mark) {
-        editor.toggleMark(mark)
-        onMouseDown && onMouseDown({ editor, mark, event })
+      onMouseDown && onMouseDown({ editor, format, type, event })
+    }
+    
+    const checkIsActive = () => {
+      if (isActive) {
+        return isActive()
       }
-      if (block) {
-        editor.toggleBlock(block)
-        onMouseDown && onMouseDown({ editor, block, event })
+      
+      switch(type) {
+        case 'mark':
+          return editor.isMarkActive(format)
+        case 'block':
+          return editor.isBlockActive(format)
       }
+      return 
     }
 
-    const isActive = () => {
-      if (mark) { return editor.isMarkActive(mark) }
-      if (block) { return editor.isBlockActive(block) }
-      return false
-    }
     return (
       <Tooltip title={tooltip ? tooltip : defaultTooltip()} placement={placement}>
         <IconButton
           aria-label={tooltip ? tooltip : defaultTooltip()}
           ref={ref}
-          color={isActive() ? 'secondary' : 'default'}
+          color={checkIsActive() ? 'secondary' : 'default'}
           onMouseDown={(event) => handleOnMouseDown(event)}
           {...props}
         >
@@ -69,37 +68,52 @@ export default ToolbarButton
 ToolbarButton.defaultProps = {
   placement: 'top',
   icon: <RadioButtonUnchecked />,
-  fullButtonControl: false
 }
 
 // PropTypes
 ToolbarButton.propTypes = {
-  /** Text displayed on the button tooltip. By Default it is the capitalized mark/block string (for instance, `bold` mark is displayed as `Bold`) */
-  tooltip: PropTypes.string,
-  /** Location where the tooltip will appear. It can be `top`, `bottom`, `left`, `right`. Defaults to top. */
-  placement: PropTypes.string,
   /** 
-   * Mark to be added to the editor value when the button is pressed. For example: `bold`, `italic`...
-   *  
-   * `renderLeaf` of the `RichEditable` component will need to handle the actual conversion from mark to HTML/Component on render time.
+   * Text displayed on the button tooltip. By Default it is the capitalized `format` string. 
+   * For instance, `bold` is displayed as `Bold`.
+   */
+  tooltip: PropTypes.string,
+
+  /** 
+   * Location where the tooltip will appear. 
+   * It can be `top`, `bottom`, `left`, `right`. Defaults to top. 
+   */
+  placement: PropTypes.string,
+
+  /** 
+   * Toolbar button has the option of adding to the editor value marks and blocks.
+   * 
+   * `mark` can be added to the editor value when you want to add something like `bold`, `italic`...
+   *  Marks are rendered into HTML in `renderLeaf` of `MaterialEditable`
+   * 
+   * `block` to be added to the editor `value` when the button is pressed. For example: `header1`, `numbered-list`...
+   *  `renderElement` of the `RichEditable` component will need to handle the actual conversion from mark to HTML/Component on render time.
+   * 
+   * If you don't want to add a mark or a block do not set this prop. You can perform the action onMouseDown())
   */
-  mark: PropTypes.string,
+  type: PropTypes.string,
 
   /**
-   *  Block to be added to the editor `value` when the button is pressed. For example: `header1`, `numbered-list`...
-   *  
-   * `renderElement` of the `RichEditable` component will need to handle the actual conversion from mark to HTML/Component on render time.
+   * 
+   * The string that identifies the format of the block or mark to be added. For example: `bold`, `header1`... 
   */
-  block: PropTypes.string,
+  format: PropTypes.string.isRequired,
 
-  /* Icon of the button typically from @material-ui/icons */
-  icon: PropTypes.object,
-  /** 
-   * By default toolbar button will add the mark or block to the value of the editor and then give you
-   * the control passing you the onMouseDown eventThat may be fine for adding buttons that do not require anything special
-   * However, if you need the editor content not to be changed before you get the `onMouseDown` event, set this to true.
+  /**
+   * isActive is a function that returns true/false to indicate the status of the mark/block.
+   * Set this function if you need to handle anything other than mark or blocks.
    */
-  fullButtonControl: PropTypes.bool,
+  isActive: PropTypes.func,
+
+  /** 
+   * Instance a component. The icon that will be displayed. Typically an icon from @material-ui/icons 
+   */
+  icon: PropTypes.object,
+
   /**
    * On mouse down event is passed up to the parent with props that can be deconstructed in {editor, event, mark/block}
    */

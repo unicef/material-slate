@@ -7,18 +7,18 @@ import DialogTitle from '@material-ui/core/DialogTitle'
 import DialogContent from '@material-ui/core/DialogContent' 
 import DialogActions from '@material-ui/core/DialogActions'
 
-export default function SimpleDialog({ open, title, label, defaultValue, onCancel, onSave, ...props }) {
+export default function SimpleDialog({ open, title, label, format, defaultValue, onCancel, onSave, ...props }) {
 
   const [value, setValue] = useState(defaultValue)
 
-  const handleOnCancel = () => {
+  const handleOnCancel = (format) => {
     onCancel() 
     setValue(defaultValue)
   }
 
   const handleOnSave = (event) => {
     //TODO validate input
-    onSave(value)
+    onSave({format, value})
     setValue(defaultValue)
   }
 
