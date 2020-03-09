@@ -28,12 +28,6 @@ const initialValue = [
   {
     type: 'block-quote',
     children: [{ text: 'A wise quote.' }],
-  },
-  {
-    type: 'comment',
-    commentText: 'hola',
-    id: 123,
-    children: [{ text: 'Try it out for yourself!' }],
   }
 ]
 export default initialValue
