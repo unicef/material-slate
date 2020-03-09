@@ -9,13 +9,11 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-
 const CommentElement = ({ element, onClick, children, attributes }) => {
-  console.log(element)
   const classes = useStyles()
   return (
     <Tooltip title={`Comment: ${element.body}`} >
-      <span className={classes.comment} {...attributes} onClick={(event) => onClick({ event, element })}>{children}</span>
+      <span className={classes.comment} {...attributes} onClick={(event) => onClick && onClick({ event, element })}>{children}</span>
     </Tooltip>
   )
 }
