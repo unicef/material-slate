@@ -28,6 +28,7 @@ const ToolbarButton = React.forwardRef(
       switch(type) {
         case 'mark':
           editor.toggleMark(format)
+          break
         case 'block':
           editor.toggleBlock(format)
       }
