@@ -2,9 +2,9 @@ import MaterialEditor from '../helpers/MaterialEditor'
 import { Transforms } from 'slate'
 
 
-
 const withBlocks = editor => {
   editor.LIST_TYPES = ['numbered-list', 'bulleted-list']
+
   /**
    * checks if a block is active
    */
@@ -14,6 +14,7 @@ const withBlocks = editor => {
     })
     return !!match
   }
+
   editor.toggleBlock = (block) => {
     const isActive = editor.isBlockActive(block)
     const isList = editor.LIST_TYPES.includes(block)
