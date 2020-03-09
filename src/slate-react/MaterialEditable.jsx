@@ -57,7 +57,6 @@ export default function RichEditable({ renderElement, renderLeaf, placeholder, h
   // Props is deconstructed in the {element, attributes, children, rest (any other prop)
   // We use `useCallback` here to memoize the function for subsequent renders.
   const handleRenderElement = useCallback(({ element, children, attributes, ...rest }) => {
-    console.log('render base')
     switch (element.type) {
       case 'block-quote':
         return <blockquote {...attributes}>{children}</blockquote>
@@ -99,7 +98,7 @@ export default function RichEditable({ renderElement, renderLeaf, placeholder, h
      for (const pressedKeys in allHotkeys) {
       if (isHotkey(pressedKeys, event)) {
         const hotkey = allHotkeys[pressedKeys]
-        console.log(hotkey)
+        //console.log(hotkey)
         event.preventDefault()
         if (hotkey.type === 'mark') {
           editor.toggleMark(hotkey.value)

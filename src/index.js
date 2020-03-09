@@ -1,11 +1,11 @@
 
-// Editor stuff
-import MaterialEditor from './helpers/MaterialEditor'
+// slate package overwrites
+import MaterialEditor from './slate/MaterialEditor'
+import createMaterialEditor from './slate/createMaterialEditor'
 
-// General components
-import MaterialSlate from './components/MaterialSlate'
-import MaterialEditable from './components/MaterialEditable'
-import createMaterialEditor from './helpers/createMaterialEditor'
+// slate-react package overwrites
+import MaterialSlate from './slate-react/MaterialSlate'
+import MaterialEditable from './slate-react/MaterialEditable'
 
 //Toolbar and base button components
 import Toolbar from './components/Toolbars/Toolbar'

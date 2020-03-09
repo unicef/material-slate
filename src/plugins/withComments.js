@@ -1,6 +1,3 @@
-
-
-
 const withComments = editor => {
 
   const { isInline } = editor

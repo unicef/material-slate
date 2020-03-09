@@ -1,4 +1,4 @@
-import MaterialEditor from '../helpers/MaterialEditor'
+import MaterialEditor from '../slate/MaterialEditor'
 import { Transforms } from 'slate'
 
 
