@@ -119,8 +119,8 @@ export default function RichEditable({ renderElement, renderLeaf, placeholder, h
     return (
       <Box className={classes.root}>
         <Editable
-          renderElement={props => handleRenderElement(props)}
-          renderLeaf={props => handleRenderLeaf(props)}
+          renderElement={handleRenderElement}
+          renderLeaf={handleRenderLeaf}
           onKeyDown={event => handleOnKeyDown(event)}
           placeholder={placeholder}
         >{children}</Editable>
