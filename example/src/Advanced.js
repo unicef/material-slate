@@ -176,9 +176,12 @@ export default function Advanced() {
           <ButtonSeparator />
           <BulletedListButton />
           <NumberedListButton />
-          <ToolbarButton type="block" format="blockquote" />
 
-          {/*These buttons require actions to be handled as they are not */}
+            {/* Disabled button.
+            you can also use disableOnCollapse and disableOnSelection */}
+          <ToolbarButton type="block" format="blockquote" disabled />
+
+          {/* These two buttons require actions to be handled onMouseDown */}
           <AddCommentButton onMouseDown={(event) => onCustomButtonDown(event)} />
           <EndnoteButton onMouseDown={(event) => onCustomButtonDown(event)} />
         </Toolbar>

@@ -3,7 +3,7 @@ import { useSlate } from 'slate-react'
 import PropTypes from 'prop-types'
 import IconButton  from '@material-ui/core/IconButton'
 import Tooltip from '@material-ui/core/Tooltip'
-import RadioButtonUnchecked from '@material-ui/icons/RadioButtonUnchecked'
+import CropSquareOutlined from '@material-ui/icons/CropSquareOutlined'
 
 /** 
  * ToolbarButton is the base button for the toolbar.  
@@ -12,7 +12,7 @@ import RadioButtonUnchecked from '@material-ui/icons/RadioButtonUnchecked'
  * It displays a tooltip text on hover. If tooltip text is not passed as a prop it will use the capitalized text of the format
  */
 const ToolbarButton = React.forwardRef(
-  ({ tooltip, placement, icon, type, disableOnSelection, disableOnCollapse, format, onMouseDown, isActive, ...rest }, ref) => {
+  ({ tooltip, placement, icon, type, disabled, disableOnSelection, disableOnCollapse, format, onMouseDown, isActive, ...rest }, ref) => {
 
     const editor = useSlate()
 
@@ -52,12 +52,14 @@ const ToolbarButton = React.forwardRef(
       }
       return 
     }
+
+    /**
+     * Contidionally disables the button
+     */
     const isDisabled = () => {
       let disabled = false
       disabled = disableOnSelection ? editor.isSelectionExpanded() : false
       disabled = disableOnCollapse ? editor.isSelectionCollapsed() : disabled 
-
-      console.log('isDisabled', format, disableOnSelection, disableOnCollapse, disabled,'selectionExpanded',editor.isSelectionExpanded())
       return disabled
     }
 
@@ -68,7 +70,7 @@ const ToolbarButton = React.forwardRef(
           ref={ref}
           color={checkIsActive() ? 'secondary' : 'default'}
           onMouseDown={(event) => handleOnMouseDown(event)}
-          disabled={isDisabled()}
+          disabled={disabled || isDisabled()}
           {...rest}
         >
           {icon}
@@ -81,7 +83,7 @@ export default ToolbarButton
 
 ToolbarButton.defaultProps = {
   placement: 'top',
-  icon: <RadioButtonUnchecked />,
+  icon: <CropSquareOutlined />,
   disableOnCollapse: false,
   disableOnSelection: false,
 }
@@ -130,10 +132,15 @@ ToolbarButton.propTypes = {
   isActive: PropTypes.func,
 
   /**
+   * Unconditionally disables the button
+   * 
+   * Disable a button means that the button cannot be clicked (note it is not the opposite of isActive)
+   */
+  disabled: PropTypes.bool,
+  /**
    * If true, disables the button if there is a text selected on the editor. 
    * 
    * Disable a button means that the button cannot be clicked.
-   * ``` <button disabled='"disabled"></button>```
    *
    * Use either disableOnSelection or disableOnCollapse, but not both.
    */
@@ -143,7 +150,6 @@ ToolbarButton.propTypes = {
    * If true, disables the button when  there is no text selected or the editor has no focus.
    *  
    * Disable a button means that button cannot be clicked.
-   * ``` <button disabled='"disabled"></button>```
    * 
    * Use either disableOnSelection or disableOnCollapse, but not both.
    */
