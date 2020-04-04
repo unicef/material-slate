@@ -2,10 +2,11 @@
 import MaterialEditor from '../slate/MaterialEditor'
 import { Range } from 'slate'
 import { Transforms } from 'slate'
+import { Location } from 'slate'
 
 /**
  * 
- * Base plugin for Material Editor.
+ * Base plugin for Material Slate.
  * 
  * All other plugins assume this plugin exists and has been included.
  * 
@@ -75,7 +76,7 @@ const withBase = editor => {
    * Wraps a selection with an argument. If `wrapSelection` is not passed
    * uses current selection
    * 
-   * Upon wraping moves the cursor to the end.
+   * Upon wrapping moves the cursor to the end.
    * 
    * @param {Node} node the node to be added
    * @param {Selection} wrapSelection selection of the text that will be wrapped with the node.
@@ -83,7 +84,7 @@ const withBase = editor => {
    */
   editor.wrapNode = (node, wrapSelection = null ) => {
     
-    //if wrapSelecion is passed => we use it. Use editor selection in other case
+    //if wrapSelection is passed => we use it. Use editor selection in other case
     editor.selection = wrapSelection ?  wrapSelection : editor.selection
      
     // if the node is already wrapped with current node we unwrap it first.
@@ -91,7 +92,10 @@ const withBase = editor => {
       editor.unwrapNode(node.type)
     }
     // if there is no text selected => insert the node.
+    console.log(editor.selection)
+    console.log('isLocation', Location.isLocation(editor.selection))
     if (editor.isCollapsed()) {
+      console.log('is collapsed insertNodes')
       Transforms.insertNodes(editor, node)
     } else {
       //text is selected => add the node
@@ -102,7 +106,7 @@ const withBase = editor => {
   }
 
   /**
-   * Removes the nodes that are not in the list.
+   * Unwraps or removes the nodes that are not in the list.
    * 
    * It will search for all the nodes of `type` in the editor and will keep only
    * the ones in the nodesToKeep.
@@ -140,20 +144,20 @@ const withBase = editor => {
    */
   editor.unwrapNotInList = (type, listOfIds) => {
 
-    // const matcher = n => {
-    //   let condition = (n.type === type) && (! listOfIds.includes(n.id))
-    //   console.log(`matcher ${n.type} ${n.id} ${condition}`)
-    //   return (n.type === type) && (! listOfIds.includes(n.id))
-    // }
-    // Transforms.unwrapNodes(editor, { 
-    //   match: matcher,
-    //   at: [] 
-    // })
+    //  const matcher = n => {
+    //    let condition = (n.type === type) && (! listOfIds.includes(n.id))
+    //    console.log(`matcher ${n.type} ${n.id} ${condition}`)
+    //    return (n.type === type) && (! listOfIds.includes(n.id))
+    //  }
+    //  Transforms.unwrapNodes(editor, { 
+    //    match: matcher,
+    //    at: [] 
+    //  })
     
      Transforms.unwrapNodes(editor, { 
-       match: n => (n.type === type) && (! listOfIds.includes(n.id)),
-       at: [] //Search the whole editor content 
-      })
+      match: n => (n.type === type) && (! listOfIds.includes(n.id)),
+      at: [] //Search the whole editor content 
+     })
   }
   
   /**
@@ -170,6 +174,7 @@ const withBase = editor => {
     const listWithNodes = listWithNodesAndPath.map(item => {
       return item[0]
     })
+    console.log('fondNodesByType ', listWithNodes)
     return listWithNodes
   }
 

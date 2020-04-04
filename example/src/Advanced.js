@@ -49,9 +49,9 @@ export default function Advanced() {
   const [value, setValue] = useState(initialValue)
 
   const editor = useMemo(() => createMaterialEditor(), [])
-  // State variable that handles the dialog that is opened upon clicking the Toolbar/Hoveringbar button
+  // State variable that handles the dialog that is opened upon clicking the Comment Toolbar/HoveringBar button
   const [openCommentDialog, setOpenCommentDialog] = useState(false)
-  // State variable that handles the dialog that is opened upon clicking the Toolbar/Hoveringbar button
+  // State variable that handles the dialog that is opened upon clicking the Endnote Toolbar/HoveringBar button
   const [openEndnoteDialog, setOpenEndnoteDialog] = useState(false)
 
   // External list of comments
@@ -59,11 +59,10 @@ export default function Advanced() {
   // External list of endnotes
   const [endnotes, setEndnotes] = useState([])
 
-  // Handles custom butons click
+  // Handles custom buttons click
   const onCustomButtonDown = ({ event, type, format, editor }) => {
     switch (format) {
       case 'comment':
-        //Setup the dialog
         editor.rememberCurrentSelection()
         setOpenCommentDialog(true)
         return
@@ -86,11 +85,13 @@ export default function Advanced() {
       case 'comment':
         setOpenCommentDialog(false)
         console.log('save Comment:' + dialogValue)
-        const id = new Date().getTime();
-        //see withComments Plugin
-        editor.addComment(id, {body: dialogValue })
+        const comment = {
+            id: new Date().getTime(),
+            body: dialogValue
+        }
+        editor.addComment(comment.id, comment)
         //update the comment array and add comment in editor
-        setComments([...comments, {id: id, body: dialogValue}])
+        setComments([...comments, comment])
         return
       case 'endnote':
         setOpenEndnoteDialog(false)
@@ -113,8 +114,14 @@ export default function Advanced() {
     setComments(newList) 
   }
 
+  const handleDeleteEndnote = endnoteId => {
+    const newList = endnotes.filter(endnote => endnote.id !== endnoteId)
+    console.log('deleteEndnote', newList)
+    setEndnotes(newList) 
+  }
+
   useEffect( () => {
-    console.log('updated comments')
+    console.log('updated comments', comments)
     editor.syncComments(comments)
   } , [comments])
 
@@ -132,6 +139,9 @@ export default function Advanced() {
       case 'comment':
         console.log('render comment', element)
         return  <CommentElement element={element} attributes={attributes}>{children}</CommentElement>
+      case 'endnote':
+        console.log('render endnote', element)
+        return <EndnoteElement element={element} attributes={attributes}>{children}</EndnoteElement>
     }
     return <p {...attributes} {...rest}>{children}</p>
   }, [])
@@ -140,7 +150,7 @@ export default function Advanced() {
     <>
     <Grid container spacing={3}>
       <Grid item sm={8}>
-      <MaterialSlate editor={editor} value={value} onChange={(value) => setValue(value)}>
+      <MaterialSlate editor={editor} value={value} onChange={(value) => setValue(value)} onBlur={() => console.log('blur')}>
         { /* By passing Buttons as children of the Toolbar you can customize it */}
         <Toolbar>
           <BoldButton />
@@ -189,7 +199,10 @@ export default function Advanced() {
       </Grid>
       <Grid>
       <Typography variant='caption'>External Comments List</Typography>
-      <List dense>
+      { comments.length === 0 ? ( 
+      <Typography>No comments</Typography> 
+      ) : (
+        <List dense>
         {comments.map( comment => (
           <ListItem key={comment.id}>
               <ListItemText>{comment.body}</ListItemText> 
@@ -199,7 +212,8 @@ export default function Advanced() {
                 </IconButton>
             </ListItemSecondaryAction>
           </ListItem>))}
-      </List>
+        </List>
+      )}
       <Box marginTop={2}>
         <Typography variant='caption'>External Endnotes List</Typography>
         {endnotes.length === 0 ? 

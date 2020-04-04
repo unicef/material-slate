@@ -24,7 +24,7 @@ const withBlocks = editor => {
       split: true,
     })
 
-    //TODO this cannot be generalized??
+    //TODO cannot this be generalized??
     Transforms.setNodes(editor, {
       type: isActive ? 'paragraph' : isList ? 'list-item' : block,
     })
