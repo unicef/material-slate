@@ -1,6 +1,5 @@
 import React from 'react'
 import { useSlate } from 'slate-react'
-import { Range } from 'slate'
 import ToolbarButton from './ToolbarButton'
 import AddCommentOutlinedIcon from '@material-ui/icons/AddCommentOutlined'
 
