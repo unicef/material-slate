@@ -12,10 +12,14 @@ import RadioButtonUnchecked from '@material-ui/icons/RadioButtonUnchecked'
  * It displays a tooltip text on hover. If tooltip text is not passed as a prop it will use the capitalized text of the format
  */
 const ToolbarButton = React.forwardRef(
-  ({ tooltip, placement, icon, type, format, onMouseDown, isActive, ...props }, ref) => {
+  ({ tooltip, placement, icon, type, disableOnSelection, disableOnCollapse, format, onMouseDown, isActive, ...rest }, ref) => {
 
     const editor = useSlate()
 
+    /**
+     * If no tooltip prop is passed it generates a default based on the format string.
+     * Converts - into spaces and uppercases the first letter of the first word.
+     */
     const defaultTooltip = () => {
       return (format.charAt(0).toUpperCase() + format.substring(1)).replace('-', ' ')
     }
@@ -48,6 +52,14 @@ const ToolbarButton = React.forwardRef(
       }
       return 
     }
+    const isDisabled = () => {
+      let disabled = false
+      disabled = disableOnSelection ? editor.isSelectionExpanded() : false
+      disabled = disableOnCollapse ? editor.isSelectionCollapsed() : disabled 
+
+      console.log('isDisabled', format, disableOnSelection, disableOnCollapse, disabled,'selectionExpanded',editor.isSelectionExpanded())
+      return disabled
+    }
 
     return (
       <Tooltip title={tooltip ? tooltip : defaultTooltip()} placement={placement}>
@@ -56,7 +68,8 @@ const ToolbarButton = React.forwardRef(
           ref={ref}
           color={checkIsActive() ? 'secondary' : 'default'}
           onMouseDown={(event) => handleOnMouseDown(event)}
-          {...props}
+          disabled={isDisabled()}
+          {...rest}
         >
           {icon}
         </IconButton>
@@ -69,6 +82,8 @@ export default ToolbarButton
 ToolbarButton.defaultProps = {
   placement: 'top',
   icon: <RadioButtonUnchecked />,
+  disableOnCollapse: false,
+  disableOnSelection: false,
 }
 
 // PropTypes
@@ -105,10 +120,34 @@ ToolbarButton.propTypes = {
   format: PropTypes.string.isRequired,
 
   /**
+   * 
+   * When a button is active it means the button is highlighted. For example, if in current position of the cursor, 
+   * the text is bold, the bold button should be active.
+   * 
    * isActive is a function that returns true/false to indicate the status of the mark/block.
-   * Set this function if you need to handle anything other than mark or blocks.
+   * Set this function if you need to handle anything other than standard mark or blocks.
    */
   isActive: PropTypes.func,
+
+  /**
+   * If true, disables the button if there is a text selected on the editor. 
+   * 
+   * Disable a button means that the button cannot be clicked.
+   * ``` <button disabled='"disabled"></button>```
+   *
+   * Use either disableOnSelection or disableOnCollapse, but not both.
+   */
+  disableOnSelection: PropTypes.bool,
+
+  /**
+   * If true, disables the button when  there is no text selected or the editor has no focus.
+   *  
+   * Disable a button means that button cannot be clicked.
+   * ``` <button disabled='"disabled"></button>```
+   * 
+   * Use either disableOnSelection or disableOnCollapse, but not both.
+   */
+  disableOnCollapse: PropTypes.bool,
 
   /** 
    * Instance a component. The icon that will be displayed. Typically an icon from @material-ui/icons 
