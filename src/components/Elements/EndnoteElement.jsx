@@ -11,8 +11,15 @@ const useStyles = makeStyles(theme => ({
 const EndnoteElement = ({ element, onClick, attributes, children }) => {
   const classes = useStyles()
   return (
-    <Tooltip title={`${element.data.body}`} >
-      <sup className={classes.root} {...attributes} onClick={(event) => onClick && onClick({ event, element })}>{attributes.number || 'x'} {children}</sup>
+    <Tooltip placement='top' title={`${element.data.body}`} >
+      <sup 
+        className={classes.root} 
+        {...attributes} 
+        onClick={(event) => onClick && onClick({ event, element })}
+        >
+          {element.data.index || 'x'} 
+          {children}
+      </sup>
     </Tooltip>
   )
 }

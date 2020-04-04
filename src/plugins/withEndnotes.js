@@ -1,4 +1,5 @@
 
+import { Editor } from 'slate'
 /**
  * Plugin for handling endnote synced type
  * 
@@ -32,8 +33,28 @@ const withEndnotes = editor => {
       data //any data of the comment will be an attribute.
     } 
     editor.wrapNode(node, editor.selection || editor.rememberedSelection)  
+    return node
   }
   
+  /**
+   * Gets the endnote node previous to this one.
+   * If there is no endnote, returns null
+   */
+  editor.previousEndnoteNode = (endnoteId) => {
+    let previous = null
+    const endnotes = editor.findNodesByType(ENDNOTE_TYPE)
+    for(const endnote of endnotes) {
+      if (endnote.id === endnoteId) {
+        console.log('************************************* previous', previous)
+        break
+      } 
+      previous = endnote
+    
+    }
+    console.log('************************************* previous', previous)
+    return previous
+  }
+
   editor.syncEndnotes= (endnotesToKeep) => {
     editor.syncExternalNodes(ENDNOTE_TYPE, endnotesToKeep, false)
   }

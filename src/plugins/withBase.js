@@ -116,11 +116,24 @@ const withBase = editor => {
    */
   editor.syncExternalNodes = (type, nodesToKeep, unwrap = true) => {
     //extracts the id from the nodes and removes those that are not in the list
+    const listOfIds = nodesToKeep.map( node => node.id)
+    
     if (unwrap) { 
-      editor.unwrapNotInList(type, nodesToKeep.map( node => node.id))
+      editor.unwrapNotInList(type, listOfIds)
     } else {
-      editor.removeNotInList(type, nodesToKeep.map( node => node.id))
+      editor.removeNotInList(type, listOfIds)
     }
+    const nodesToKeepObj = {}
+    //Update values of nodes.data
+    //Create a map by id of the nodes to keep
+    nodesToKeep.forEach(node => nodesToKeepObj[node.id] = node)
+    //Find nodes of this type remaining in the editor
+    const editorNodes = editor.findNodesByType(type)
+    //Update them
+    editorNodes.map(node => {
+      Transforms.setNodes(editor, {data: nodesToKeepObj[node.id]}, {match: n => n.id == node.id, at: []}) 
+    })
+    
   }
   
   /**
