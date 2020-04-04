@@ -19,14 +19,15 @@ import {
   EndnoteButton,
   SimpleDialog,
 
-  CommentElement
+  CommentElement,
+  EndnoteElement
 } from '@unicef/material-ui-slate'
 
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
-import TextField from '@material-ui/core/TextField'
+import Box from '@material-ui/core/Box'
 
 import DeleteOutline from '@material-ui/icons/DeleteOutline'
 import IconButton from '@material-ui/core/IconButton'
@@ -40,7 +41,7 @@ import initialValue from './initialValue'
 /**
  * Example of advanced usage of the editor
  * 
- * It shows an example of comments and endnotes handled as an external list
+ * It shows an example of comments and endnotes handled as external lists
  */
 export default function Advanced() {
 
@@ -93,8 +94,13 @@ export default function Advanced() {
         return
       case 'endnote':
         setOpenEndnoteDialog(false)
-        console.log('save Endnote:' + value)
-        editor.addEndnote(id, {endnote: value})
+        console.log('save Endnote:' + dialogValue)
+        const endnote = {
+          id: new Date().getTime(),
+          body: dialogValue,
+        }
+        editor.addEndnote(endnote.id, endnote)
+        setEndnotes([...endnotes, endnote])
         return
     }
   }
@@ -111,6 +117,13 @@ export default function Advanced() {
     console.log('updated comments')
     editor.syncComments(comments)
   } , [comments])
+
+
+  useEffect( () => {
+    console.log('updated endnotes', endnotes)
+    editor.syncEndnotes(endnotes)
+  } , [endnotes])
+
 
   useEffect( () => {}, [endnotes])
 
@@ -187,6 +200,24 @@ export default function Advanced() {
             </ListItemSecondaryAction>
           </ListItem>))}
       </List>
+      <Box marginTop={2}>
+        <Typography variant='caption'>External Endnotes List</Typography>
+        {endnotes.length === 0 ? 
+        (<Typography>No endnotes</Typography>)
+        : ( 
+          <List dense>
+            {endnotes.map( endnote => (
+              <ListItem key={endnote.id}>
+                  <ListItemText>{endnote.body}</ListItemText> 
+                <ListItemSecondaryAction>
+                  <IconButton edge="end" aria-label="delete" onClick={() => handleDeleteEndnote(endnote.id)}>
+                    <DeleteOutline />
+                    </IconButton>
+                </ListItemSecondaryAction>
+              </ListItem>))}
+          </List>
+        )}
+      </Box>
       </Grid>
     </Grid>
     </>

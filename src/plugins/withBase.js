@@ -14,6 +14,22 @@ import { Transforms } from 'slate'
 const withBase = editor => {
 
   /**
+   * Is the current editor selection a range, that is the focus and the anchor are different?
+   * 
+   * @returns {boolean} true if the current selection is a range.
+   */
+  editor.isSelectionExpanded = () => {
+    return editor.selection ? Range.isExpanded(editor.selection) : false
+  }
+
+  editor.isSelectionCollapsed = () => {
+    return ! editor.isSelectionExpanded()
+  }
+
+  editor.isFocused = () => {
+    return editor.selection === null
+  }
+  /**
    * Unwraps any node of `type` within the current selection.
    * 
    */
@@ -94,14 +110,28 @@ const withBase = editor => {
    * It assumes each item of nodesToKeep has an attribute `id`. This attribute will be the discriminator.  
    * 
    */
-  editor.syncExternalNodes = (type, nodesToKeep) => {
+  editor.syncExternalNodes = (type, nodesToKeep, unwrap = true) => {
     //extracts the id from the nodes and removes those that are not in the list
-    editor.unwrapNotInList(type, nodesToKeep.map( node => node.id))
+    if (unwrap) { 
+      editor.unwrapNotInList(type, nodesToKeep.map( node => node.id))
+    } else {
+      editor.removeNotInList(type, nodesToKeep.map( node => node.id))
+    }
   }
   
   /**
    * 
-   * Removes the nodes of `type` whose ids are not in the provided list
+   */
+  editor.removeNotInList = (type, listOfIds) => {
+    Transforms.removeNodes(editor, { 
+      match: n => (n.type === type) && (! listOfIds.includes(n.id)),
+      at: [] //Search the whole editor content 
+     })
+  }
+
+  /**
+   * 
+   * Unwraps the nodes of `type` whose ids are not in the provided list
    * 
    * It assumes the nodes of `type` have an attribute `id`. The `id` may be a number or string.
    * 
