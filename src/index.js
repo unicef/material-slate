@@ -25,6 +25,7 @@ import AddCommentButton from './components/Buttons/AddCommentButton'
 import EndnoteButton from './components/Buttons/EndnoteButton'
 // Render Elements
 import CommentElement from './components/Elements/CommentElement'
+import EndnoteElement from './components/Elements/EndnoteElement'
 
 
 if (process.env.NODE_ENV !== 'production') {
@@ -55,6 +56,7 @@ export {
     EndnoteButton,
 
     CommentElement,
+    EndnoteElement,
 
     SimpleDialog
 }
