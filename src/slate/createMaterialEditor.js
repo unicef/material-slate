@@ -39,5 +39,6 @@ export default function createMaterialEditor(editorId = "default") {
       )
     )
   )
+  editor.editorId=editorId
   return editor
 }
