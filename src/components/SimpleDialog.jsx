@@ -7,17 +7,26 @@ import DialogTitle from '@material-ui/core/DialogTitle'
 import DialogContent from '@material-ui/core/DialogContent' 
 import DialogActions from '@material-ui/core/DialogActions'
 
+/**
+ * Simple dialog box with a text field and two buttons Cancel and Save.
+ * Three props need to be set: 
+ *  
+ *  1. `onCancel` called when the cancel button is pressed ,
+ *  2. `onSave` called when the save button is pressed 
+ *  3. open, boolean that indicates if the dialog is displayed (true) or not (false)
+ *
+ */
 export default function SimpleDialog({ open, title, label, format, defaultValue, onCancel, onSave, ...props }) {
 
   const [value, setValue] = useState(defaultValue)
 
+  //Calls `onCancel` prop and sets the default value
   const handleOnCancel = (format) => {
     onCancel() 
     setValue(defaultValue)
   }
-
+  // Calls `onSave` prop and sets the default value
   const handleOnSave = (event) => {
-    //TODO validate input
     onSave({format, value})
     setValue(defaultValue)
   }
@@ -48,9 +57,40 @@ export default function SimpleDialog({ open, title, label, format, defaultValue,
   );
 }
 
-// TODO document this
 SimpleDialog.propTypes = {
+  /**
+   * If it is true, it displays the dialog window.
+   */
+  open: PropTypes.bool.isRequired, 
+  /**
+   * Called whe the Cancel button is pressed 
+   */
   onCancel: PropTypes.func.isRequired,
+  /**
+   * Called when the save button is pressed
+   */
   onSave: PropTypes.func.isRequired,
-  open: PropTypes.bool.isRequired
+  
+  /**
+   * Title of the dialog window
+   */
+  title: PropTypes.string,
+
+  /**
+   * Label of the textfield
+   */
+  label: PropTypes.string,
+
+  /**
+   * Format of the element to be added/edited. 
+   * For example: bold, italic, comment, link, endnote
+   * 
+   * Just required if you use the same dialog for different type of nodes.
+   */
+   format: PropTypes.string,
+
+  /**
+   * Default value displayed on the textfield.
+   */
+  defaultValue: PropTypes.string
 };
