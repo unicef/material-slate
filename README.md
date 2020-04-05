@@ -9,6 +9,8 @@ The editor comes with the following functionality:
 - Headers
 - Unordered list
 - Ordered list
+- Strike through
+- Code
 - Comments
 - Endnotes
 
@@ -22,21 +24,28 @@ Because this editor is just a wrapper of Slate, it can be fully extended followi
 In order to extend the components, clone the project and install the dependencies.
 
 ```bash
-git clone https://github.com/unicef/material-ui-texteditor.git
+git clone https://github.com/unicef/material-slate.git
+cd material-slate
 npm install
+npm start
 ```
 
-The following commands are available:
+In another window, we can launch the example app
+```bash
+cd example
+npm start
+```
+
 
 ### `npm start`
 
-Builds the library of components in the `dist`folder.
+Builds the library of components in the `dist` folder.
 
 ```bash
 npm start
 ```
 
-Apart from the [documentation](https://unicef.github.io/material-ui-texteditor/) The package comes with an [example](https://github.com/unicef/material-ui-texteditor/tree/master/example) app - create-react-app - which is useful for testing and running the components.
+Apart from the [documentation](https://unicef.github.io/material-slate/) The package comes with an [example](https://github.com/unicef/material-ui-texteditor/tree/master/example) app - create-react-app - which is useful for testing and running the components.
 
 ```bash
 cd example
@@ -72,7 +81,7 @@ Builds the both example and styleguide for production. Leaves the output in the 
 
 Deploy's the app to the [gh-pages site](https://unicef.github.io/material-ui-richeditor/).
 
-## License
+## License MIT
 Copyright 2020 UNICEF http://www.unicef.org 
 Developed by ICTD, Solutions Center and Support, Digital Tools and Platforms, Custom Applications Team, New York.
 

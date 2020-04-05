@@ -1,12 +1,12 @@
 {
-  "name": "@unicef/material-ui-richeditor",
+  "name": "@unicef/material-slate",
   "version": "0.1.0",
-  "description": "",
+  "description": "Material UI rich text editor based on Slate for react",
   "main": "./dist/index.js",
-  "homepage": "https://unicef.github.io/material-ui-richeditor",
+  "homepage": "https://unicef.github.io/material-slate",
   "repository": {
     "type": "git",
-    "url": "https://github.com/unicef/material-ui-ritcheditor"
+    "url": "https://github.com/unicef/material-slate"
   },
   "scripts": {
     "build": "rollup -c",
@@ -17,9 +17,20 @@
     "deploy": "gh-pages -d gh-pages-build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "editor",
+    "rich text",
+    "text editor",
+    "material-ui",
+    "mui",
+    "slate",
+    "slatejs",
+    "plugin",
+    "rte",
+    "react"
+  ],
+  "author": "UNICEF",
+  "license": "MIT",
   "peerDependencies": {
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
@@ -39,7 +50,6 @@
     "@material-ui/core": "^4.9.2",
     "@material-ui/icons": "^4.9.1",
     "@types/node": "^12.6.8",
-    "@unicef/material-ui": "^0.4.2",
     "babel-core": "^6.26.3",
     "babel-loader": "^8.0.6",
     "babel-plugin-external-helpers": "^6.22.0",
@@ -69,5 +79,8 @@
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.10.3"
+  },
+  "dependencies": {
+    "react-is": "^16.13.0"
   }
 }
