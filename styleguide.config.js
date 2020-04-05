@@ -1,17 +1,19 @@
 const path = require('path')
 const { styles, theme } = require('./styleguide.styles')
 module.exports = {
-  title: 'UNICEF Material UI Text Editor',
+  
+  components: './src/**/[A-Z]*.{js,jsx}',
+  //title: 'UNICEF Material UI Text Editor',
   styles,
   theme,
-  showUsage: true,
+  usageMode: 'expand',
   getComponentPathLine: componentPath => {
     const name = componentPath
       .split('/')
       .pop()
       .split('.js')[0]
 
-    return `import { ${name} } from '@unicef/material-ui-texteditor`
+    return `import { ${name} } from '@unicef/material-slate`
   },
   webpackConfig: {
     module: {
@@ -29,41 +31,5 @@ module.exports = {
         },
       ],
     },
-  },
-  sections: [
-    {
-      name: 'Introduction',
-      sections: [
-        {
-          name: '',
-          content: 'src/docs/Introduction.md',
-        },
-        {
-          name: 'Installation',
-          content: 'src/docs/Installation.md',
-        },
-        {
-          name: 'Usage',
-          content: 'src/docs/Usage.md',
-        },
-        {
-          name: 'Example',
-          external: true,
-          href: 'https://unicef.github.io/material-ui-richeditor/example',
-        },
-      ],
-    },
-    {
-      name: 'Components',
-      components: () => [
-        path.resolve(__dirname, 'src/', 'RichSlate.js'),
-        path.resolve(__dirname, 'src/', 'RichEditable.js'),
-        path.resolve(__dirname, 'src/', 'createRichEditor.js'),
-        path.resolve(__dirname, 'src/components/', 'RichToolbar.js'),
-        path.resolve(__dirname, 'src/components/', 'RichHoverToolbar.js'),
-        path.resolve(__dirname, 'src/components', 'RichSlateButton.js'),
-      ],
-      usageMode: 'expand',
-    },
-  ],
+  } //End Webpack
 }
