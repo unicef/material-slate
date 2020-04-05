@@ -34,8 +34,8 @@ import IconButton from '@material-ui/core/IconButton'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 
-// Initial content of the editor
-import initialValue from './initialValue'
+// Initial contents of the editor
+import initialValue from './advancedInitialValue'
 
 
 /**
@@ -73,6 +73,8 @@ export default function Advanced() {
         editor.rememberCurrentSelection()
         setOpenEndnoteDialog(true)
         return
+      default:
+        console.log('Add a case for format:', format )
     }
   }
 
@@ -126,7 +128,10 @@ export default function Advanced() {
         })
         setEndnotes(newEndnotes2)
         return
-    }
+      default:
+      console.log('Add a case for format:', format )
+      }
+    
   }
 
    // Deletes a comment that is in the comment list
@@ -151,13 +156,13 @@ export default function Advanced() {
     // For each comment in the list it will update the data attribute of the comment
     // It will also unwrap (ie remove) the comments that are in the editor but not in the list.
     editor.syncComments(comments)
-  } , [comments])
+  } , [comments, editor])
 
   // Same as the function above, but for the endnotes
   useEffect( () => {
     console.log('updated endnotes', endnotes)
     editor.syncEndnotes(endnotes)
-  } , [endnotes])
+  } , [endnotes, editor])
 
   // All the basic buttons are handled within the MaterialEditable, but custom toolbar buttons
   // shall be handled in this function.
@@ -169,8 +174,10 @@ export default function Advanced() {
         return  <CommentElement element={element} attributes={attributes}>{children}</CommentElement>
       case 'endnote':
         return <EndnoteElement element={element} attributes={attributes}>{children}</EndnoteElement>
-    }
-    return <p {...attributes} {...rest}>{children}</p>
+      default:
+        return <p {...attributes} {...rest}>{children}</p>
+      }
+    
   }, [])
 
   return (
