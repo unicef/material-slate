@@ -12,10 +12,11 @@ const withMarks = editor => {
    * 
    * @param {String} mark Mark to validate For example: 'bold', 'italic'
    */
-   editor.isMarkActive = mark => {
+  editor.isMarkActive = mark => {
     const marks = MaterialEditor.marks(editor)
     return marks ? marks[mark] === true : false
-    }
+  }
+
   /**
    * Toggles on/off the mark. If the mark exists it is removed and vice versa.
    *   

@@ -1,7 +1,11 @@
 import MaterialEditor from '../slate/MaterialEditor'
 import { Transforms } from 'slate'
 
-
+/**
+ * Simple block handling
+ * 
+ * @param {Editor} editor 
+ */
 const withBlocks = editor => {
   editor.LIST_TYPES = ['numbered-list', 'bulleted-list']
 
@@ -15,6 +19,9 @@ const withBlocks = editor => {
     return !!match
   }
 
+  /**
+   * Toggles the block in the current selection
+   */
   editor.toggleBlock = (block) => {
     const isActive = editor.isBlockActive(block)
     const isList = editor.LIST_TYPES.includes(block)

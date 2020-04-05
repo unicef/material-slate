@@ -23,16 +23,25 @@ const withBase = editor => {
     return editor.selection ? Range.isExpanded(editor.selection) : false
   }
 
+  /**
+   * Returns true if current selection is collapsed, that is there is no selection at all
+   * (the focus and the anchor are the same).
+   * 
+   * @returns {boolean} true if the selection is collapsed
+   */
   editor.isSelectionCollapsed = () => {
     return ! editor.isSelectionExpanded()
   }
 
+  /** 
+   * Is the editor focused?
+   * @returns {boolean} true if the editor has focus. */
   editor.isFocused = () => {
     return editor.selection === null
   }
+
   /**
    * Unwraps any node of `type` within the current selection.
-   * 
    */
   editor.unwrapNode = type => {
     Transforms.unwrapNodes(editor, { match: n => n.type === type })
@@ -137,7 +146,18 @@ const withBase = editor => {
   }
   
   /**
+   * Removes the nodes that are not in the list of Ids
    * 
+   * Nodes of type `type` shall have the attribute/property `id`
+   * 
+   * Example: 
+   * ```
+   * {
+   *    type: `comment`
+   *    id: 30
+   *    data: { ... }
+   *  }
+   * ```
    */
   editor.removeNotInList = (type, listOfIds) => {
     Transforms.removeNodes(editor, { 
@@ -156,16 +176,6 @@ const withBase = editor => {
    * @param {Array} listOfIds Array with the list of ids. Example: [1, 2, 3].
    */
   editor.unwrapNotInList = (type, listOfIds) => {
-
-    //  const matcher = n => {
-    //    let condition = (n.type === type) && (! listOfIds.includes(n.id))
-    //    console.log(`matcher ${n.type} ${n.id} ${condition}`)
-    //    return (n.type === type) && (! listOfIds.includes(n.id))
-    //  }
-    //  Transforms.unwrapNodes(editor, { 
-    //    match: matcher,
-    //    at: [] 
-    //  })
     
      Transforms.unwrapNodes(editor, { 
       match: n => (n.type === type) && (! listOfIds.includes(n.id)),

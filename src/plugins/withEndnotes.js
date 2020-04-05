@@ -10,10 +10,16 @@ const withEndnotes = editor => {
 
   const ENDNOTE_TYPE = 'endnote'
 
+  /**
+   * Overwrite to indicate `endnote` nodes are inline
+   */
   editor.isInline = element => {
     return element.type === ENDNOTE_TYPE ? true : isInline(element)
   }
 
+  /**
+   * Overwrite to indicate `endnote` nodes are void
+   */
   editor.isVoid = element => {
     return element.type === ENDNOTE_TYPE ? true : isVoid(element)
   }
@@ -45,16 +51,25 @@ const withEndnotes = editor => {
     const endnotes = editor.findNodesByType(ENDNOTE_TYPE)
     for(const endnote of endnotes) {
       if (endnote.id === endnoteId) {
-        console.log('************************************* previous', previous)
         break
       } 
       previous = endnote
     
     }
-    console.log('************************************* previous', previous)
     return previous
   }
 
+   /**
+   *  Synchronizes endnotes.
+   * 
+   * It receives a list of endnotes. 
+   *  - Endnotes that are in the editor but not in the list are deleted
+   *  - Endnotes of the endnotes that are in the list are updated.
+   * 
+   * Each endnote is identified by `id` attribute in the node.
+   * 
+   * @param {Array} endnotesToKeep is a list of endnotes objects that have an attribute `id`.
+   */
   editor.syncEndnotes= (endnotesToKeep) => {
     editor.syncExternalNodes(ENDNOTE_TYPE, endnotesToKeep, false)
   }

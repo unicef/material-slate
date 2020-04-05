@@ -3,8 +3,9 @@ const withComments = editor => {
   const { isInline } = editor
 
   const COMMENT_TYPE = 'comment'
+  
   /**
-   * Set comment type not to be a 
+   * Set comment type not to be an inline element
    */
   editor.isInline = element => {
     return element.type === COMMENT_TYPE ? true : isInline(element)
@@ -26,6 +27,17 @@ const withComments = editor => {
     editor.wrapNode(node, editor.selection || editor.rememberedSelection)  
   }
   
+  /**
+   * Synchronizes comments.
+   * 
+   * It receives a list of comments. 
+   *  - Comments that are in the editor but not in the list are deleted
+   *  - Contents of the comments that are in the list are updated.
+   * 
+   * Each comment is identified by `id` attribute in the node.
+   * 
+   * @param {Array} commentsToKeep is a list of comment objects that have an attribute `id`.
+   */
   editor.syncComments = (commentsToKeep) => {
     editor.syncExternalNodes(COMMENT_TYPE, commentsToKeep)
   }
