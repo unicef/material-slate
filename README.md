@@ -60,7 +60,7 @@ Two types of button bars can be added:
 
  Toolbars shall be included within `<MaterialSlate />` component.
 
-### Customize toolbar buttons
+### Select toolbar buttons
 
 By default both toolbars display a predefined set of buttons. To customize the buttons that appear in your toolbar, add the buttons you want as children.
 
@@ -79,7 +79,7 @@ import { BoldButton, ItalicButton } from '@unicef/material-slate'
 
 The complete list of available buttons is in [/src/component/Buttons](https://github.com/unicef/material-slate/tree/master/src/components/Buttons) folder.
 
-# Extend toolbar with custom buttons
+### Extend toolbar with custom buttons
 In order to create your custom behavior you can add a [ToolbarButton](https://unicef.github.io/material-slate/docs/#toolbarbutton) in a toolbar.
 
 The steps 
