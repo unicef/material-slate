@@ -183,7 +183,7 @@ export default function Advanced() {
   return (
     <>
     <Grid container spacing={3}>
-      <Grid item sm={8}>
+      <Grid item sm={6}>
       <MaterialSlate editor={editor} value={value} onChange={(value) => setValue(value)} onBlur={() => console.log('blur')}>
         { /* By passing Buttons as children of the Toolbar you can customize it */}
         <Toolbar>

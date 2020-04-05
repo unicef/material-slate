@@ -14,7 +14,7 @@ const useStyles = makeStyles(theme => ({
     marginLeft: theme.spacing(2),
     paddingLeft: theme.spacing(2)
   },
-  example: {
+  air: {
     margin: theme.spacing(2),
     padding: theme.spacing(2)
   },
@@ -28,27 +28,30 @@ export default function App() {
   return (
     <>
       <Box className={classes.intro}>
-       <Typography variant="h1">UNICEF Material Slate</Typography>
-       <Typography>A simple rich text editor for React that uses Material UI and Slate</Typography>
-       <Typography variant="h4"><a href='https://github.com/unicef/material-slate/'>View on Github</a></Typography>
+        <Typography variant="h1">UNICEF Material Slate</Typography>
+        <Typography>A simple rich text editor for React that uses Material UI and Slate</Typography>
        </Box>
-      <Box className={`${classes.example} ${classes.readable} ` }>
-      <Typography variant="h2">Basic Editor Example</Typography>
-          <a href="https://github.com/unicef/material-slate/blob/master/example/src/Basic.js">View source code</a>
-          <Basic />
+       <Box className={classes.air}>
+        <Typography variant="h4"><a href='https://github.com/unicef/material-slate/'>View README on Github</a></Typography>
+       </Box>
+      <Box className={`${classes.air} ${classes.readable} ` }>
+        <Typography variant="h2">Basic Editor Example</Typography>
+        <a href="https://github.com/unicef/material-slate/blob/master/example/src/Basic.js">View source code</a>
+        <Basic />
       </Box>
 
-      <Box className={`${classes.example} ${classes.readable} ` }>
+      <Box className={`${classes.air} ${classes.readable} ` }>
       <Typography variant="h2">Hover toolbar</Typography>
       <Typography>Toolbar appears on selecting a text</Typography>
           <a href="https://github.com/unicef/material-slate/blob/master/example/src/Hovering.js">View source code</a>
           <Hovering />
       </Box>
 
-      <Box className={classes.example}></Box>
-      <Typography variant="h2">Advanced usage </Typography>
-       <a href="https://github.com/unicef/material-slate/blob/master/example/src/Advanced.js">View source code</a>
-       <Advanced />
+      <Box className={classes.air}>
+        <Typography variant="h2">Advanced usage </Typography>
+        <a href="https://github.com/unicef/material-slate/blob/master/example/src/Advanced.js">View source code</a>
+        <Advanced />
+      </Box>
       </>
    );
 }
