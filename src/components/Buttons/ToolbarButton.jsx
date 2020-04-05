@@ -6,8 +6,8 @@ import Tooltip from '@material-ui/core/Tooltip'
 import CropSquareOutlined from '@material-ui/icons/CropSquareOutlined'
 
 /** 
- * ToolbarButton is the base button for the toolbar.  
- * It requires the 'type' of action to perform and the format that will be added.
+ * ToolbarButton is the base button for any button on the toolbars.  
+ * It requires the `type` of action to perform and the format that will be added.
  * 
  * It displays a tooltip text on hover. If tooltip text is not passed as a prop it will use the capitalized text of the format
  */
@@ -111,7 +111,8 @@ ToolbarButton.propTypes = {
    * `block` to be added to the editor `value` when the button is pressed. For example: `header1`, `numbered-list`...
    *  `renderElement` of the `RichEditable` component will need to handle the actual conversion from mark to HTML/Component on render time.
    * 
-   * If you don't want to add a mark or a block do not set this prop. You can perform the action onMouseDown())
+   * If you don't want to add a mark or a block do not set the prop or use whatever string. 
+   * You can perform the action the button triggers using onMouseDown().
   */
   type: PropTypes.string,
 

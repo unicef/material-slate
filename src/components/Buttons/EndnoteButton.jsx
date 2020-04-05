@@ -2,6 +2,12 @@ import React from 'react'
 import ToolbarButton from './ToolbarButton'
 import CallToActionOutlinedIcon from '@material-ui/icons/CallToActionOutlined'
 
+/**
+ * Toolbar button for adding endnotes
+ * 
+ * @see ToolbarButton
+ */
+
 const EndnoteButton = React.forwardRef(
   (props, ref) => { 
     return (

@@ -2,7 +2,13 @@ import React from 'react'
 import Box from '@material-ui/core/Box'
 import PropTypes from 'prop-types'
 import {useTheme} from '@material-ui/core/styles'
-import { grey } from '@material-ui/core/colors'
+
+/**
+ * Toolbar button separator.
+ * 
+ * Displays an horizontal line. Use it for separating groups of buttons. 
+ * 
+ */
 
 export default function ButtonSeparator({borderColor, ...other}) {
   const theme = useTheme()

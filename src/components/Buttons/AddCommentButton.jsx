@@ -2,6 +2,14 @@ import React from 'react'
 import ToolbarButton from './ToolbarButton'
 import AddCommentOutlinedIcon from '@material-ui/icons/AddCommentOutlined'
 
+/**
+ * Toolbar button for adding comments.
+ * 
+ * The button is disabled on collapse.
+ * 
+ * @see ToolbarButton
+ */
+
 const AddCommentButton = React.forwardRef(
   (props, ref) => {
     return (
