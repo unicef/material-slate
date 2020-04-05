@@ -14,7 +14,7 @@
     "build": "rollup -c",
     "build:docs": "styleguidist build",
     "build:site": "mkdir -p ./site && npm run build:docs && cp -R styleguide/ ./site/docs/ && cd example && npm run build && cp -R build/ ../site/",
-    "deploy": "gh-pages -d site",
+    "deploy": "npm run build:site && gh-pages -d site",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
