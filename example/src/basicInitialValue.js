@@ -1,8 +1,9 @@
+// Initial text content of the editor
 const initialValue = [
   {
     type: 'paragraph',
     children: [
-      { text: 'This is editable ' },
+      { text: 'Basic example. This is editable ' },
       { text: 'rich', bold: true },
       { text: ' text, ' },
       { text: 'much', italic: true },
@@ -31,5 +32,3 @@ const initialValue = [
   }
 ]
 export default initialValue
-
-
