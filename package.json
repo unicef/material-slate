@@ -13,7 +13,7 @@
     "docs": "styleguidist server",
     "build": "rollup -c",
     "build:docs": "styleguidist build",
-    "build:site": "mkdir -p ./site && npm run build:docs && cp -R styleguide/* ./site/ && cd example && npm run build && cp -R build/ ../site/example/",
+    "build:site": "mkdir -p ./site && npm run build:docs && cp -R styleguide/ ./site/docs/ && cd example && npm run build && cp -R build/ ../site/",
     "deploy": "gh-pages -d site",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
