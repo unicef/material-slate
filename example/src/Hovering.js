@@ -6,7 +6,7 @@ import {
   MaterialEditable,
   createMaterialEditor,
   HoveringToolbar
-} from '@unicef/material-ui-slate'
+} from '@unicef/material-slate'
 
 const initialValue = [
   {
