@@ -1,7 +1,7 @@
 {
   "name": "@unicef/material-ui-slate",
   "version": "0.1.0",
-  "description": "",
+  "description": "Material UI rich text editor based on Slate",
   "main": "./dist/index.js",
   "homepage": "https://unicef.github.io/material-ui-slate",
   "repository": {
@@ -17,9 +17,9 @@
     "deploy": "gh-pages -d gh-pages-build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": ["editor", "rich text", "text editor", "material-ui", "mui", "slate", "slatejs", "plugin", "rte"],
+  "author": "UNICEF",
+  "license": "MIT",
   "peerDependencies": {
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
