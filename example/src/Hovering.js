@@ -41,11 +41,15 @@ const initialValue = [
   }
 ]
 
-
-
-export default function Basic() {
-
+/**
+ * Instance of a Material Slate with hovering toolbar, that is, a toolbar that appears only when a text is 
+ * selected and hovering that selection. 
+ */
+export default function Hovering() {
+  // Holds the value of the editor
   const [value, setValue] = useState(initialValue)
+
+  // An instance of material editor. It is an slate editor with a few more functions
   const editor = useMemo(() => createMaterialEditor(), [])
 
   return (

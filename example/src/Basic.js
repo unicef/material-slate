@@ -41,10 +41,14 @@ const initialValue = [
     children: [{ text: 'A wise quote.' }],
   }
 ]
-
+/**
+ * Basic Material Slate example
+ */
 export default function Basic() {
-
+  // Holds the value of the editor
   const [value, setValue] = useState(initialValue)
+  
+  // An instance of material editor. It is an slate editor with a few more functions
   const editor = useMemo(() => createMaterialEditor(), [])
 
   return (
