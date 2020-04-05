@@ -1,9 +1,11 @@
 # Rich Editor
 Rich text editor is a [React](https://reactjs.org) component based on [Slate](https://www.slatejs.org/examples/richtext) with the [Material UI](https://material-ui.com/)look and feel.
 
-## [View demo](https://unicef.github.io/material-ui-richeditor/example/) 
+## [View live demo](https://unicef.github.io/material-slate/) 
 
-The editor comes with the following functionality:
+
+
+The editor comes with the following functionality out of the box:
 - Bold
 - Italic
 - Headers
@@ -19,6 +21,40 @@ Two types of button bars can be added:
  - Hovering (displayed when text is selected)
 
 Because this editor is just a wrapper of Slate, it can be fully extended following the [Slate docs](https://docs.slatejs.org/).
+
+## Usage 
+
+```jsx static
+import React from "react"
+import { useState, useMemo } from "react"
+import {
+  MaterialSlate,
+  MaterialEditable,
+  createMaterialEditor,
+  Toolbar
+} from '@unicef/material-slate' 
+
+//Initial contents of the editor
+import initialValue from './basicInitialValue'
+
+export default function Basic() {
+  // Holds the value of the editor
+  const [value, setValue] = useState({})
+
+  // An instance of material editor. It is an slate editor with a few more functions
+  const editor = useMemo(() => createMaterialEditor(), [])
+
+  return (
+      <MaterialSlate editor={editor} value={value} onChange={(value) => setValue(value)}>
+        <Toolbar />
+        <MaterialEditable />
+      </MaterialSlate>
+  )
+}
+```
+
+## [Reference documentation](https://unicef.github.io/material-slate/) 
+
 
 ## Development
 In order to extend the components, clone the project and install the dependencies.
