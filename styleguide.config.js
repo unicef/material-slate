@@ -3,7 +3,7 @@ const { styles, theme } = require('./styleguide.styles')
 module.exports = {
   
   components: './src/**/[A-Z]*.{js,jsx}',
-  //title: 'UNICEF Material UI Text Editor',
+  title: 'UNICEF Material Slate',
   styles,
   theme,
   usageMode: 'expand',
