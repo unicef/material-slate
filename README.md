@@ -53,7 +53,7 @@ export default function Basic() {
 }
 ```
 
-## [Reference documentation](https://unicef.github.io/material-slate/) 
+## [Reference documentation](https://unicef.github.io/material-slate/docs/) 
 
 
 ## Development
