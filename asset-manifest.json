@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.js": "/material-slate/static/js/main.1bd1fbcf.chunk.js",
-    "main.js.map": "/material-slate/static/js/main.1bd1fbcf.chunk.js.map",
+    "main.js": "/material-slate/static/js/main.3d8f3069.chunk.js",
+    "main.js.map": "/material-slate/static/js/main.3d8f3069.chunk.js.map",
     "runtime-main.js": "/material-slate/static/js/runtime-main.bc327887.js",
     "runtime-main.js.map": "/material-slate/static/js/runtime-main.bc327887.js.map",
-    "static/js/2.83a53a33.chunk.js": "/material-slate/static/js/2.83a53a33.chunk.js",
-    "static/js/2.83a53a33.chunk.js.map": "/material-slate/static/js/2.83a53a33.chunk.js.map",
+    "static/js/2.1f18a87c.chunk.js": "/material-slate/static/js/2.1f18a87c.chunk.js",
+    "static/js/2.1f18a87c.chunk.js.map": "/material-slate/static/js/2.1f18a87c.chunk.js.map",
     "index.html": "/material-slate/index.html",
-    "precache-manifest.000da5214b9194f237420471a93e1367.js": "/material-slate/precache-manifest.000da5214b9194f237420471a93e1367.js",
+    "precache-manifest.8b22abd3c49d7e29c6541cf030bc81a6.js": "/material-slate/precache-manifest.8b22abd3c49d7e29c6541cf030bc81a6.js",
     "service-worker.js": "/material-slate/service-worker.js",
-    "static/js/2.83a53a33.chunk.js.LICENSE.txt": "/material-slate/static/js/2.83a53a33.chunk.js.LICENSE.txt"
+    "static/js/2.1f18a87c.chunk.js.LICENSE.txt": "/material-slate/static/js/2.1f18a87c.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.bc327887.js",
-    "static/js/2.83a53a33.chunk.js",
-    "static/js/main.1bd1fbcf.chunk.js"
+    "static/js/2.1f18a87c.chunk.js",
+    "static/js/main.3d8f3069.chunk.js"
   ]
 }
