@@ -1,9 +1,10 @@
 # Rich Editor
 Rich text editor is a [React](https://reactjs.org) component based on [Slate](https://www.slatejs.org/examples/richtext) with the [Material UI](https://material-ui.com/)look and feel.
 
+
+![Example of material slate](https://raw.githubusercontent.com/unicef/material-slate/master/example/material-slate.gif)
+
 ## [View live demo](https://unicef.github.io/material-slate/) 
-
-
 
 Status: alfa.
 Pending: 
