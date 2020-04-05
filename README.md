@@ -5,24 +5,20 @@ Rich text editor is a [React](https://reactjs.org) component based on [Slate](ht
 
 
 
-The editor comes with the following functionality out of the box:
-- Bold
-- Italic
-- Headers
-- Unordered list
-- Ordered list
-- Strike through
-- Code
-- Comments
-- Endnotes
-
-Two types of button bars can be added:
- - One at the top
- - Hovering (displayed when text is selected)
-
-Because this editor is just a wrapper of Slate, it can be fully extended following the [Slate docs](https://docs.slatejs.org/).
+Status: alfa.
+Pending: 
+- Improve documentation
+- Improve performance
+- Create unit tests
 
 ## Usage 
+
+Install 
+```
+npm install --save @unicef/material-slate
+```
+
+Include the editor in your component
 
 ```jsx static
 import React from "react"
@@ -34,10 +30,7 @@ import {
   Toolbar
 } from '@unicef/material-slate' 
 
-//Initial contents of the editor
-import initialValue from './basicInitialValue'
-
-export default function Basic() {
+export default function MyComponent() {
   // Holds the value of the editor
   const [value, setValue] = useState({})
 
@@ -45,15 +38,54 @@ export default function Basic() {
   const editor = useMemo(() => createMaterialEditor(), [])
 
   return (
-      <MaterialSlate editor={editor} value={value} onChange={(value) => setValue(value)}>
-        <Toolbar />
-        <MaterialEditable />
-      </MaterialSlate>
+    <MaterialSlate editor={editor} value={value} onChange={(value) => setValue(value)}>
+      <Toolbar />
+      <MaterialEditable />
+    </MaterialSlate>
   )
 }
 ```
 
-## [Reference documentation](https://unicef.github.io/material-slate/docs/) 
+### [Reference documentation](https://unicef.github.io/material-slate/docs/) 
+
+Because this editor is just a wrapper of [Slate](https://github.com/ianstormtaylor/slate), it can be fully extended following the [Slate docs](https://docs.slatejs.org/).
+
+[More examples](https://github.com/unicef/material-slate/tree/master/example/src)
+
+### Toolbars
+Two types of button bars can be added:
+ - `<Toolbar />`. Regular button bar that appears at the top
+ - `<HoveringToolbar />`). A toolbar that appears over a selected text. It is displayed only when a text is selected.
+
+ Toolbars shall be included within `<MaterialSlate />` component.
+
+### Customize toolbar buttons
+
+By default both toolbars display a predefined set of buttons. To customize the buttons that appear in your toolbar, add the buttons you want as children.
+
+For example if you want to display only bold and italic buttons: 
+```jsx static
+//...
+import { BoldButton, ItalicButton } from '@unicef/material-slate'
+//...
+
+//...
+<HoveringToolbar >
+  <BoldButton />
+  <ItalicButton />
+</HoveringToolbar>
+``` 
+
+The complete list of available buttons is in [/src/component/Buttons](https://github.com/unicef/material-slate/tree/master/src/components/Buttons) folder.
+
+# Extend toolbar with custom buttons
+In order to create your custom behavior you can add a [ToolbarButton](https://unicef.github.io/material-slate/docs/#toolbarbutton) in a toolbar.
+
+The steps 
+1. Add the customized `ToolbarButton` to the toolbar
+2. Extend `renderElement` 
+
+You have a complete example in [advanced example](https://github.com/unicef/material-slate/blob/master/example/src/Advanced.js)
 
 
 ## Development
@@ -71,7 +103,6 @@ In another window, we can launch the example app
 cd example
 npm start
 ```
-
 
 ### `npm start`
 
