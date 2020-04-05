@@ -17,6 +17,12 @@ const useStyles = makeStyles( theme => ({
   }
   }))
 
+/**
+ * Toolbar that appears on the top of the editor.
+ * 
+ * It accepts any content as children. If no children are set it displays by default the following buttons:
+ * Bold, italic, underline, strike through, code, bulleted list and numbered list
+ */ 
 export default function Toolbar({children, className, ...props}) {
   
   const classes = useStyles()

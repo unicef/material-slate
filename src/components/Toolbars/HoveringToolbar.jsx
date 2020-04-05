@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom'
 
 import { Editor, Range } from 'slate'
 import { ReactEditor, useSlate } from 'slate-react'
+
 import { makeStyles } from '@material-ui/core/styles'
 import Box from '@material-ui/core/Box'
 
@@ -12,8 +13,6 @@ import ItalicButton from '../Buttons/ItalicButton'
 import UnderlinedButton from '../Buttons/UnderlinedButton'
 import StrikethroughButton from '../Buttons/StrikethroughButton'
 import CodeButton from '../Buttons/CodeButton'
-
-
 
 const Portal = ({ children }) => {
   return ReactDOM.createPortal(children, document.body)
@@ -30,8 +29,17 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.grey[200],
     transition: "opacity 0.75s"
   }
-
 }))
+
+/**
+ * A hovering toolbar that is, a toolbar that appears over a selected text, and only when there is 
+ * a selection. 
+ * 
+ * If no children are provided it displays the following buttons:
+ * Bold, italic, underlined, strike through and code.
+ * 
+ * Children will typically be `ToolbarButton`. 
+ */
 export default function HoveringToolbar({ children, className, ...props }) {
 
   const classes = useStyles()
