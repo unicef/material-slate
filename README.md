@@ -1,4 +1,6 @@
 # Rich Editor
+[![npm version](https://badge.fury.io/js/%40unicef%2Fmaterial-slate.svg)](https://badge.fury.io/js/%40unicef%2Fmaterial-slate)
+
 Rich text editor is a [React](https://reactjs.org) component based on [Slate](https://www.slatejs.org/examples/richtext) with the [Material UI](https://material-ui.com/)look and feel.
 
 
