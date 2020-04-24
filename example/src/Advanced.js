@@ -19,6 +19,9 @@ import {
   EndnoteButton,
   SimpleDialog,
 
+  defaultRenderElement,
+  withEndnotes,
+  withComments,
   CommentElement,
   EndnoteElement
 } from '@unicef/material-slate'
@@ -49,7 +52,7 @@ export default function Advanced() {
 
   const [value, setValue] = useState(initialValue)
 
-  const editor = useMemo(() => createMaterialEditor(), [])
+  const editor = useMemo(() => withEndnotes(withComments(createMaterialEditor())), [])
   // Handles the dialog that is opened upon clicking the Comment Toolbar/HoveringBar button
   const [openCommentDialog, setOpenCommentDialog] = useState(false)
   // Handles the dialog that is opened upon clicking the Endnote Toolbar/HoveringBar button
@@ -129,7 +132,7 @@ export default function Advanced() {
         setEndnotes(newEndnotes2)
         return
       default:
-      console.log('Add a case for format:', format )
+      //console.log('Add a case for format:', format )
       }
     
   }
@@ -175,7 +178,7 @@ export default function Advanced() {
       case 'endnote':
         return <EndnoteElement element={element} attributes={attributes}>{children}</EndnoteElement>
       default:
-        return <p {...attributes} {...rest}>{children}</p>
+        return defaultRenderElement({element, children, attributes, ...rest})
       }
     
   }, [])

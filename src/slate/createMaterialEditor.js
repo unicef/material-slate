@@ -6,8 +6,6 @@ import { withHistory } from 'slate-history'
 import withBase from '../plugins/withBase'
 import withMarks  from '../plugins/withMarks'
 import withBlocks from '../plugins/withBlocks'
-import withComments from '../plugins/withComments'
-import withEndnotes from '../plugins/withEndnotes'
 
 /**
  * Creates a RichText editor.
@@ -24,8 +22,6 @@ import withEndnotes from '../plugins/withEndnotes'
  */
 export default function createMaterialEditor(editorId = "default") {
   const editor = 
-  withEndnotes( 
-    withComments(
       withBlocks( 
         withMarks(
           withBase( 
@@ -37,8 +33,6 @@ export default function createMaterialEditor(editorId = "default") {
           )
         )
       )
-    )
-  )
   editor.editorId=editorId
   return editor
 }

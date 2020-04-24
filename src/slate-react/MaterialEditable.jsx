@@ -1,10 +1,12 @@
 import React, { useCallback } from 'react'
 import { Editable, useSlate } from 'slate-react'
+import defaultRenderElement from './defaultRenderElement'
 import PropTypes from 'prop-types'
-import Box from '@material-ui/core/Box'
-import { makeStyles } from '@material-ui/core/styles'
 import isHotkey from 'is-hotkey'
 import { Transforms } from 'slate'
+
+import Box from '@material-ui/core/Box'
+import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -12,7 +14,6 @@ const useStyles = makeStyles(theme => ({
     paddingRight: theme.spacing(1),
     paddingBottom: theme.spacing(1),
     fontFamily: theme.typography.fontFamily
-
   }
 }))
 
@@ -56,23 +57,8 @@ export default function RichEditable({ renderElement, renderLeaf, placeholder, h
   // Define a rendering function based on the element passed to `props`. 
   // Props is deconstructed in the {element, attributes, children, rest (any other prop)
   // We use `useCallback` here to memoize the function for subsequent renders.
-  const handleRenderElement = useCallback(({ element, children, attributes, ...rest }) => {
-    switch (element.type) {
-      case 'block-quote':
-        return <blockquote {...attributes}>{children}</blockquote>
-      case 'bulleted-list':
-        return <ul {...attributes}>{children}</ul>
-      case 'heading-one':
-        return <h1 {...attributes}>{children}</h1>
-      case 'heading-two':
-        return <h2 {...attributes}>{children}</h2>
-      case 'list-item':
-        return <li {...attributes}>{children}</li>
-      case 'numbered-list':
-        return <ol {...attributes}>{children}</ol>
-      default:
-        return renderElement({ element, attributes, children, rest })
-    }
+  const handleRenderElement = useCallback((props) => {
+    return renderElement ? renderElement(props) : defaultRenderElement(props)
   }, [])
 
   const handleRenderLeaf = useCallback(({ leaf, attributes, children, ...rest }) => {
@@ -130,7 +116,6 @@ export default function RichEditable({ renderElement, renderLeaf, placeholder, h
 
   // Specifies the default values for props:
   RichEditable.defaultProps = {
-    renderElement: ({ element, attributes, children, ...rest }) => { return <p {...attributes}>{children}</p> },
     renderLeaf: ({ leaf, attributes, children, ...rest }) => { return <span {...attributes}>{children}</span> },
     placeholder: "Type some text..."
   };
