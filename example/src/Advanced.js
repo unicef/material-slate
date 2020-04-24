@@ -38,7 +38,7 @@ import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 
 // Initial contents of the editor
-import initialValue from './advancedInitialValue'
+import initialValue from './initialValue'
 
 
 /**
@@ -50,7 +50,7 @@ import initialValue from './advancedInitialValue'
  */
 export default function Advanced() {
 
-  const [value, setValue] = useState(initialValue)
+  const [value, setValue] = useState(initialValue())
 
   const editor = useMemo(() => withEndnotes(withComments(createMaterialEditor())), [])
   // Handles the dialog that is opened upon clicking the Comment Toolbar/HoveringBar button
