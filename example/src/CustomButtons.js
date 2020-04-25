@@ -12,6 +12,8 @@ import {
 } from '@unicef/material-slate' 
 
 import FormatColorFillIcon from '@material-ui/icons/FormatColorFill'
+import FormatSizeIcon from '@material-ui/icons/FormatSize';
+
 import { makeStyles } from '@material-ui/core/styles'
 
 //Initial contents of the editor
@@ -22,6 +24,9 @@ const useStyles = makeStyles( theme => ({
     display: 'inline-block',
     backgroundColor: 'yellow',
     color: 'red'
+  },
+  bigger: {
+    fontSize: '125%'
   }
 }))
 
@@ -37,16 +42,33 @@ export default function CustomButtons() {
 
   const classes = useStyles()
 
+  // handles block button renders
   const handleRenderElement = ({ element, children, attributes, ...rest }) => {
+
+    switch (element.type) {
+      case 'bigger':
+        return <p className={classes.bigger} {...attributes}>{children}</p> 
+    }
    
+    // Include a call to defaultRenderElement if you want to include 
     return defaultRenderElement({ element, children, attributes, ...rest })
   }
 
   // Add leaf handler to handle marks
   const handleRenderLeaf = ({leaf, attributes, children, text }) => {
+    //For each mark add a leaf with the same 
     if (leaf.highlighted) {
       children = <span className={classes.highlighted}>{children}</span>
     }
+    //You can also overwrite 
+
+  // Include a call to defaultRenderLeaf if you want to render marks that come out of the box
+  // in material-slate
+  // If you don't want to use them just return this
+  // ```
+  //  return <span {...attributes}>{children}</span> 
+  //
+  // ``` 
   return defaultRenderLeaf({leaf, children, attributes, text})
   }
 
@@ -57,7 +79,12 @@ export default function CustomButtons() {
             List of available buttons is in /src/components/Buttons 
           */}
         <Toolbar >
+          {/* Mark buttons are useful for inline stuff like bold, italic, etc. */}
           <ToolbarButton icon={<FormatColorFillIcon /> } type="mark" format="highlighted" />     
+          {/* Block type buttons are useful for block content such as headings */}
+          <ToolbarButton icon={<FormatSizeIcon />} type="block" format="bigger" />
+
+          
         </Toolbar>
         <MaterialEditable 
         renderElement={handleRenderElement}
