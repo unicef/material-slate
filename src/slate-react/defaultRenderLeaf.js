@@ -8,7 +8,7 @@ import React from 'react'
  * @param {Object} props 
  */
 
-export default function defaultRenderLeaf({ leaf, attributes, children, ...rest }) {
+export default function defaultRenderLeaf({ leaf, attributes, children, text }) {
   if (leaf.bold) {
     children = <strong>{children}</strong>
   }
