@@ -7,7 +7,9 @@ import Box from '@material-ui/core/Box'
 
 import Basic from './Basic'
 import Hovering from './Hovering'
+import CustomButtons from './CustomButtons'
 import Advanced from './Advanced'
+
 
 const useStyles = makeStyles(theme => ({
   intro: {
@@ -45,6 +47,13 @@ export default function App() {
       <Typography>Toolbar appears on selecting a text</Typography>
           <a href="https://github.com/unicef/material-slate/blob/master/example/src/Hovering.js">View source code</a>
           <Hovering />
+      </Box>
+
+      <Box className={`${classes.air} ${classes.readable} ` }>
+      <Typography variant="h2">Custom Buttons</Typography>
+      <Typography>Create custom buttons</Typography>
+          <a href="https://github.com/unicef/material-slate/blob/master/example/src/CustomButtons.js">View source code</a>
+          <CustomButtons />
       </Box>
 
       <Box className={classes.air}>
