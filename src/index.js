@@ -11,6 +11,7 @@ import withEndnotes from './plugins/withEndnotes'
 import MaterialSlate from './slate-react/MaterialSlate'
 import MaterialEditable from './slate-react/MaterialEditable'
 import defaultRenderElement from './slate-react/defaultRenderElement'
+import defaultRenderLeaf from './slate-react/defaultRenderLeaf'
 
 
 //Toolbar and base button components
@@ -48,6 +49,7 @@ export {
     withComments,
     withEndnotes,
     defaultRenderElement,
+    defaultRenderLeaf,    
 
     Toolbar,
     HoveringToolbar,
