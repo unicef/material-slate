@@ -1,8 +1,10 @@
 import { createEditor } from 'slate'
+
+// slate plugins
 import { withReact } from 'slate-react'
 import { withHistory } from 'slate-history'
 
-//Material Editor Plugins
+// Import material editor plugins
 import withBase from '../plugins/withBase'
 import withMarks  from '../plugins/withMarks'
 import withBlocks from '../plugins/withBlocks'
@@ -11,9 +13,9 @@ import withBlocks from '../plugins/withBlocks'
  * Creates a RichText editor.
  * 
  * Includes the following plugins
- *  - withBase
  *  - withBlocks
  *  - withMarks
+ *  - withBase
  *  - withHistory
  *  - withReact
  * 
