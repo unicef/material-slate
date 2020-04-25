@@ -1,21 +1,21 @@
 import { createEditor } from 'slate'
+
+// slate plugins
 import { withReact } from 'slate-react'
 import { withHistory } from 'slate-history'
 
-//Material Editor Plugins
+// Import material editor plugins
 import withBase from '../plugins/withBase'
 import withMarks  from '../plugins/withMarks'
 import withBlocks from '../plugins/withBlocks'
-import withComments from '../plugins/withComments'
-import withEndnotes from '../plugins/withEndnotes'
 
 /**
  * Creates a RichText editor.
  * 
  * Includes the following plugins
- *  - withBase
  *  - withBlocks
  *  - withMarks
+ *  - withBase
  *  - withHistory
  *  - withReact
  * 
@@ -24,8 +24,6 @@ import withEndnotes from '../plugins/withEndnotes'
  */
 export default function createMaterialEditor(editorId = "default") {
   const editor = 
-  withEndnotes( 
-    withComments(
       withBlocks( 
         withMarks(
           withBase( 
@@ -37,8 +35,6 @@ export default function createMaterialEditor(editorId = "default") {
           )
         )
       )
-    )
-  )
   editor.editorId=editorId
   return editor
 }

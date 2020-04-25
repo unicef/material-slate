@@ -3,9 +3,16 @@
 import MaterialEditor from './slate/MaterialEditor'
 import createMaterialEditor from './slate/createMaterialEditor'
 
+//plugins
+import withComments from './plugins/withComments'
+import withEndnotes from './plugins/withEndnotes'
+
 // slate-react package overwrites
 import MaterialSlate from './slate-react/MaterialSlate'
 import MaterialEditable from './slate-react/MaterialEditable'
+import defaultRenderElement from './slate-react/defaultRenderElement'
+import defaultRenderLeaf from './slate-react/defaultRenderLeaf'
+
 
 //Toolbar and base button components
 import Toolbar from './components/Toolbars/Toolbar'
@@ -39,6 +46,10 @@ export {
     MaterialSlate,
     MaterialEditable,
     createMaterialEditor,
+    withComments,
+    withEndnotes,
+    defaultRenderElement,
+    defaultRenderLeaf,    
 
     Toolbar,
     HoveringToolbar,
