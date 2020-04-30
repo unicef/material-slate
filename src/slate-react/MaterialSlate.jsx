@@ -27,7 +27,10 @@ export default function MaterialSlate({
   const classes = useStyles()
   return (
     <Slate value={value} editor={editor} onChange={value => onChange(value)}>
-      <Box className={classes.root} borderRadius="borderRadius">
+      <Box
+        className={`${className} ${classes.root}`}
+        borderRadius="borderRadius"
+      >
         {children}
       </Box>
     </Slate>
@@ -41,4 +44,6 @@ MaterialSlate.propTypes = {
   value: PropTypes.arrayOf(PropTypes.object).isRequired,
   /** Called every time there is a change on the value */
   onChange: PropTypes.func,
+  /** class to override and style the slate  */
+  className: PropTypes.object,
 }
