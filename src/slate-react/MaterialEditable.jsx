@@ -29,6 +29,7 @@ export default function RichEditable({
   hotkeys,
   onHotkey,
   children,
+  ...props
 }) {
   const editor = useSlate()
 
@@ -103,6 +104,7 @@ export default function RichEditable({
         renderLeaf={handleRenderLeaf}
         onKeyDown={event => handleOnKeyDown(event)}
         placeholder={placeholder}
+        {...props}
       >
         {children}
       </Editable>
