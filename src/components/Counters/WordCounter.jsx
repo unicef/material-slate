@@ -1,4 +1,5 @@
 import React from 'react'
+import { useSlate } from 'slate-react'
 import PropTypes from 'prop-types'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
@@ -21,8 +22,12 @@ const useStyles = makeStyles(theme => ({
  *  - When maxWords is undefined, wordsLength = 90 `Ex: 90 words` will be displayed
  * Word counter will be displayed with error color, when wordLength exceeds maxWords
  */
-export default function WordCounter({ wordsLength, maxWords }) {
+export default function WordCounter({ maxWords }) {
   const classes = useStyles()
+  const editor = useSlate()
+  const { children } = editor
+  // Words length
+  const wordsLength = editor.getWordsLength(children)
   // Error based on words length limit
   const errorExceedWordsLimit = wordsLength > maxWords
 
@@ -39,11 +44,6 @@ export default function WordCounter({ wordsLength, maxWords }) {
 }
 
 WordCounter.propTypes = {
-  /**
-   * Number of words in editor
-   * Get wordsLength using `editor.getWordsLength()`
-   */
-  wordsLength: PropTypes.number,
   /**
    * To display maximum words in counter
    *  - If maxWords = 200, wordsLength = 90 `Ex: 90/200 words` will display in the counter

@@ -23,10 +23,6 @@ export default function Counter() {
 
   // An instance of material editor. It is an slate editor with a few more functions
   const editor = useMemo(() => withCounter(createMaterialEditor()), [])
-  // words length
-  const wordsLength = editor.getWordsLength(value)
-  // char length
-  const charLength = editor.getCharLength(value)
 
   return (
     <>
@@ -39,8 +35,8 @@ export default function Counter() {
         <MaterialEditable />
         <Divider />
         <Box display="flex" justifyContent="space-between" mr={1}>
-          <WordCounter wordsLength={wordsLength} maxWords={42} />
-          <CharCounter charLength={charLength} maxChars={200} />
+          <WordCounter maxWords={42} />
+          <CharCounter maxChars={200} />
         </Box>
       </MaterialSlate>
     </>
