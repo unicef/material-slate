@@ -45,5 +45,5 @@ MaterialSlate.propTypes = {
   /** Called every time there is a change on the value */
   onChange: PropTypes.func,
   /** class to override and style the slate  */
-  className: PropTypes.object,
+  className: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
 }
