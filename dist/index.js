@@ -452,44 +452,6 @@ var withBlocks = function withBlocks(editor) {
 };
 
 /**
- *
- * Counter plugin for Material Slate.
- *
- * @param {Editor} editor
- */
-var withCounter = function withCounter(editor) {
-  /**
-   * Returns the chars length
-   */
-  editor.getCharLength = function (nodes) {
-    return nodes.map(function (n) {
-      return slate.Node.string(n);
-    }).join('\n').length;
-  };
-
-  /**
-   * Returns the words length
-   */
-  editor.getWordsLength = function (nodes) {
-    console.log(nodes);
-    return nodes.map(function (n) {
-      return slate.Node.string(n);
-    }).join('\n').split(' ').length;
-  };
-
-  /**
-   * Returns the paragraphs length
-   */
-  editor.getParagraphLength = function (nodes) {
-    return nodes.map(function (n) {
-      return slate.Node.string(n);
-    }).join('\n').split(/\r\n|\r|\n/).length;
-  };
-
-  return editor;
-};
-
-/**
  * Creates a RichText editor.
  *
  * Includes the following plugins
@@ -498,7 +460,6 @@ var withCounter = function withCounter(editor) {
  *  - withBase
  *  - withHistory
  *  - withReact
- *  - withCounter
  *
  * @param {string} editorId Optional unique identifier in case you have more than one editor. Defaults to default.
  * @public
@@ -506,7 +467,7 @@ var withCounter = function withCounter(editor) {
 function createMaterialEditor() {
   var editorId = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'default';
 
-  var editor = withCounter(withBlocks(withMarks(withBase(slateHistory.withHistory(slateReact.withReact(slate.createEditor()))))));
+  var editor = withBlocks(withMarks(withBase(slateHistory.withHistory(slateReact.withReact(slate.createEditor())))));
   editor.editorId = editorId;
   return editor;
 }
@@ -658,6 +619,44 @@ var withEndnotes = function withEndnotes(editor) {
   return editor;
 };
 
+/**
+ *
+ * Counter plugin for Material Slate.
+ *
+ * @param {Editor} editor
+ */
+var withCounter = function withCounter(editor) {
+  /**
+   * Returns the chars length
+   */
+  editor.getCharLength = function (nodes) {
+    return nodes.map(function (n) {
+      return slate.Node.string(n);
+    }).join('\n').length;
+  };
+
+  /**
+   * Returns the words length
+   */
+  editor.getWordsLength = function (nodes) {
+    console.log(nodes);
+    return nodes.map(function (n) {
+      return slate.Node.string(n);
+    }).join('\n').split(' ').length;
+  };
+
+  /**
+   * Returns the paragraphs length
+   */
+  editor.getParagraphLength = function (nodes) {
+    return nodes.map(function (n) {
+      return slate.Node.string(n);
+    }).join('\n').split(/\r\n|\r|\n/).length;
+  };
+
+  return editor;
+};
+
 var useStyles = styles.makeStyles(function (theme) {
   return {
     root: {
@@ -705,7 +704,7 @@ MaterialSlate.propTypes = {
   /** Called every time there is a change on the value */
   onChange: PropTypes.func,
   /** class to override and style the slate  */
-  className: PropTypes.oneOfType([PropTypes.string, PropTypes.object])
+  className: PropTypes.oneOfType([PropTypes.bool, PropTypes.object])
 };
 
 function unwrapExports (x) {
@@ -2142,10 +2141,14 @@ var useStyles$6 = styles.makeStyles(function (theme) {
  * Word counter will be displayed with error color, when wordLength exceeds maxWords
  */
 function WordCounter(_ref) {
-  var wordsLength = _ref.wordsLength,
-      maxWords = _ref.maxWords;
+  var maxWords = _ref.maxWords;
 
   var classes = useStyles$6();
+  var editor = slateReact.useSlate();
+  var children = editor.children;
+  // Words length
+
+  var wordsLength = editor.getWordsLength(children);
   // Error based on words length limit
   var errorExceedWordsLimit = wordsLength > maxWords;
 
@@ -2162,11 +2165,6 @@ function WordCounter(_ref) {
 }
 
 WordCounter.propTypes = {
-  /**
-   * Number of words in editor
-   * Get wordsLength using `editor.getWordsLength()`
-   */
-  wordsLength: PropTypes.number,
   /**
    * To display maximum words in counter
    *  - If maxWords = 200, wordsLength = 90 `Ex: 90/200 words` will display in the counter
@@ -2196,10 +2194,14 @@ var useStyles$7 = styles.makeStyles(function (theme) {
  * Char counter will be displayed with error color, when CharLength exceeds maxChars
  */
 function CharCounter(_ref) {
-  var charLength = _ref.charLength,
-      maxChars = _ref.maxChars;
+  var maxChars = _ref.maxChars;
 
   var classes = useStyles$7();
+  var editor = slateReact.useSlate();
+  var children = editor.children;
+  // Char length
+
+  var charLength = editor.getCharLength(children);
   // Error based on chars length limit
   var errorExceedCharsLimit = charLength > maxChars;
 
@@ -2216,11 +2218,6 @@ function CharCounter(_ref) {
 }
 
 CharCounter.propTypes = {
-  /**
-   * Number of characters in editor
-   * Get charsLength using `editor.getCharLength()`
-   */
-  charLength: PropTypes.number,
   /**
    * To display maximum characters in counter
    * - If maxChars = 200, charLength = 90  `Ex: 90/200 characters` will display in the counter
@@ -2262,5 +2259,6 @@ exports.createMaterialEditor = createMaterialEditor;
 exports.defaultRenderElement = defaultRenderElement;
 exports.defaultRenderLeaf = defaultRenderLeaf;
 exports.withComments = withComments;
+exports.withCounter = withCounter;
 exports.withEndnotes = withEndnotes;
 //# sourceMappingURL=index.js.map
