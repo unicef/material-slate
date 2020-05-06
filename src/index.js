@@ -1,4 +1,3 @@
-
 // slate package overwrites
 import MaterialEditor from './slate/MaterialEditor'
 import createMaterialEditor from './slate/createMaterialEditor'
@@ -12,7 +11,6 @@ import MaterialSlate from './slate-react/MaterialSlate'
 import MaterialEditable from './slate-react/MaterialEditable'
 import defaultRenderElement from './slate-react/defaultRenderElement'
 import defaultRenderLeaf from './slate-react/defaultRenderLeaf'
-
 
 //Toolbar and base button components
 import Toolbar from './components/Toolbars/Toolbar'
@@ -33,43 +31,41 @@ import EndnoteButton from './components/Buttons/EndnoteButton'
 // Render Elements
 import CommentElement from './components/Elements/CommentElement'
 import EndnoteElement from './components/Elements/EndnoteElement'
-
+//Counters
+import WordCounter from './components/Counters/WordCounter'
+import CharCounter from './components/Counters/CharCounter'
 
 if (process.env.NODE_ENV !== 'production') {
-  console.log('MaterialEditor: not in production');
+  console.log('MaterialEditor: not in production')
 } else {
-  console.log('MaterialEditor: production mode');
+  console.log('MaterialEditor: production mode')
 }
 
 export {
-    MaterialEditor,
-    MaterialSlate,
-    MaterialEditable,
-    createMaterialEditor,
-    withComments,
-    withEndnotes,
-    defaultRenderElement,
-    defaultRenderLeaf,    
-
-    Toolbar,
-    HoveringToolbar,
-    
-    ToolbarButton,
-    ButtonSeparator,
-    BoldButton,
-    ItalicButton,
-    StrikethroughButton,
-    CodeButton,
-    UnderlinedButton,
-    BulletedListButton,
-    NumberedListButton,
-    AddCommentButton,
-    EndnoteButton,
-
-    CommentElement,
-    EndnoteElement,
-
-    SimpleDialog
+  MaterialEditor,
+  MaterialSlate,
+  MaterialEditable,
+  createMaterialEditor,
+  withComments,
+  withEndnotes,
+  defaultRenderElement,
+  defaultRenderLeaf,
+  Toolbar,
+  HoveringToolbar,
+  ToolbarButton,
+  ButtonSeparator,
+  BoldButton,
+  ItalicButton,
+  StrikethroughButton,
+  CodeButton,
+  UnderlinedButton,
+  BulletedListButton,
+  NumberedListButton,
+  AddCommentButton,
+  EndnoteButton,
+  CommentElement,
+  EndnoteElement,
+  SimpleDialog,
+  WordCounter,
+  CharCounter,
 }
-
-
