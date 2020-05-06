@@ -7,11 +7,12 @@ import {
   Toolbar,
   WordCounter,
   CharCounter,
+  withCounter,
 } from '@unicef/material-slate'
 import Box from '@material-ui/core/Box'
-
 //Initial contents of the editor
 import initialValue from './initialValue'
+import { Divider } from '@material-ui/core'
 
 /**
  * Words and characters counter example for Material Slate
@@ -21,11 +22,7 @@ export default function Counter() {
   const [value, setValue] = useState(initialValue())
 
   // An instance of material editor. It is an slate editor with a few more functions
-  const editor = useMemo(() => createMaterialEditor(), [])
-  // words length
-  const wordsLength = editor.getWordsLength(value)
-  // char length
-  const charLength = editor.getCharLength(value)
+  const editor = useMemo(() => withCounter(createMaterialEditor()), [])
 
   return (
     <>
@@ -36,11 +33,12 @@ export default function Counter() {
       >
         <Toolbar />
         <MaterialEditable />
+        <Divider />
+        <Box display="flex" justifyContent="space-between" mr={1}>
+          <WordCounter maxWords={42} />
+          <CharCounter maxChars={200} />
+        </Box>
       </MaterialSlate>
-      <Box display="flex" justifyContent="space-between">
-        <WordCounter wordsLength={wordsLength} maxWords={42} />
-        <CharCounter charLength={charLength} maxChars={200} />
-      </Box>
     </>
   )
 }
