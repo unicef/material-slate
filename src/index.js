@@ -5,6 +5,7 @@ import createMaterialEditor from './slate/createMaterialEditor'
 //plugins
 import withComments from './plugins/withComments'
 import withEndnotes from './plugins/withEndnotes'
+import withCounter from './plugins/withCounter'
 
 // slate-react package overwrites
 import MaterialSlate from './slate-react/MaterialSlate'
@@ -68,4 +69,5 @@ export {
   SimpleDialog,
   WordCounter,
   CharCounter,
+  withCounter,
 }
