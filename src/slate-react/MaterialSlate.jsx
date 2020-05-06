@@ -28,7 +28,7 @@ export default function MaterialSlate({
   return (
     <Slate value={value} editor={editor} onChange={value => onChange(value)}>
       <Box
-        className={`${className} ${classes.root}`}
+        className={`${classes.root} ${className}`}
         borderRadius="borderRadius"
       >
         {children}
