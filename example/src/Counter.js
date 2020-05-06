@@ -12,6 +12,7 @@ import {
 import Box from '@material-ui/core/Box'
 //Initial contents of the editor
 import initialValue from './initialValue'
+import { Divider } from '@material-ui/core'
 
 /**
  * Words and characters counter example for Material Slate
@@ -36,11 +37,12 @@ export default function Counter() {
       >
         <Toolbar />
         <MaterialEditable />
+        <Divider />
+        <Box display="flex" justifyContent="space-between" mr={1}>
+          <WordCounter wordsLength={wordsLength} maxWords={42} />
+          <CharCounter charLength={charLength} maxChars={200} />
+        </Box>
       </MaterialSlate>
-      <Box display="flex" justifyContent="space-between">
-        <WordCounter wordsLength={wordsLength} maxWords={42} />
-        <CharCounter charLength={charLength} maxChars={200} />
-      </Box>
     </>
   )
 }
