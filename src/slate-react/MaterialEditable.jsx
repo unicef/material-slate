@@ -77,7 +77,6 @@ export default function RichEditable({
     for (const pressedKeys in allHotkeys) {
       if (isHotkey(pressedKeys, event)) {
         const hotkey = allHotkeys[pressedKeys]
-        //console.log(hotkey)
         event.preventDefault()
         if (hotkey.type === 'mark') {
           editor.toggleMark(hotkey.value)

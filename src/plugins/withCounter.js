@@ -17,7 +17,6 @@ const withCounter = editor => {
    * Returns the words length
    */
   editor.getWordsLength = nodes => {
-    console.log(nodes)
     return nodes
       .map(n => Node.string(n))
       .join('\n')
