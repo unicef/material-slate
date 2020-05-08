@@ -2,7 +2,9 @@
 *~
 .vscode
 node_modules
+dist/*
 site/*
 styleguide
 editor-example/node_modules
+
 
