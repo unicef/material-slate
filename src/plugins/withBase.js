@@ -262,6 +262,13 @@ const withBase = editor => {
     })
   }
 
+  /** Returns selected text from editor */
+  editor.getSelectedText = () => {
+    if (!editor.rememberedSelection) return ''
+    const nodeFragment = Node.fragment(editor, editor.rememberedSelection)
+    return Node.string(nodeFragment[0])
+  }
+
   return editor
 }
 
