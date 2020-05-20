@@ -18,12 +18,11 @@ import {
   AddCommentButton,
   EndnoteButton,
   SimpleDialog,
-
   defaultRenderElement,
   withEndnotes,
   withComments,
   CommentElement,
-  EndnoteElement
+  EndnoteElement,
 } from '@unicef/material-slate'
 
 import List from '@material-ui/core/List'
@@ -40,19 +39,20 @@ import Typography from '@material-ui/core/Typography'
 // Initial contents of the editor
 import initialValue from './initialValue'
 
-
 /**
  * Example of advanced usage of the editor
- * 
+ *
  * It shows how to create an editor that supports inline comments and endnotes, both of them
  * with the possibility to be handled as external lists (ie you can edit or delete comments/endnotes outside
  * the editor and sync them)
  */
 export default function Advanced() {
-
   const [value, setValue] = useState(initialValue())
 
-  const editor = useMemo(() => withEndnotes(withComments(createMaterialEditor())), [])
+  const editor = useMemo(
+    () => withEndnotes(withComments(createMaterialEditor())),
+    []
+  )
   // Handles the dialog that is opened upon clicking the Comment Toolbar/HoveringBar button
   const [openCommentDialog, setOpenCommentDialog] = useState(false)
   // Handles the dialog that is opened upon clicking the Endnote Toolbar/HoveringBar button
@@ -77,7 +77,7 @@ export default function Advanced() {
         setOpenEndnoteDialog(true)
         return
       default:
-        console.log('Add a case for format:', format )
+        console.log('Add a case for format:', format)
     }
   }
 
@@ -98,8 +98,8 @@ export default function Advanced() {
         // In this example we only save the value and an id
         // But we could add user information, date, resolved or not,...
         const comment = {
-            id: new Date().getTime(),
-            body: dialogValue
+          id: new Date().getTime(),
+          body: dialogValue,
         }
         // Adds the comment to the editor.
         // The comment will wrap the selected text when `rememberCurrentSelection()` was called
@@ -113,167 +113,204 @@ export default function Advanced() {
         let endnote = {
           id: new Date().getTime(),
           body: dialogValue,
-          index: -1
+          index: -1,
         }
         // Add the endnote to the editor in the point the cursor was when the button was clicked
         editor.addEndnote(endnote.id, endnote)
         // Update the external list. First get previous endnote in the editor
         const previousNode = editor.previousEndnoteNode(endnote.id)
         // Then get the position of the previous endnote in the endnotes array
-        const position = previousNode ? (endnotes.map(e => (e.id)).indexOf(previousNode.id) + 1) : 0
+        const position = previousNode
+          ? endnotes.map(e => e.id).indexOf(previousNode.id) + 1
+          : 0
         // Add the endnote in the position
         let newEndnotes = [...endnotes]
         newEndnotes.splice(position, 0, endnote)
         // Renumber all endnotes
-        const newEndnotes2 = newEndnotes.map((endnote, index) => { 
+        const newEndnotes2 = newEndnotes.map((endnote, index) => {
           index = index + 1
-          return {...endnote, index}
+          return { ...endnote, index }
         })
         setEndnotes(newEndnotes2)
         return
       default:
       //console.log('Add a case for format:', format )
-      }
-    
+    }
   }
 
-   // Deletes a comment that is in the comment list
+  // Deletes a comment that is in the comment list
   const handleDeleteComment = commentId => {
     const newList = comments.filter(comment => comment.id !== commentId)
     console.log('deleteComment', newList)
-    setComments(newList) 
+    setComments(newList)
   }
 
   // Deletes an endnote that is in the endnote list
   const handleDeleteEndnote = endnoteId => {
     const newList = endnotes.filter(endnote => endnote.id !== endnoteId)
     console.log('deleteEndnote', newList)
-    setEndnotes(newList) 
+    setEndnotes(newList)
   }
 
   // This is a key element of the external lists.
   // Whenever the comment list is changed, this effect is triggered.
-  useEffect( () => {
+  useEffect(() => {
     console.log('updated comments', comments)
     // It syncs the external list with the comments within the editor.
     // For each comment in the list it will update the data attribute of the comment
     // It will also unwrap (ie remove) the comments that are in the editor but not in the list.
     editor.syncComments(comments)
-  } , [comments, editor])
+  }, [comments, editor])
 
   // Same as the function above, but for the endnotes
-  useEffect( () => {
+  useEffect(() => {
     console.log('updated endnotes', endnotes)
     editor.syncEndnotes(endnotes)
-  } , [endnotes, editor])
+  }, [endnotes, editor])
 
   // All the basic buttons are handled within the MaterialEditable, but custom toolbar buttons
   // shall be handled in this function.
   //
   // Always render the children.
-  const handleRenderElement = useCallback(({ element, children, attributes, ...rest }) => {
-    switch (element.type) {
-      case 'comment':
-        return  <CommentElement element={element} attributes={attributes}>{children}</CommentElement>
-      case 'endnote':
-        return <EndnoteElement element={element} attributes={attributes}>{children}</EndnoteElement>
-      default:
-        return defaultRenderElement({element, children, attributes, ...rest})
+  const handleRenderElement = useCallback(
+    ({ element, children, attributes, ...rest }) => {
+      switch (element.type) {
+        case 'comment':
+          return (
+            <CommentElement element={element} attributes={attributes}>
+              {children}
+            </CommentElement>
+          )
+        case 'endnote':
+          return (
+            <EndnoteElement element={element} attributes={attributes}>
+              {children}
+            </EndnoteElement>
+          )
+        default:
+          return defaultRenderElement({
+            element,
+            children,
+            attributes,
+            ...rest,
+          })
       }
-    
-  }, [])
+    },
+    []
+  )
 
   return (
     <>
-    <Grid container spacing={3}>
-      <Grid item sm={6}>
-      <MaterialSlate editor={editor} value={value} onChange={(value) => setValue(value)} onBlur={() => console.log('blur')}>
-        { /* By passing Buttons as children of the Toolbar you can customize it */}
-        <Toolbar>
-          <BoldButton />
-          <ItalicButton />
-          <UnderlinedButton />
-          <StrikethroughButton />
-          <CodeButton />
-          <ButtonSeparator />
-          <BulletedListButton />
-          <NumberedListButton />
+      <Grid container spacing={3}>
+        <Grid item sm={6}>
+          <MaterialSlate
+            editor={editor}
+            value={value}
+            onChange={value => setValue(value)}
+            onBlur={() => console.log('blur')}
+          >
+            {/* By passing Buttons as children of the Toolbar you can customize it */}
+            <Toolbar>
+              <BoldButton />
+              <ItalicButton />
+              <UnderlinedButton />
+              <StrikethroughButton />
+              <CodeButton />
+              <ButtonSeparator />
+              <BulletedListButton />
+              <NumberedListButton />
 
-            {/* Disabled button.
+              {/* Disabled button.
             you can also use disableOnCollapse and disableOnSelection */}
-          <ToolbarButton type="block" format="blockquote" disabled />
+              <ToolbarButton type="block" format="blockquote" disabled />
 
-          {/* These two buttons require actions to be handled onMouseDown */}
-          <AddCommentButton onMouseDown={(event) => onCustomButtonDown(event)} />
-          <EndnoteButton onMouseDown={(event) => onCustomButtonDown(event)} />
-        </Toolbar>
-        <HoveringToolbar>
-          <BoldButton />
-          <ItalicButton />
-          <UnderlinedButton />
-          <StrikethroughButton />
-          <AddCommentButton onMouseDown={(event) => onCustomButtonDown(event)} />
-        </HoveringToolbar>
-        <MaterialEditable
-          renderElement={(props) => handleRenderElement(props)}
-        ></MaterialEditable>
-      </MaterialSlate>
-      <SimpleDialog
-        open={openCommentDialog}
-        title="Add comment"
-        label="Comment"
-        defaultValue=''
-        format='comment'
-        onCancel={() => handleDialogCancel()}
-        onSave={({ format, value }) => handleDialogSave(format, value)}
-      />
-      <SimpleDialog
-        open={openEndnoteDialog}
-        title="Add endnote"
-        label="Endnote"
-        defaultValue=''
-        format='endnote'
-        onCancel={() => handleDialogCancel()}
-        onSave={({ format, value }) => handleDialogSave(format, value)}
-      />
-      </Grid>
-      <Grid>
-      <Typography variant='caption'>External Comments List</Typography>
-      { comments.length === 0 ? ( 
-      <Typography>No comments</Typography> 
-      ) : (
-        <List dense>
-        {comments.map( comment => (
-          <ListItem key={comment.id}>
-              <ListItemText>{comment.body}</ListItemText> 
-            <ListItemSecondaryAction>
-              <IconButton edge="end" aria-label="delete" onClick={() => handleDeleteComment(comment.id)}>
-                <DeleteOutline />
-                </IconButton>
-            </ListItemSecondaryAction>
-          </ListItem>))}
-        </List>
-      )}
-      <Box marginTop={2}>
-        <Typography variant='caption'>External Endnotes List</Typography>
-        {endnotes.length === 0 ? 
-        (<Typography>No endnotes</Typography>)
-        : ( 
-          <List dense>
-            {endnotes.map( endnote => (
-              <ListItem key={endnote.id}>
-                  <ListItemText>[{endnote.index}] {endnote.body}</ListItemText> 
-                <ListItemSecondaryAction>
-                  <IconButton edge="end" aria-label="delete" onClick={() => handleDeleteEndnote(endnote.id)}>
-                    <DeleteOutline />
+              {/* These two buttons require actions to be handled onMouseDown */}
+              <AddCommentButton
+                onMouseDown={event => onCustomButtonDown(event)}
+              />
+              <EndnoteButton onMouseDown={event => onCustomButtonDown(event)} />
+            </Toolbar>
+            <HoveringToolbar>
+              <BoldButton />
+              <ItalicButton />
+              <UnderlinedButton />
+              <StrikethroughButton />
+              <AddCommentButton
+                onMouseDown={event => onCustomButtonDown(event)}
+              />
+            </HoveringToolbar>
+            <MaterialEditable
+              renderElement={props => handleRenderElement(props)}
+            ></MaterialEditable>
+          </MaterialSlate>
+          <SimpleDialog
+            open={openCommentDialog}
+            title="Add comment"
+            label="Comment"
+            defaultValue=""
+            format="comment"
+            onCancel={() => handleDialogCancel()}
+            onSave={({ format, value }) => handleDialogSave(format, value)}
+          />
+          <SimpleDialog
+            open={openEndnoteDialog}
+            title="Add endnote"
+            label="Endnote"
+            defaultValue=""
+            format="endnote"
+            onCancel={() => handleDialogCancel()}
+            onSave={({ format, value }) => handleDialogSave(format, value)}
+          />
+        </Grid>
+        <Grid>
+          <Typography variant="caption">External Comments List</Typography>
+          {comments.length === 0 ? (
+            <Typography>No comments</Typography>
+          ) : (
+            <List dense>
+              {comments.map(comment => (
+                <ListItem key={comment.id}>
+                  <ListItemText>{comment.body}</ListItemText>
+                  <ListItemSecondaryAction>
+                    <IconButton
+                      edge="end"
+                      aria-label="delete"
+                      onClick={() => handleDeleteComment(comment.id)}
+                    >
+                      <DeleteOutline />
                     </IconButton>
-                </ListItemSecondaryAction>
-              </ListItem>))}
-          </List>
-        )}
-      </Box>
+                  </ListItemSecondaryAction>
+                </ListItem>
+              ))}
+            </List>
+          )}
+          <Box marginTop={2}>
+            <Typography variant="caption">External Endnotes List</Typography>
+            {endnotes.length === 0 ? (
+              <Typography>No endnotes</Typography>
+            ) : (
+              <List dense>
+                {endnotes.map(endnote => (
+                  <ListItem key={endnote.id}>
+                    <ListItemText>
+                      [{endnote.index}] {endnote.body}
+                    </ListItemText>
+                    <ListItemSecondaryAction>
+                      <IconButton
+                        edge="end"
+                        aria-label="delete"
+                        onClick={() => handleDeleteEndnote(endnote.id)}
+                      >
+                        <DeleteOutline />
+                      </IconButton>
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                ))}
+              </List>
+            )}
+          </Box>
+        </Grid>
       </Grid>
-    </Grid>
     </>
-  );
+  )
 }
