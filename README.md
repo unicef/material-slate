@@ -166,7 +166,7 @@ Publishes the package in npm.
 
 ## Collaborations and support
 
-Just fork the project and make a pull request. You may also [consider donating](https://donate.unicef.org/donate/now)
+Just fork the project and make a pull request. You may also [consider donating](https://donate.unicef.org/donate/now).
 
 
 ## License MIT
