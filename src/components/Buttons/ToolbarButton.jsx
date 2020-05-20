@@ -80,7 +80,18 @@ const ToolbarButton = React.forwardRef(
       return disabled
     }
 
-    return (
+    return disabled || isDisabled() ? (
+      <IconButton
+        aria-label={tooltip ? tooltip : defaultTooltip()}
+        ref={ref}
+        color={checkIsActive() ? 'secondary' : 'default'}
+        onMouseDown={event => handleOnMouseDown(event)}
+        disabled={disabled || isDisabled()}
+        {...rest}
+      >
+        {icon}
+      </IconButton>
+    ) : (
       <Tooltip
         title={tooltip ? tooltip : defaultTooltip()}
         placement={placement}
