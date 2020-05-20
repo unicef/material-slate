@@ -5,4 +5,5 @@ node_modules
 site/*
 styleguide
 editor-example/node_modules
+dist
 
