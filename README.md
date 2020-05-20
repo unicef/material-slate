@@ -156,9 +156,18 @@ Deploys the output of `build:site` in the [gh-pages](https://unicef.github.io/ma
 
 Publishes the package in npm.
 
-## Collaborating
 
-Just fork the project and make a pull request.
+## About UNICEF
+
+[UNICEF](https://www.unicef.org/) works in over 190 countries and territories to protect the rights of every child. UNICEF has spent more than 70 years working to improve the lives of children and their families. In UNICEF, we **believe all children have a right to survive, thrive and fulfill their potential – to the benefit of a better world**.
+
+[Donate](https://donate.unicef.org/donate/now)
+
+
+## Collaborations and support
+
+Just fork the project and make a pull request. You may also [consider donating](https://donate.unicef.org/donate/now)
+
 
 ## License MIT
 Copyright 2020 UNICEF http://www.unicef.org 
