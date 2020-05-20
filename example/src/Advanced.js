@@ -112,7 +112,7 @@ export default function Advanced() {
         console.log('save Endnote:' + dialogValue)
         let endnote = {
           id: new Date().getTime(),
-          body: dialogValue,
+          value: dialogValue,
           index: -1,
         }
         // Add the endnote to the editor in the point the cursor was when the button was clicked
@@ -293,7 +293,7 @@ export default function Advanced() {
                 {endnotes.map(endnote => (
                   <ListItem key={endnote.id}>
                     <ListItemText>
-                      [{endnote.index}] {endnote.body}
+                      [{endnote.index}] {endnote.value}
                     </ListItemText>
                     <ListItemSecondaryAction>
                       <IconButton
