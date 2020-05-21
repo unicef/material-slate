@@ -71,7 +71,7 @@ const ToolbarButton = React.forwardRef(
     }
 
     /**
-     * Contidionally disables the button
+     * Conditionally disables the button
      */
     const isDisabled = () => {
       let disabled = false
