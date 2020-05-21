@@ -17,10 +17,13 @@ const withCounter = editor => {
    * Returns the words length
    */
   editor.getWordsLength = nodes => {
-    return nodes
-      .map(n => Node.string(n))
-      .join('\n')
-      .split(' ').length
+
+    return nodes.map(n => Node.string(n)).join('\n').length !== 0
+      ? nodes
+          .map(n => Node.string(n))
+          .join('\n')
+          .split(' ').length
+      : 0
   }
 
   /**

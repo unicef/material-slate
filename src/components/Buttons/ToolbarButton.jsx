@@ -1,19 +1,33 @@
 import React from 'react'
 import { useSlate } from 'slate-react'
 import PropTypes from 'prop-types'
-import IconButton  from '@material-ui/core/IconButton'
+import IconButton from '@material-ui/core/IconButton'
 import Tooltip from '@material-ui/core/Tooltip'
 import CropSquareOutlined from '@material-ui/icons/CropSquareOutlined'
 
-/** 
- * ToolbarButton is the base button for any button on the toolbars.  
+/**
+ * ToolbarButton is the base button for any button on the toolbars.
  * It requires the `type` of action to perform and the format that will be added.
- * 
+ *
  * It displays a tooltip text on hover. If tooltip text is not passed as a prop it will use the capitalized text of the format
  */
 const ToolbarButton = React.forwardRef(
-  ({ tooltip, placement, icon, type, disabled, disableOnSelection, disableOnCollapse, format, onMouseDown, isActive, ...rest }, ref) => {
-
+  (
+    {
+      tooltip,
+      placement,
+      icon,
+      type,
+      disabled,
+      disableOnSelection,
+      disableOnCollapse,
+      format,
+      onMouseDown,
+      isActive,
+      ...rest
+    },
+    ref
+  ) => {
     const editor = useSlate()
 
     /**
@@ -21,15 +35,18 @@ const ToolbarButton = React.forwardRef(
      * Converts - into spaces and uppercases the first letter of the first word.
      */
     const defaultTooltip = () => {
-      return (format.charAt(0).toUpperCase() + format.substring(1)).replace('-', ' ')
+      return (format.charAt(0).toUpperCase() + format.substring(1)).replace(
+        '-',
+        ' '
+      )
     }
 
-    /** 
-     * Toggles mark| block and forwards the onMouseDown event 
+    /**
+     * Toggles mark| block and forwards the onMouseDown event
      */
-    const handleOnMouseDown = (event) => {
+    const handleOnMouseDown = event => {
       event.preventDefault()
-      switch(type) {
+      switch (type) {
         case 'mark':
           editor.toggleMark(format)
           break
@@ -38,19 +55,19 @@ const ToolbarButton = React.forwardRef(
       }
       onMouseDown && onMouseDown({ editor, format, type, event })
     }
-    
+
     const checkIsActive = () => {
       if (isActive) {
         return isActive()
       }
-      
-      switch(type) {
+
+      switch (type) {
         case 'mark':
           return editor.isMarkActive(format)
         case 'block':
           return editor.isBlockActive(format)
       }
-      return 
+      return
     }
 
     /**
@@ -59,17 +76,31 @@ const ToolbarButton = React.forwardRef(
     const isDisabled = () => {
       let disabled = false
       disabled = disableOnSelection ? editor.isSelectionExpanded() : false
-      disabled = disableOnCollapse ? editor.isSelectionCollapsed() : disabled 
+      disabled = disableOnCollapse ? editor.isSelectionCollapsed() : disabled
       return disabled
     }
 
-    return (
-      <Tooltip title={tooltip ? tooltip : defaultTooltip()} placement={placement}>
+    return disabled || isDisabled() ? (
+      <IconButton
+        aria-label={tooltip ? tooltip : defaultTooltip()}
+        ref={ref}
+        color={checkIsActive() ? 'secondary' : 'default'}
+        onMouseDown={event => handleOnMouseDown(event)}
+        disabled={disabled || isDisabled()}
+        {...rest}
+      >
+        {icon}
+      </IconButton>
+    ) : (
+      <Tooltip
+        title={tooltip ? tooltip : defaultTooltip()}
+        placement={placement}
+      >
         <IconButton
           aria-label={tooltip ? tooltip : defaultTooltip()}
           ref={ref}
           color={checkIsActive() ? 'secondary' : 'default'}
-          onMouseDown={(event) => handleOnMouseDown(event)}
+          onMouseDown={event => handleOnMouseDown(event)}
           disabled={disabled || isDisabled()}
           {...rest}
         >
@@ -77,7 +108,8 @@ const ToolbarButton = React.forwardRef(
         </IconButton>
       </Tooltip>
     )
-  })
+  }
+)
 
 export default ToolbarButton
 
@@ -90,43 +122,43 @@ ToolbarButton.defaultProps = {
 
 // PropTypes
 ToolbarButton.propTypes = {
-  /** 
-   * Text displayed on the button tooltip. By Default it is the capitalized `format` string. 
+  /**
+   * Text displayed on the button tooltip. By Default it is the capitalized `format` string.
    * For instance, `bold` is displayed as `Bold`.
    */
   tooltip: PropTypes.string,
 
-  /** 
-   * Location where the tooltip will appear. 
-   * It can be `top`, `bottom`, `left`, `right`. Defaults to top. 
+  /**
+   * Location where the tooltip will appear.
+   * It can be `top`, `bottom`, `left`, `right`. Defaults to top.
    */
   placement: PropTypes.string,
 
-  /** 
+  /**
    * Toolbar button has the option of adding to the editor value marks and blocks.
-   * 
+   *
    * `mark` can be added to the editor value when you want to add something like `bold`, `italic`...
    *  Marks are rendered into HTML in `renderLeaf` of `MaterialEditable`
-   * 
+   *
    * `block` to be added to the editor `value` when the button is pressed. For example: `header1`, `numbered-list`...
    *  `renderElement` of the `RichEditable` component will need to handle the actual conversion from mark to HTML/Component on render time.
-   * 
-   * If you don't want to add a mark or a block do not set the prop or use whatever string. 
+   *
+   * If you don't want to add a mark or a block do not set the prop or use whatever string.
    * You can perform the action the button triggers using onMouseDown().
-  */
+   */
   type: PropTypes.string,
 
   /**
-   * 
-   * The string that identifies the format of the block or mark to be added. For example: `bold`, `header1`... 
-  */
+   *
+   * The string that identifies the format of the block or mark to be added. For example: `bold`, `header1`...
+   */
   format: PropTypes.string.isRequired,
 
   /**
-   * 
-   * When a button is active it means the button is highlighted. For example, if in current position of the cursor, 
+   *
+   * When a button is active it means the button is highlighted. For example, if in current position of the cursor,
    * the text is bold, the bold button should be active.
-   * 
+   *
    * isActive is a function that returns true/false to indicate the status of the mark/block.
    * Set this function if you need to handle anything other than standard mark or blocks.
    */
@@ -134,13 +166,13 @@ ToolbarButton.propTypes = {
 
   /**
    * Unconditionally disables the button
-   * 
+   *
    * Disable a button means that the button cannot be clicked (note it is not the opposite of isActive)
    */
   disabled: PropTypes.bool,
   /**
-   * If true, disables the button if there is a text selected on the editor. 
-   * 
+   * If true, disables the button if there is a text selected on the editor.
+   *
    * Disable a button means that the button cannot be clicked.
    *
    * Use either disableOnSelection or disableOnCollapse, but not both.
@@ -149,21 +181,20 @@ ToolbarButton.propTypes = {
 
   /**
    * If true, disables the button when  there is no text selected or the editor has no focus.
-   *  
+   *
    * Disable a button means that button cannot be clicked.
-   * 
+   *
    * Use either disableOnSelection or disableOnCollapse, but not both.
    */
   disableOnCollapse: PropTypes.bool,
 
-  /** 
-   * Instance a component. The icon that will be displayed. Typically an icon from @material-ui/icons 
+  /**
+   * Instance a component. The icon that will be displayed. Typically an icon from @material-ui/icons
    */
   icon: PropTypes.object,
 
   /**
    * On mouse down event is passed up to the parent with props that can be deconstructed in {editor, event, mark/block}
    */
-  onMouseDown: PropTypes.func
-
+  onMouseDown: PropTypes.func,
 }
