@@ -1,7 +1,7 @@
 import MaterialEditor from '../slate/MaterialEditor'
 import { Range } from 'slate'
 import { Transforms } from 'slate'
-//import { Location } from 'slate'
+import { Node } from 'slate'
 
 /**
  *

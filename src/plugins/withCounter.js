@@ -10,20 +10,17 @@ const withCounter = editor => {
    * Returns the chars length
    */
   editor.getCharLength = nodes => {
-    return nodes.map(n => Node.string(n)).join('\n').length
+    return editor.serialize(nodes).length
   }
 
   /**
    * Returns the words length
+   * 
    */
   editor.getWordsLength = nodes => {
-
-    return nodes.map(n => Node.string(n)).join('\n').length !== 0
-      ? nodes
-          .map(n => Node.string(n))
-          .join('\n')
-          .split(' ').length
-      : 0
+    const content = editor.serialize(nodes)
+    //Reg exp from https://css-tricks.com/build-word-counter-app/
+    return content.length ? content.match(/\b[-?(\w+)?]+\b/gi).length : 0
   }
 
   /**
