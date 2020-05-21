@@ -1,7 +1,7 @@
 import MaterialEditor from '../slate/MaterialEditor'
 import { Range } from 'slate'
 import { Transforms } from 'slate'
-import { Location } from 'slate'
+//import { Location } from 'slate'
 
 /**
  *
@@ -75,7 +75,7 @@ const withBase = editor => {
    */
   editor.isCollapsed = () => {
     const { selection } = editor
-    console.log('selection', selection)
+    //console.log('selection', selection)
     return selection && Range.isCollapsed(selection)
   }
 
@@ -98,15 +98,15 @@ const withBase = editor => {
       editor.unwrapNode(node.type)
     }
     // if there is no text selected => insert the node.
-    console.log(editor.selection)
-    console.log('isLocation', Location.isLocation(editor.selection))
+    //console.log(editor.selection)
+    //console.log('isLocation', Location.isLocation(editor.selection))
     if (editor.isCollapsed()) {
-      console.log('is collapsed insertNodes')
+      //console.log('is collapsed insertNodes')
       Transforms.insertNodes(editor, node)
     } else {
       //text is selected => add the node
       Transforms.wrapNodes(editor, node, { split: true })
-      console.log('editor', editor.children)
+      //console.log('editor', editor.children)
       Transforms.collapse(editor, { edge: 'end' })
     }
   }
@@ -196,7 +196,7 @@ const withBase = editor => {
     const listWithNodes = listWithNodesAndPath.map(item => {
       return item[0]
     })
-    console.log('fondNodesByType ', listWithNodes)
+    //console.log('fondNodesByType ', listWithNodes)
     return listWithNodes
   }
 
