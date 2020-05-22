@@ -146,8 +146,13 @@ export default function Advanced() {
   }
 
   // Deletes an endnote that is in the endnote list
+  // then updates the indexes
   const handleDeleteEndnote = endnoteId => {
-    const newList = endnotes.filter(endnote => endnote.id !== endnoteId)
+    const newList = endnotes.filter(endnote => endnote.id !== endnoteId) 
+      .map((endnote, index) => { //update index
+        index = index + 1
+        return { ...endnote, index }
+      })
     console.log('deleteEndnote', newList)
     setEndnotes(newList)
   }
