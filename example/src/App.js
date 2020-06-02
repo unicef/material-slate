@@ -61,8 +61,8 @@ export default function App() {
       </Box>
 
       <Box className={`${classes.air} ${classes.readable} `}>
-        <Typography variant="h2">Custom Buttons</Typography>
-        <Typography>Create custom buttons</Typography>
+        <Typography variant="h2">Custom Buttons & Styles</Typography>
+        <Typography>Create custom buttons and custom style</Typography>
         <a href="https://github.com/unicef/material-slate/blob/master/example/src/CustomButtons.js">
           View source code
         </a>
