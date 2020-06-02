@@ -7,9 +7,9 @@ function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'defau
 var slate = require('slate');
 var slateReact = require('slate-react');
 var slateHistory = require('slate-history');
-var PropTypes = _interopDefault(require('prop-types'));
 var React = require('react');
 var React__default = _interopDefault(React);
+var PropTypes = _interopDefault(require('prop-types'));
 var Box = _interopDefault(require('@material-ui/core/Box'));
 var styles = require('@material-ui/core/styles');
 var core = require('@material-ui/core');
@@ -123,7 +123,7 @@ var withBase = function withBase(editor) {
    * Is the editor focused?
    * @returns {boolean} true if the editor has focus. */
   editor.isFocused = function () {
-    return editor.selection === null;
+    return slateReact.ReactEditor.isFocused(editor);
   };
 
   /**
@@ -170,8 +170,8 @@ var withBase = function withBase(editor) {
    */
   editor.isCollapsed = function () {
     var selection = editor.selection;
+    //console.log('selection', selection)
 
-    console.log('selection', selection);
     return selection && slate.Range.isCollapsed(selection);
   };
 
@@ -196,15 +196,15 @@ var withBase = function withBase(editor) {
       editor.unwrapNode(node.type);
     }
     // if there is no text selected => insert the node.
-    console.log(editor.selection);
-    console.log('isLocation', slate.Location.isLocation(editor.selection));
+    //console.log(editor.selection)
+    //console.log('isLocation', Location.isLocation(editor.selection))
     if (editor.isCollapsed()) {
-      console.log('is collapsed insertNodes');
+      //console.log('is collapsed insertNodes')
       slate.Transforms.insertNodes(editor, node);
     } else {
       //text is selected => add the node
       slate.Transforms.wrapNodes(editor, node, { split: true });
-      console.log('editor', editor.children);
+      //console.log('editor', editor.children)
       slate.Transforms.collapse(editor, { edge: 'end' });
     }
   };
@@ -304,7 +304,7 @@ var withBase = function withBase(editor) {
     var listWithNodes = listWithNodesAndPath.map(function (item) {
       return item[0];
     });
-    console.log('fondNodesByType ', listWithNodes);
+    //console.log('fondNodesByType ', listWithNodes)
     return listWithNodes;
   };
 
@@ -313,7 +313,7 @@ var withBase = function withBase(editor) {
    */
   editor.serialize = function (nodes) {
     return nodes.map(function (n) {
-      return Node.string(n);
+      return slate.Node.string(n);
     }).join('\n');
   };
 
@@ -630,19 +630,17 @@ var withCounter = function withCounter(editor) {
    * Returns the chars length
    */
   editor.getCharLength = function (nodes) {
-    return nodes.map(function (n) {
-      return slate.Node.string(n);
-    }).join('\n').length;
+    return editor.serialize(nodes).length;
   };
 
   /**
    * Returns the words length
+   * 
    */
   editor.getWordsLength = function (nodes) {
-    console.log(nodes);
-    return nodes.map(function (n) {
-      return slate.Node.string(n);
-    }).join('\n').split(' ').length;
+    var content = editor.serialize(nodes);
+    //Reg exp from https://css-tricks.com/build-word-counter-app/
+    return content.length ? content.match(/\b[-?(\w+)?]+\b/gi).length : 0;
   };
 
   /**
@@ -660,7 +658,18 @@ var withCounter = function withCounter(editor) {
 var useStyles = styles.makeStyles(function (theme) {
   return {
     root: {
-      border: '1px solid'
+      borderRadius: theme.shape.borderRadius,
+      border: '1px solid',
+      borderColor: theme.palette.grey[400],
+      '&:hover': {
+        borderColor: theme.palette.text.primary
+      }
+    },
+    focused: {
+      borderColor: theme.palette.primary.main,
+      '&:hover': {
+        borderColor: theme.palette.primary.main
+      }
     }
   };
 });
@@ -677,20 +686,28 @@ function MaterialSlate(_ref) {
       editor = _ref.editor,
       _onChange = _ref.onChange,
       children = _ref.children,
-      className = _ref.className;
+      className = _ref.className,
+      focusClassName = _ref.focusClassName;
 
   var classes = useStyles();
+
+  var _useState = React.useState(false),
+      _useState2 = slicedToArray(_useState, 2),
+      isFocused = _useState2[0],
+      setIsFocused = _useState2[1];
+
   return React__default.createElement(
-    slateReact.Slate,
-    { value: value, editor: editor, onChange: function onChange(value) {
-        return _onChange(value);
-      } },
+    Box,
+    { onBlur: function onBlur() {
+        return setIsFocused(false);
+      }, onFocus: function onFocus() {
+        return setIsFocused(true);
+      }, className: classes.root + ' ' + (isFocused && (focusClassName ? focusClassName : classes.focused)) + ' ' + className },
     React__default.createElement(
-      Box,
-      {
-        className: classes.root + ' ' + className,
-        borderRadius: 'borderRadius'
-      },
+      slateReact.Slate,
+      { value: value, editor: editor, onChange: function onChange(value) {
+          return _onChange(value);
+        } },
       children
     )
   );
@@ -704,7 +721,9 @@ MaterialSlate.propTypes = {
   /** Called every time there is a change on the value */
   onChange: PropTypes.func,
   /** class to override and style the slate  */
-  className: PropTypes.oneOfType([PropTypes.bool, PropTypes.object])
+  className: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+  /** className to apply when the editor has focus */
+  focusClassName: PropTypes.oneOfType([PropTypes.bool, PropTypes.string])
 };
 
 function unwrapExports (x) {
@@ -1081,7 +1100,7 @@ function defaultRenderLeaf(_ref) {
 
 var useStyles$1 = styles.makeStyles(function (theme) {
   return {
-    root: {
+    editable: {
       paddingLeft: theme.spacing(1),
       paddingRight: theme.spacing(1),
       paddingBottom: theme.spacing(1),
@@ -1094,14 +1113,15 @@ var useStyles$1 = styles.makeStyles(function (theme) {
  * Wrapper of Slate Editable
  *
  */
-function RichEditable(_ref) {
+function MaterialEditable(_ref) {
   var renderElement = _ref.renderElement,
       renderLeaf = _ref.renderLeaf,
       placeholder = _ref.placeholder,
       hotkeys = _ref.hotkeys,
       onHotkey = _ref.onHotkey,
       children = _ref.children,
-      props = objectWithoutProperties(_ref, ['renderElement', 'renderLeaf', 'placeholder', 'hotkeys', 'onHotkey', 'children']);
+      className = _ref.className,
+      props = objectWithoutProperties(_ref, ['renderElement', 'renderLeaf', 'placeholder', 'hotkeys', 'onHotkey', 'children', 'className']);
 
   var editor = slateReact.useSlate();
 
@@ -1164,30 +1184,29 @@ function RichEditable(_ref) {
     }
   };
   return React__default.createElement(
-    Box,
-    { className: classes.root },
-    React__default.createElement(
-      slateReact.Editable,
-      _extends({
-        renderElement: handleRenderElement,
-        renderLeaf: handleRenderLeaf,
-        onKeyDown: function onKeyDown(event) {
-          return handleOnKeyDown(event);
-        },
-        placeholder: placeholder
-      }, props),
-      children
-    )
+    slateReact.Editable,
+    _extends({
+      renderElement: handleRenderElement,
+      renderLeaf: handleRenderLeaf,
+      onKeyDown: function onKeyDown(event) {
+        return handleOnKeyDown(event);
+      },
+      placeholder: placeholder,
+      className: classes.editable + ' ' + className
+    }, props),
+    children
   );
 }
 
 // Specifies the default values for props:
-RichEditable.defaultProps = {
+MaterialEditable.defaultProps = {
   placeholder: 'Type some text...'
 
   // TODO add info about arguments in functions
 
-};RichEditable.propTypes = {
+};MaterialEditable.propTypes = {
+  /** To style and override the existing class  */
+  className: PropTypes.oneOfType(PropTypes.string, PropTypes.object),
   /** Called when an element needs to be rendered */
   renderElement: PropTypes.func,
   /** Called when a leaf needs to be rendered */
@@ -1294,10 +1313,10 @@ exports.default = _default;
 
 var CropSquareOutlined$1 = unwrapExports(CropSquareOutlined);
 
-/** 
- * ToolbarButton is the base button for any button on the toolbars.  
+/**
+ * ToolbarButton is the base button for any button on the toolbars.
  * It requires the `type` of action to perform and the format that will be added.
- * 
+ *
  * It displays a tooltip text on hover. If tooltip text is not passed as a prop it will use the capitalized text of the format
  */
 var ToolbarButton = React__default.forwardRef(function (_ref, ref) {
@@ -1313,7 +1332,6 @@ var ToolbarButton = React__default.forwardRef(function (_ref, ref) {
       isActive = _ref.isActive,
       rest = objectWithoutProperties(_ref, ['tooltip', 'placement', 'icon', 'type', 'disabled', 'disableOnSelection', 'disableOnCollapse', 'format', 'onMouseDown', 'isActive']);
 
-
   var editor = slateReact.useSlate();
 
   /**
@@ -1324,8 +1342,8 @@ var ToolbarButton = React__default.forwardRef(function (_ref, ref) {
     return (format.charAt(0).toUpperCase() + format.substring(1)).replace('-', ' ');
   };
 
-  /** 
-   * Toggles mark| block and forwards the onMouseDown event 
+  /**
+   * Toggles mark| block and forwards the onMouseDown event
    */
   var handleOnMouseDown = function handleOnMouseDown(event) {
     event.preventDefault();
@@ -1354,7 +1372,7 @@ var ToolbarButton = React__default.forwardRef(function (_ref, ref) {
   };
 
   /**
-   * Contidionally disables the button
+   * Conditionally disables the button
    */
   var isDisabled = function isDisabled() {
     var disabled = false;
@@ -1363,9 +1381,24 @@ var ToolbarButton = React__default.forwardRef(function (_ref, ref) {
     return disabled;
   };
 
-  return React__default.createElement(
+  return disabled || isDisabled() ? React__default.createElement(
+    IconButton,
+    _extends({
+      'aria-label': tooltip ? tooltip : defaultTooltip(),
+      ref: ref,
+      color: checkIsActive() ? 'secondary' : 'default',
+      onMouseDown: function onMouseDown(event) {
+        return handleOnMouseDown(event);
+      },
+      disabled: disabled || isDisabled()
+    }, rest),
+    icon
+  ) : React__default.createElement(
     Tooltip,
-    { title: tooltip ? tooltip : defaultTooltip(), placement: placement },
+    {
+      title: tooltip ? tooltip : defaultTooltip(),
+      placement: placement
+    },
     React__default.createElement(
       IconButton,
       _extends({
@@ -1390,43 +1423,43 @@ ToolbarButton.defaultProps = {
 
   // PropTypes
 };ToolbarButton.propTypes = {
-  /** 
-   * Text displayed on the button tooltip. By Default it is the capitalized `format` string. 
+  /**
+   * Text displayed on the button tooltip. By Default it is the capitalized `format` string.
    * For instance, `bold` is displayed as `Bold`.
    */
   tooltip: PropTypes.string,
 
-  /** 
-   * Location where the tooltip will appear. 
-   * It can be `top`, `bottom`, `left`, `right`. Defaults to top. 
+  /**
+   * Location where the tooltip will appear.
+   * It can be `top`, `bottom`, `left`, `right`. Defaults to top.
    */
   placement: PropTypes.string,
 
-  /** 
+  /**
    * Toolbar button has the option of adding to the editor value marks and blocks.
-   * 
+   *
    * `mark` can be added to the editor value when you want to add something like `bold`, `italic`...
    *  Marks are rendered into HTML in `renderLeaf` of `MaterialEditable`
-   * 
+   *
    * `block` to be added to the editor `value` when the button is pressed. For example: `header1`, `numbered-list`...
    *  `renderElement` of the `RichEditable` component will need to handle the actual conversion from mark to HTML/Component on render time.
-   * 
-   * If you don't want to add a mark or a block do not set the prop or use whatever string. 
+   *
+   * If you don't want to add a mark or a block do not set the prop or use whatever string.
    * You can perform the action the button triggers using onMouseDown().
-  */
+   */
   type: PropTypes.string,
 
   /**
-   * 
-   * The string that identifies the format of the block or mark to be added. For example: `bold`, `header1`... 
-  */
+   *
+   * The string that identifies the format of the block or mark to be added. For example: `bold`, `header1`...
+   */
   format: PropTypes.string.isRequired,
 
   /**
-   * 
-   * When a button is active it means the button is highlighted. For example, if in current position of the cursor, 
+   *
+   * When a button is active it means the button is highlighted. For example, if in current position of the cursor,
    * the text is bold, the bold button should be active.
-   * 
+   *
    * isActive is a function that returns true/false to indicate the status of the mark/block.
    * Set this function if you need to handle anything other than standard mark or blocks.
    */
@@ -1434,13 +1467,13 @@ ToolbarButton.defaultProps = {
 
   /**
    * Unconditionally disables the button
-   * 
+   *
    * Disable a button means that the button cannot be clicked (note it is not the opposite of isActive)
    */
   disabled: PropTypes.bool,
   /**
-   * If true, disables the button if there is a text selected on the editor. 
-   * 
+   * If true, disables the button if there is a text selected on the editor.
+   *
    * Disable a button means that the button cannot be clicked.
    *
    * Use either disableOnSelection or disableOnCollapse, but not both.
@@ -1449,15 +1482,15 @@ ToolbarButton.defaultProps = {
 
   /**
    * If true, disables the button when  there is no text selected or the editor has no focus.
-   *  
+   *
    * Disable a button means that button cannot be clicked.
-   * 
+   *
    * Use either disableOnSelection or disableOnCollapse, but not both.
    */
   disableOnCollapse: PropTypes.bool,
 
-  /** 
-   * Instance a component. The icon that will be displayed. Typically an icon from @material-ui/icons 
+  /**
+   * Instance a component. The icon that will be displayed. Typically an icon from @material-ui/icons
    */
   icon: PropTypes.object,
 
@@ -1465,7 +1498,6 @@ ToolbarButton.defaultProps = {
    * On mouse down event is passed up to the parent with props that can be deconstructed in {editor, event, mark/block}
    */
   onMouseDown: PropTypes.func
-
 };
 
 var FormatBold = createCommonjsModule(function (module, exports) {
@@ -2087,12 +2119,12 @@ var useStyles$5 = styles.makeStyles(function (theme) {
 });
 
 /**
- * Displays a super index text with the index number of the endnote. 
+ * Displays a super index text with the index number of the endnote.
  * A tooltip with the content of the endnote is displayed if the user hovers the endnote.
- * 
- * Expects the `element` prop to have `element.data.body` the text of the endnote (string) and
+ *
+ * Expects the `element` prop to have `element.data.value` the text of the endnote (string) and
  * `element.data.index` the index number fo the endnote.
- *  
+ *
  * If `onClick` prop is set it is called if user clicks the tex
  */
 var EndnoteElement = function EndnoteElement(_ref) {
@@ -2104,7 +2136,7 @@ var EndnoteElement = function EndnoteElement(_ref) {
   var classes = useStyles$5();
   return React__default.createElement(
     Tooltip,
-    { placement: 'top', title: '' + element.data.body },
+    { placement: 'top', title: '' + element.data.value },
     React__default.createElement(
       'sup',
       _extends({
@@ -2245,7 +2277,7 @@ exports.EndnoteButton = EndnoteButton;
 exports.EndnoteElement = EndnoteElement;
 exports.HoveringToolbar = HoveringToolbar;
 exports.ItalicButton = ItalicButton;
-exports.MaterialEditable = RichEditable;
+exports.MaterialEditable = MaterialEditable;
 exports.MaterialEditor = MaterialEditor;
 exports.MaterialSlate = MaterialSlate;
 exports.NumberedListButton = NumberedListButton;
