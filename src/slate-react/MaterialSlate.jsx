@@ -5,7 +5,7 @@ import Box from '@material-ui/core/Box'
 import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles(theme => ({
-  slate: {
+  root: {
     border: '1px solid',
     borderColor: 'rgba(0, 0, 0, 0.23)',
     '&:hover': {
@@ -32,7 +32,7 @@ export default function MaterialSlate({
   return (
     <Slate value={value} editor={editor} onChange={value => onChange(value)}>
       <Box
-        className={`${classes.slate} ${className}`}
+        className={`${classes.root} ${className}`}
         borderRadius="borderRadius"
       >
         {children}
