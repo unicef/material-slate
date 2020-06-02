@@ -3,14 +3,13 @@ import { Transforms } from 'slate'
 import { Editable, useSlate } from 'slate-react'
 import PropTypes from 'prop-types'
 import isHotkey from 'is-hotkey'
-import Box from '@material-ui/core/Box'
 import { makeStyles } from '@material-ui/core/styles'
 
 import defaultRenderElement from './defaultRenderElement'
 import defaultRenderLeaf from './defaultRenderLeaf'
 
 const useStyles = makeStyles(theme => ({
-  root: {
+  editable: {
     paddingLeft: theme.spacing(1),
     paddingRight: theme.spacing(1),
     paddingBottom: theme.spacing(1),
@@ -22,13 +21,14 @@ const useStyles = makeStyles(theme => ({
  * Wrapper of Slate Editable
  *
  */
-export default function RichEditable({
+export default function MaterialEditable({
   renderElement,
   renderLeaf,
   placeholder,
   hotkeys,
   onHotkey,
   children,
+  className,
   ...props
 }) {
   const editor = useSlate()
@@ -98,28 +98,29 @@ export default function RichEditable({
     }
   }
   return (
-    <Box className={classes.root}>
-      <Editable
-        renderElement={handleRenderElement}
-        renderLeaf={handleRenderLeaf}
-        onKeyDown={event => handleOnKeyDown(event)}
-        placeholder={placeholder}
-        {...props}
-      >
-        {children}
-      </Editable>
-    </Box>
+    <Editable
+      renderElement={handleRenderElement}
+      renderLeaf={handleRenderLeaf}
+      onKeyDown={event => handleOnKeyDown(event)}
+      placeholder={placeholder}
+      className={`${classes.editable} ${className}`}
+      {...props}
+    >
+      {children}
+    </Editable>
   )
 }
 
 // Specifies the default values for props:
-RichEditable.defaultProps = {
+MaterialEditable.defaultProps = {
   placeholder: 'Type some text...',
 }
 
 // TODO add info about arguments in functions
 
-RichEditable.propTypes = {
+MaterialEditable.propTypes = {
+  /** To style and override the existing class  */
+  className: PropTypes.oneOfType(PropTypes.string, PropTypes.object),
   /** Called when an element needs to be rendered */
   renderElement: PropTypes.func,
   /** Called when a leaf needs to be rendered */
