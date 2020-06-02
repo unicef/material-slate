@@ -40,13 +40,9 @@ export default function MaterialSlate({
   const classes = useStyles()
   const [isFocused, setIsFocused] = useState(false)
   return (
-    <Box onBlur={()=> setIsFocused(false)} onFocus={() => setIsFocused(true)}>
+    <Box onBlur={()=> setIsFocused(false)} onFocus={() => setIsFocused(true)} className={`${classes.root} ${isFocused && classes.focused} ${className}`}>
     <Slate value={value} editor={editor} onChange={value => onChange(value)}>
-      <Box
-        className={`${classes.root} ${isFocused && classes.focused} ${className}`}
-      >
         {children}
-      </Box>
     </Slate>
     </Box>
   )
