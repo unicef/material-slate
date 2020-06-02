@@ -4,11 +4,13 @@ import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import Box from '@material-ui/core/Box'
 
+
 import Basic from './Basic'
 import Hovering from './Hovering'
 import CustomButtons from './CustomButtons'
-import Advanced from './Advanced'
 import Counter from './Counter'
+import ReadOnly from './ReadOnly'
+import Advanced from './Advanced'
 
 const useStyles = makeStyles(theme => ({
   intro: {
@@ -59,8 +61,8 @@ export default function App() {
       </Box>
 
       <Box className={`${classes.air} ${classes.readable} `}>
-        <Typography variant="h2">Custom Buttons</Typography>
-        <Typography>Create custom buttons</Typography>
+        <Typography variant="h2">Custom Buttons & Styles</Typography>
+        <Typography>Create custom buttons and custom style</Typography>
         <a href="https://github.com/unicef/material-slate/blob/master/example/src/CustomButtons.js">
           View source code
         </a>
@@ -73,6 +75,14 @@ export default function App() {
           View source code
         </a>
         <Counter />
+      </Box>
+
+      <Box className={`${classes.air} ${classes.readable} `}>
+        <Typography variant="h2">Read only mode</Typography>
+        <a href="https://github.com/unicef/material-slate/blob/master/example/src/ReadOnly.js">
+          View source code
+        </a>
+        <ReadOnly />
       </Box>
 
       <Box className={classes.air}>

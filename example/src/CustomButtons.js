@@ -27,6 +27,25 @@ const useStyles = makeStyles( theme => ({
   },
   bigger: {
     fontSize: '125%'
+  },
+  customSlate: {
+    backgroundColor: theme.palette.grey[800],
+    color: 'white',
+    borderWidth: 1,
+    borderColor: 'transparent',
+    '&:hover': {
+      borderWidth: 1,
+    }
+  },
+  focused: {
+    borderWidth: 1,
+    borderColor: theme.palette.grey[400],
+    '&:hover': {
+      borderColor: theme.palette.grey[400],
+    }
+  },
+  customEditable: {
+    fontFamily: 'Courier'
   }
 }))
 
@@ -73,7 +92,9 @@ export default function CustomButtons() {
   }
 
   return (
-      <MaterialSlate editor={editor} value={value} onChange={(value) => setValue(value)}>
+      <MaterialSlate editor={editor} value={value} onChange={(value) => setValue(value)} 
+      className={classes.customSlate}
+      focusClassName={classes.focused}>
         {/* By default toolbars display a set of default buttons if no children
             but if childrens are added you have to specified all toolbar buttons
             List of available buttons is in /src/components/Buttons 
@@ -89,6 +110,7 @@ export default function CustomButtons() {
         <MaterialEditable 
         renderElement={handleRenderElement}
         renderLeaf={handleRenderLeaf}
+        className={classes.customEditable}
         />
       </MaterialSlate>
   )
