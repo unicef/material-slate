@@ -15,12 +15,14 @@ const withCounter = editor => {
 
   /**
    * Returns the words length
-   * 
+   *
    */
   editor.getWordsLength = nodes => {
     const content = editor.serialize(nodes)
     //Reg exp from https://css-tricks.com/build-word-counter-app/
-    return content.length ? content.match(/\b[-?(\w+)?]+\b/gi).length : 0
+    return content && content.length
+      ? content.match(/\b[-?(\w+)?]+\b/gi).length
+      : 0
   }
 
   /**
