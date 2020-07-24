@@ -29,6 +29,7 @@ export default function MaterialEditable({
   onHotkey,
   children,
   className,
+  allowHotKeys,
   ...props
 }) {
   const editor = useSlate()
@@ -101,7 +102,7 @@ export default function MaterialEditable({
     <Editable
       renderElement={handleRenderElement}
       renderLeaf={handleRenderLeaf}
-      onKeyDown={event => handleOnKeyDown(event)}
+      onKeyDown={event => allowHotKeys && handleOnKeyDown(event)}
       placeholder={placeholder}
       className={`${classes.editable} ${className}`}
       {...props}
@@ -114,6 +115,7 @@ export default function MaterialEditable({
 // Specifies the default values for props:
 MaterialEditable.defaultProps = {
   placeholder: 'Type some text...',
+  allowHotKeys: true,
 }
 
 // TODO add info about arguments in functions
@@ -136,4 +138,6 @@ MaterialEditable.propTypes = {
    * It has one single argument that can be deconstructed in `{event, editor, hotkey, pressedKeys, allHotkeys}`
    */
   onHotKey: PropTypes.func,
+  /** To allow hot keys in the editor. It is true by default*/
+  allowHotKeys: PropTypes.bool,
 }
