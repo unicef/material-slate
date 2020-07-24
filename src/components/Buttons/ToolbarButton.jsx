@@ -66,6 +66,8 @@ const ToolbarButton = React.forwardRef(
           return editor.isMarkActive(format)
         case 'block':
           return editor.isBlockActive(format)
+        case 'link':
+          return editor.isNodeTypeActive(format)
       }
       return
     }
