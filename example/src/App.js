@@ -3,14 +3,13 @@ import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import Box from '@material-ui/core/Box'
-
-
 import Basic from './Basic'
 import Hovering from './Hovering'
 import CustomButtons from './CustomButtons'
 import Counter from './Counter'
 import ReadOnly from './ReadOnly'
 import Advanced from './Advanced'
+import Link from './Link'
 
 const useStyles = makeStyles(theme => ({
   intro: {
@@ -75,6 +74,14 @@ export default function App() {
           View source code
         </a>
         <Counter />
+      </Box>
+
+      <Box className={`${classes.air} ${classes.readable} `}>
+        <Typography variant="h2">Link Example</Typography>
+        <a href="https://github.com/unicef/material-slate/blob/master/example/src/Link.js">
+          View source code
+        </a>
+        <Link />
       </Box>
 
       <Box className={`${classes.air} ${classes.readable} `}>
