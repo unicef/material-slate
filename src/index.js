@@ -6,6 +6,7 @@ import createMaterialEditor from './slate/createMaterialEditor'
 import withComments from './plugins/withComments'
 import withEndnotes from './plugins/withEndnotes'
 import withCounter from './plugins/withCounter'
+import withLinks from './plugins/withLinks'
 
 // slate-react package overwrites
 import MaterialSlate from './slate-react/MaterialSlate'
@@ -29,6 +30,7 @@ import BulletedListButton from './components/Buttons/BulletedListButton'
 import NumberedListButton from './components/Buttons/NumberedListButton'
 import AddCommentButton from './components/Buttons/AddCommentButton'
 import EndnoteButton from './components/Buttons/EndnoteButton'
+import LinkButton from './components/Buttons/LinkButton'
 // Render Elements
 import CommentElement from './components/Elements/CommentElement'
 import EndnoteElement from './components/Elements/EndnoteElement'
@@ -70,4 +72,6 @@ export {
   WordCounter,
   CharCounter,
   withCounter,
+  withLinks,
+  LinkButton,
 }
