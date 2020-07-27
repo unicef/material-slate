@@ -8,6 +8,7 @@ import {
   WordCounter,
   CharCounter,
   withCounter,
+  defaultHotKeys,
 } from '@unicef/material-slate'
 import Box from '@material-ui/core/Box'
 //Initial contents of the editor
@@ -24,6 +25,19 @@ export default function Counter() {
   // An instance of material editor. It is an slate editor with a few more functions
   const editor = useMemo(() => withCounter(createMaterialEditor()), [])
 
+  // all hot keys, including default and custom hotkeys
+  const allHotKeys = {
+    ...defaultHotKeys,
+    'mod+k': {
+      type: 'mark',
+      value: 'strikethrough',
+    },
+    'mod+h': {
+      type: 'block',
+      value: 'heading-one',
+    },
+  }
+
   return (
     <>
       <MaterialSlate
@@ -32,7 +46,7 @@ export default function Counter() {
         onChange={value => setValue(value)}
       >
         <Toolbar />
-        <MaterialEditable />
+        <MaterialEditable hotkeys={allHotKeys} />
         <Divider />
         <Box display="flex" justifyContent="space-between" mr={1}>
           <WordCounter maxWords={42} />
