@@ -22,19 +22,6 @@ export default function Link() {
   // An instance of material editor. It is an slate editor with a few more functions
   const editor = useMemo(() => withLinks(createMaterialEditor()), [])
 
-  // all hot keys, including default and custom hotkeys
-  const allHotKeys = {
-    ...defaultHotKeys,
-    'mod+x': {
-      type: 'mark',
-      value: 'strikethrough',
-    },
-    'mod+h': {
-      type: 'block',
-      value: 'heading-one',
-    },
-  }
-
   return (
     <>
       <MaterialSlate
@@ -45,7 +32,7 @@ export default function Link() {
         <Toolbar>
           <LinkButton />
         </Toolbar>
-        <MaterialEditable hotkeys={allHotKeys} />
+        <MaterialEditable hotkeys={null} />
       </MaterialSlate>
     </>
   )

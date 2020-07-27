@@ -30,7 +30,6 @@ export default function MaterialEditable({
   onHotkey,
   children,
   className,
-  hotkeys,
   ...props
 }) {
   const editor = useSlate()
