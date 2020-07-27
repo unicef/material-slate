@@ -3,6 +3,7 @@ import { useSlate } from 'slate-react'
 import ToolbarButton from './ToolbarButton'
 import LinkIcon from '@material-ui/icons/Link'
 import SimpleDialog from '../SimpleDialog'
+import { Transforms } from 'slate'
 
 /**
  * Toolbar button for adding links
@@ -11,6 +12,8 @@ import SimpleDialog from '../SimpleDialog'
  */
 export default function LinkButton({ ref, ...props }) {
   const editor = useSlate()
+  typeof editor.insertLink !== 'function' &&
+    console.error('withLinks() is not initialized')
   // Handles the dialog that is opened upon clicking the Link Toolbar/HoveringBar button
   const [openLinkDialog, setOpenLinkDialog] = useState(false)
 

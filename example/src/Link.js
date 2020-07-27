@@ -7,7 +7,6 @@ import {
   Toolbar,
   withLinks,
   LinkButton,
-  defaultHotKeys,
 } from '@unicef/material-slate'
 
 //Initial contents of the editor
