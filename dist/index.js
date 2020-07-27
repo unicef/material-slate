@@ -635,12 +635,12 @@ var withCounter = function withCounter(editor) {
 
   /**
    * Returns the words length
-   * 
+   *
    */
   editor.getWordsLength = function (nodes) {
     var content = editor.serialize(nodes);
     //Reg exp from https://css-tricks.com/build-word-counter-app/
-    return content.length ? content.match(/\b[-?(\w+)?]+\b/gi).length : 0;
+    return content && content.length ? content.match(/\b[-?(\w+)?]+\b/gi).length : 0;
   };
 
   /**
@@ -650,6 +650,40 @@ var withCounter = function withCounter(editor) {
     return nodes.map(function (n) {
       return slate.Node.string(n);
     }).join('\n').split(/\r\n|\r|\n/).length;
+  };
+
+  return editor;
+};
+
+var withLinks = function withLinks(editor) {
+  var isInline = editor.isInline;
+
+  var LINK_TYPE = 'link';
+
+  /**
+   * Set link type not to be an inline element
+   */
+  editor.isInline = function (element) {
+    return element.type === LINK_TYPE ? true : isInline(element);
+  };
+
+  /**
+   * If the editor loses focus upon pressing the `LinkButton`, you need to call
+   * editor.rememberCurrentSelection() before the editor loses the focus
+   */
+  editor.insertLink = function (url) {
+    if (editor.isNodeTypeActive(LINK_TYPE)) {
+      editor.unwrapNode(LINK_TYPE);
+    }
+    // editor selection on link button click
+    var wrapSelection = editor.selection || editor.rememberedSelection;
+    editor.selection = wrapSelection ? wrapSelection : editor.selection;
+    var node = {
+      type: LINK_TYPE,
+      url: url,
+      children: editor.isCollapsed() ? [{ text: url }] : []
+    };
+    editor.wrapNode(node, wrapSelection);
   };
 
   return editor;
@@ -1033,6 +1067,12 @@ function defaultRenderElement(_ref) {
         attributes,
         children
       );
+    case 'link':
+      return React__default.createElement(
+        'a',
+        _extends({}, attributes, { href: element.url }),
+        children
+      );
     default:
       return React__default.createElement(
         'p',
@@ -1098,6 +1138,29 @@ function defaultRenderLeaf(_ref) {
   );
 }
 
+var defaultHotkeys = {
+  'mod+b': {
+    type: 'mark',
+    value: 'bold'
+  },
+  'mod+i': {
+    type: 'mark',
+    value: 'italic'
+  },
+  'mod+u': {
+    type: 'mark',
+    value: 'underlined'
+  },
+  'mod+`': {
+    type: 'mark',
+    value: 'code'
+  },
+  'shift+enter': {
+    type: 'newline',
+    value: ''
+  }
+};
+
 var useStyles$1 = styles.makeStyles(function (theme) {
   return {
     editable: {
@@ -1124,31 +1187,6 @@ function MaterialEditable(_ref) {
       props = objectWithoutProperties(_ref, ['renderElement', 'renderLeaf', 'placeholder', 'hotkeys', 'onHotkey', 'children', 'className']);
 
   var editor = slateReact.useSlate();
-
-  var defaultHotKeys = {
-    'mod+b': {
-      type: 'mark',
-      value: 'bold'
-    },
-    'mod+i': {
-      type: 'mark',
-      value: 'italic'
-    },
-    'mod+u': {
-      type: 'mark',
-      value: 'underlined'
-    },
-    'mod+`': {
-      type: 'mark',
-      value: 'code'
-    },
-    'shift+enter': {
-      type: 'newline',
-      value: ''
-    }
-  };
-
-  var allHotkeys = _extends({}, defaultHotKeys, hotkeys);
   var classes = useStyles$1();
 
   // Define a rendering function based on the element passed to `props`.
@@ -1163,9 +1201,9 @@ function MaterialEditable(_ref) {
   }, []);
 
   var handleOnKeyDown = function handleOnKeyDown(event) {
-    for (var pressedKeys in allHotkeys) {
+    for (var pressedKeys in hotkeys) {
       if (isHotkey(pressedKeys, event)) {
-        var hotkey = allHotkeys[pressedKeys];
+        var hotkey = hotkeys[pressedKeys];
         //console.log(hotkey)
         event.preventDefault();
         if (hotkey.type === 'mark') {
@@ -1179,7 +1217,7 @@ function MaterialEditable(_ref) {
           //The following line updates the cursor
           slate.Transforms.move(editor, { distance: 0, unit: 'offset' });
         }
-        return onHotkey && onHotkey({ event: event, editor: editor, hotkey: hotkey, pressedKeys: pressedKeys, allHotkeys: allHotkeys });
+        return onHotkey && onHotkey({ event: event, editor: editor, hotkey: hotkey, pressedKeys: pressedKeys, hotkeys: hotkeys });
       }
     }
   };
@@ -1200,7 +1238,8 @@ function MaterialEditable(_ref) {
 
 // Specifies the default values for props:
 MaterialEditable.defaultProps = {
-  placeholder: 'Type some text...'
+  placeholder: 'Type some text...',
+  hotkeys: defaultHotkeys
 
   // TODO add info about arguments in functions
 
@@ -1215,11 +1254,12 @@ MaterialEditable.defaultProps = {
   placeholder: PropTypes.string,
   /**
    * Additional hotkeys to be added other than default. Object of the form `{'mod+k': {type: 'mark', value: 'italic'}
+   * defaultHotkeys can be disallowed by passing hotkeys as null
    */
   hotkeys: PropTypes.object,
   /**
    * Event tht will be triggered in case a hotkey is detected
-   * It has one single argument that can be deconstructed in `{event, editor, hotkey, pressedKeys, allHotkeys}`
+   * It has one single argument that can be deconstructed in `{event, editor, hotkey, pressedKeys, hotkeys}`
    */
   onHotKey: PropTypes.func
 };
@@ -1367,6 +1407,8 @@ var ToolbarButton = React__default.forwardRef(function (_ref, ref) {
         return editor.isMarkActive(format);
       case 'block':
         return editor.isBlockActive(format);
+      case 'link':
+        return editor.isNodeTypeActive(format);
     }
     return;
   };
@@ -2071,6 +2113,94 @@ var EndnoteButton = React__default.forwardRef(function (props, ref) {
   }, props));
 });
 
+var Link = createCommonjsModule(function (module, exports) {
+
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = interopRequireDefault(React__default);
+
+var _createSvgIcon = interopRequireDefault(createSvgIcon_1);
+
+var _default = (0, _createSvgIcon.default)(_react.default.createElement("path", {
+  d: "M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
+}), 'Link');
+
+exports.default = _default;
+});
+
+var LinkIcon = unwrapExports(Link);
+
+/**
+ * Toolbar button for adding links
+ *
+ * @see ToolbarButton
+ */
+function LinkButton(_ref) {
+  var ref = _ref.ref,
+      props = objectWithoutProperties(_ref, ['ref']);
+
+  var editor = slateReact.useSlate();
+  typeof editor.insertLink !== 'function' && console.error('withLinks() is not initialized');
+  // Handles the dialog that is opened upon clicking the Link Toolbar/HoveringBar button
+
+  var _useState = React.useState(false),
+      _useState2 = slicedToArray(_useState, 2),
+      openLinkDialog = _useState2[0],
+      setOpenLinkDialog = _useState2[1];
+
+  // Handles custom buttons click
+
+
+  var onLinkButtonDown = function onLinkButtonDown(_ref2) {
+    var editor = _ref2.editor;
+
+    // When the dialog box is opened, the focus is lost as well as current selected text.
+    // We need to save it for later on.
+    editor.rememberCurrentSelection();
+    setOpenLinkDialog(true);
+  };
+
+  var handleDialogSave = function handleDialogSave(url) {
+    setOpenLinkDialog(false);
+    // Adds the link to the editor.
+    // The link will wrap the selected text when `rememberCurrentSelection()` was called
+    editor.insertLink(url);
+  };
+
+  return React__default.createElement(
+    React__default.Fragment,
+    null,
+    React__default.createElement(ToolbarButton, _extends({
+      icon: React__default.createElement(LinkIcon, null),
+      type: 'link',
+      tooltip: 'Add link',
+      format: 'link',
+      ref: ref,
+      onMouseDown: function onMouseDown(event) {
+        return onLinkButtonDown(event);
+      }
+    }, props)),
+    React__default.createElement(SimpleDialog, {
+      open: openLinkDialog,
+      title: 'Add Link',
+      label: 'Link',
+      format: 'link',
+      onCancel: function onCancel() {
+        return setOpenLinkDialog(false);
+      },
+      onSave: function onSave(_ref3) {
+        var value = _ref3.value;
+        return handleDialogSave(value);
+      }
+    })
+  );
+}
+
 var useStyles$4 = styles.makeStyles(function (theme) {
   return {
     root: {
@@ -2277,6 +2407,7 @@ exports.EndnoteButton = EndnoteButton;
 exports.EndnoteElement = EndnoteElement;
 exports.HoveringToolbar = HoveringToolbar;
 exports.ItalicButton = ItalicButton;
+exports.LinkButton = LinkButton;
 exports.MaterialEditable = MaterialEditable;
 exports.MaterialEditor = MaterialEditor;
 exports.MaterialSlate = MaterialSlate;
@@ -2288,9 +2419,11 @@ exports.ToolbarButton = ToolbarButton;
 exports.UnderlinedButton = UnderlinedButton;
 exports.WordCounter = WordCounter;
 exports.createMaterialEditor = createMaterialEditor;
+exports.defaultHotkeys = defaultHotkeys;
 exports.defaultRenderElement = defaultRenderElement;
 exports.defaultRenderLeaf = defaultRenderLeaf;
 exports.withComments = withComments;
 exports.withCounter = withCounter;
 exports.withEndnotes = withEndnotes;
+exports.withLinks = withLinks;
 //# sourceMappingURL=index.js.map
