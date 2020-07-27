@@ -7,7 +7,7 @@ import { makeStyles } from '@material-ui/core/styles'
 
 import defaultRenderElement from './defaultRenderElement'
 import defaultRenderLeaf from './defaultRenderLeaf'
-import defaultHotKeys from './defaultHotKeys'
+import defaultHotkeys from './defaultHotkeys'
 
 const useStyles = makeStyles(theme => ({
   editable: {
@@ -86,7 +86,7 @@ export default function MaterialEditable({
 // Specifies the default values for props:
 MaterialEditable.defaultProps = {
   placeholder: 'Type some text...',
-  hotkeys: defaultHotKeys,
+  hotkeys: defaultHotkeys,
 }
 
 // TODO add info about arguments in functions
@@ -102,7 +102,7 @@ MaterialEditable.propTypes = {
   placeholder: PropTypes.string,
   /**
    * Additional hotkeys to be added other than default. Object of the form `{'mod+k': {type: 'mark', value: 'italic'}
-   * defaultHotKeys can be disallowed by passing hotkeys as null
+   * defaultHotkeys can be disallowed by passing hotkeys as null
    */
   hotkeys: PropTypes.object,
   /**

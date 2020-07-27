@@ -1,4 +1,4 @@
-const defaultHotKeys = {
+const defaultHotkeys = {
   'mod+b': {
     type: 'mark',
     value: 'bold',
@@ -20,4 +20,4 @@ const defaultHotKeys = {
     value: '',
   },
 }
-export default defaultHotKeys
+export default defaultHotkeys
