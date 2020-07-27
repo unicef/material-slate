@@ -13,6 +13,7 @@ import MaterialSlate from './slate-react/MaterialSlate'
 import MaterialEditable from './slate-react/MaterialEditable'
 import defaultRenderElement from './slate-react/defaultRenderElement'
 import defaultRenderLeaf from './slate-react/defaultRenderLeaf'
+import defaultHotKeys from './slate-react/defaultHotkeys'
 
 //Toolbar and base button components
 import Toolbar from './components/Toolbars/Toolbar'
@@ -74,4 +75,5 @@ export {
   withCounter,
   withLinks,
   LinkButton,
+  defaultHotKeys,
 }
