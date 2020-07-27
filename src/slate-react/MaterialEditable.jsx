@@ -7,6 +7,7 @@ import { makeStyles } from '@material-ui/core/styles'
 
 import defaultRenderElement from './defaultRenderElement'
 import defaultRenderLeaf from './defaultRenderLeaf'
+import defaultHotKeys from './defaultHotKeys'
 
 const useStyles = makeStyles(theme => ({
   editable: {
@@ -29,38 +30,10 @@ export default function MaterialEditable({
   onHotkey,
   children,
   className,
-  allowHotKeys,
+  hotkeys,
   ...props
 }) {
   const editor = useSlate()
-
-  const defaultHotKeys = {
-    'mod+b': {
-      type: 'mark',
-      value: 'bold',
-    },
-    'mod+i': {
-      type: 'mark',
-      value: 'italic',
-    },
-    'mod+u': {
-      type: 'mark',
-      value: 'underlined',
-    },
-    'mod+`': {
-      type: 'mark',
-      value: 'code',
-    },
-    'shift+enter': {
-      type: 'newline',
-      value: '',
-    },
-  }
-
-  const allHotkeys = {
-    ...defaultHotKeys,
-    ...hotkeys,
-  }
   const classes = useStyles()
 
   // Define a rendering function based on the element passed to `props`.
@@ -75,9 +48,9 @@ export default function MaterialEditable({
   }, [])
 
   const handleOnKeyDown = event => {
-    for (const pressedKeys in allHotkeys) {
+    for (const pressedKeys in hotkeys) {
       if (isHotkey(pressedKeys, event)) {
-        const hotkey = allHotkeys[pressedKeys]
+        const hotkey = hotkeys[pressedKeys]
         //console.log(hotkey)
         event.preventDefault()
         if (hotkey.type === 'mark') {
@@ -92,8 +65,7 @@ export default function MaterialEditable({
           Transforms.move(editor, { distance: 0, unit: 'offset' })
         }
         return (
-          onHotkey &&
-          onHotkey({ event, editor, hotkey, pressedKeys, allHotkeys })
+          onHotkey && onHotkey({ event, editor, hotkey, pressedKeys, hotkeys })
         )
       }
     }
@@ -102,7 +74,7 @@ export default function MaterialEditable({
     <Editable
       renderElement={handleRenderElement}
       renderLeaf={handleRenderLeaf}
-      onKeyDown={event => allowHotKeys && handleOnKeyDown(event)}
+      onKeyDown={event => handleOnKeyDown(event)}
       placeholder={placeholder}
       className={`${classes.editable} ${className}`}
       {...props}
@@ -115,7 +87,7 @@ export default function MaterialEditable({
 // Specifies the default values for props:
 MaterialEditable.defaultProps = {
   placeholder: 'Type some text...',
-  allowHotKeys: true,
+  hotkeys: defaultHotKeys,
 }
 
 // TODO add info about arguments in functions
@@ -131,13 +103,12 @@ MaterialEditable.propTypes = {
   placeholder: PropTypes.string,
   /**
    * Additional hotkeys to be added other than default. Object of the form `{'mod+k': {type: 'mark', value: 'italic'}
+   * defaultHotKeys can be disallowed by passing hotkeys as null
    */
   hotkeys: PropTypes.object,
   /**
    * Event tht will be triggered in case a hotkey is detected
-   * It has one single argument that can be deconstructed in `{event, editor, hotkey, pressedKeys, allHotkeys}`
+   * It has one single argument that can be deconstructed in `{event, editor, hotkey, pressedKeys, hotkeys}`
    */
   onHotKey: PropTypes.func,
-  /** To allow hot keys in the editor. It is true by default*/
-  allowHotKeys: PropTypes.bool,
 }
