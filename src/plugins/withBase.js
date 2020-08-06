@@ -1,6 +1,6 @@
 import MaterialEditor from '../slate/MaterialEditor'
 import { Range } from 'slate'
-import { Transforms, Editor } from 'slate'
+import { Transforms } from 'slate'
 import { Node } from 'slate'
 import { ReactEditor } from 'slate-react'
 /**
