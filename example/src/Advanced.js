@@ -100,6 +100,7 @@ export default function Advanced() {
         const comment = {
           id: new Date().getTime(),
           body: dialogValue,
+          originalValue: editor.getSelectedText(),
         }
         // Adds the comment to the editor.
         // The comment will wrap the selected text when `rememberCurrentSelection()` was called
@@ -148,8 +149,10 @@ export default function Advanced() {
   // Deletes an endnote that is in the endnote list
   // then updates the indexes
   const handleDeleteEndnote = endnoteId => {
-    const newList = endnotes.filter(endnote => endnote.id !== endnoteId) 
-      .map((endnote, index) => { //update index
+    const newList = endnotes
+      .filter(endnote => endnote.id !== endnoteId)
+      .map((endnote, index) => {
+        //update index
         index = index + 1
         return { ...endnote, index }
       })
