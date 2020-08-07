@@ -369,6 +369,14 @@ var withBase = function withBase(editor) {
       }
     });
   };
+  /**
+   * Is to get the selected plain text from the editor.selection
+   *
+   * @returns {string} selected text
+   */
+  editor.getSelectedText = function () {
+    return MaterialEditor.string(editor, editor.rememberedSelection);
+  };
 
   return editor;
 };
