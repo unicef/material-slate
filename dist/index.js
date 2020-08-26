@@ -740,11 +740,15 @@ function MaterialSlate(_ref) {
 
   return React__default.createElement(
     Box,
-    { onBlur: function onBlur() {
+    {
+      onBlur: function onBlur() {
         return setIsFocused(false);
-      }, onFocus: function onFocus() {
+      },
+      onFocus: function onFocus() {
         return setIsFocused(true);
-      }, className: classes.root + ' ' + (isFocused && (focusClassName ? focusClassName : classes.focused)) + ' ' + className },
+      },
+      className: classes.root + ' ' + (isFocused && (focusClassName ? focusClassName : classes.focused)) + ' ' + className
+    },
     React__default.createElement(
       slateReact.Slate,
       { value: value, editor: editor, onChange: function onChange(value) {
@@ -763,9 +767,9 @@ MaterialSlate.propTypes = {
   /** Called every time there is a change on the value */
   onChange: PropTypes.func,
   /** class to override and style the slate  */
-  className: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+  className: PropTypes.string,
   /** className to apply when the editor has focus */
-  focusClassName: PropTypes.oneOfType([PropTypes.bool, PropTypes.string])
+  focusClassName: PropTypes.string
 };
 
 function unwrapExports (x) {
@@ -1253,7 +1257,7 @@ MaterialEditable.defaultProps = {
 
 };MaterialEditable.propTypes = {
   /** To style and override the existing class  */
-  className: PropTypes.oneOfType(PropTypes.string, PropTypes.object),
+  className: PropTypes.string,
   /** Called when an element needs to be rendered */
   renderElement: PropTypes.func,
   /** Called when a leaf needs to be rendered */
@@ -2395,14 +2399,6 @@ CharCounter.propTypes = {
    */
   maxChars: PropTypes.number
 };
-
-// slate package overwrites
-
-if (process.env.NODE_ENV !== 'production') {
-  console.log('MaterialEditor: not in production');
-} else {
-  console.log('MaterialEditor: production mode');
-}
 
 exports.AddCommentButton = AddCommentButton;
 exports.BoldButton = BoldButton;
