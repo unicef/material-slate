@@ -39,12 +39,6 @@ import EndnoteElement from './components/Elements/EndnoteElement'
 import WordCounter from './components/Counters/WordCounter'
 import CharCounter from './components/Counters/CharCounter'
 
-if (process.env.NODE_ENV !== 'production') {
-  console.log('MaterialEditor: not in production')
-} else {
-  console.log('MaterialEditor: production mode')
-}
-
 export {
   MaterialEditor,
   MaterialSlate,
