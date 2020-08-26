@@ -1,4 +1,3 @@
-
 import React from 'react'
 import { useState } from 'react'
 import PropTypes from 'prop-types'
@@ -20,7 +19,7 @@ const useStyles = makeStyles(theme => ({
     '&:hover': {
       borderColor: theme.palette.primary.main,
     },
-  }
+  },
 }))
 
 /**
@@ -36,15 +35,20 @@ export default function MaterialSlate({
   onChange,
   children,
   className,
-  focusClassName
+  focusClassName,
 }) {
   const classes = useStyles()
   const [isFocused, setIsFocused] = useState(false)
   return (
-    <Box onBlur={()=> setIsFocused(false)} onFocus={() => setIsFocused(true)} className={`${classes.root} ${isFocused && (focusClassName ? focusClassName : classes.focused)} ${className}`}>
-    <Slate value={value} editor={editor} onChange={value => onChange(value)}>
+    <Box
+      onBlur={() => setIsFocused(false)}
+      onFocus={() => setIsFocused(true)}
+      className={`${classes.root} ${isFocused &&
+        (focusClassName ? focusClassName : classes.focused)} ${className}`}
+    >
+      <Slate value={value} editor={editor} onChange={value => onChange(value)}>
         {children}
-    </Slate>
+      </Slate>
     </Box>
   )
 }
@@ -57,7 +61,7 @@ MaterialSlate.propTypes = {
   /** Called every time there is a change on the value */
   onChange: PropTypes.func,
   /** class to override and style the slate  */
-  className: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+  className: PropTypes.string,
   /** className to apply when the editor has focus */
-  focusClassName: PropTypes.oneOfType([PropTypes.bool, PropTypes.string])
+  focusClassName: PropTypes.string,
 }

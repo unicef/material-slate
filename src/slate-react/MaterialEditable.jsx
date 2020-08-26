@@ -93,7 +93,7 @@ MaterialEditable.defaultProps = {
 
 MaterialEditable.propTypes = {
   /** To style and override the existing class  */
-  className: PropTypes.oneOfType(PropTypes.string, PropTypes.object),
+  className: PropTypes.string,
   /** Called when an element needs to be rendered */
   renderElement: PropTypes.func,
   /** Called when a leaf needs to be rendered */
