@@ -2154,7 +2154,8 @@ var LinkIcon = unwrapExports(Link);
  */
 function LinkButton(_ref) {
   var ref = _ref.ref,
-      props = objectWithoutProperties(_ref, ['ref']);
+      onMouseDown = _ref.onMouseDown,
+      props = objectWithoutProperties(_ref, ['ref', 'onMouseDown']);
 
   var editor = slateReact.useSlate();
   typeof editor.insertLink !== 'function' && console.error('withLinks() is not initialized');
@@ -2169,12 +2170,17 @@ function LinkButton(_ref) {
 
 
   var onLinkButtonDown = function onLinkButtonDown(_ref2) {
-    var editor = _ref2.editor;
+    var editor = _ref2.editor,
+        props = objectWithoutProperties(_ref2, ['editor']);
 
-    // When the dialog box is opened, the focus is lost as well as current selected text.
-    // We need to save it for later on.
-    editor.rememberCurrentSelection();
-    setOpenLinkDialog(true);
+    if (onMouseDown) {
+      onMouseDown(_extends({ editor: editor }, props));
+    } else {
+      // When the dialog box is opened, the focus is lost as well as current selected text.
+      // We need to save it for later on.
+      editor.rememberCurrentSelection();
+      setOpenLinkDialog(true);
+    }
   };
 
   var handleDialogSave = function handleDialogSave(url) {
@@ -2197,7 +2203,7 @@ function LinkButton(_ref) {
         return onLinkButtonDown(event);
       }
     }, props)),
-    React__default.createElement(SimpleDialog, {
+    !onMouseDown && React__default.createElement(SimpleDialog, {
       open: openLinkDialog,
       title: 'Add Link',
       label: 'Link',
@@ -2212,6 +2218,14 @@ function LinkButton(_ref) {
     })
   );
 }
+
+LinkButton.propTypes = {
+  /** onMouseDown :
+   * disable the simple dialog and let's you add your own dialog
+   * And gives the onMouseDown event
+   */
+  onMouseDown: PropTypes.func
+};
 
 var useStyles$4 = styles.makeStyles(function (theme) {
   return {
