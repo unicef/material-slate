@@ -30,7 +30,6 @@ export default function LinkButton({ ref, onMouseDown, ...props }) {
   }
 
   const handleDialogSave = url => {
-    console.log('Hello')
     setOpenLinkDialog(false)
     // Adds the link to the editor.
     // The link will wrap the selected text when `rememberCurrentSelection()` was called
