@@ -47,10 +47,12 @@ export default function Link() {
         onChange={value => setValue(value)}
       >
         <Toolbar>
+          {/** onMouseDown will allow you to use your own dialog */}
           <LinkButton onMouseDown={event => onLinkButtonDown(event)} />
         </Toolbar>
         <MaterialEditable hotkeys={null} />
       </MaterialSlate>
+      {/** Default dialog can be used, By not passing the onMouseDown prop in the LinkButton */}
       <SimpleDialog
         open={openLinkDialog}
         title="Add Link"
