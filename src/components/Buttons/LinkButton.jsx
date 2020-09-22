@@ -1,16 +1,16 @@
 import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 import { useSlate } from 'slate-react'
 import ToolbarButton from './ToolbarButton'
 import LinkIcon from '@material-ui/icons/Link'
 import SimpleDialog from '../SimpleDialog'
-import { Transforms } from 'slate'
 
 /**
  * Toolbar button for adding links
  *
  * @see ToolbarButton
  */
-export default function LinkButton({ ref, ...props }) {
+export default function LinkButton({ ref, onMouseDown, ...props }) {
   const editor = useSlate()
   typeof editor.insertLink !== 'function' &&
     console.error('withLinks() is not initialized')
@@ -18,11 +18,15 @@ export default function LinkButton({ ref, ...props }) {
   const [openLinkDialog, setOpenLinkDialog] = useState(false)
 
   // Handles custom buttons click
-  const onLinkButtonDown = ({ editor }) => {
-    // When the dialog box is opened, the focus is lost as well as current selected text.
-    // We need to save it for later on.
-    editor.rememberCurrentSelection()
-    setOpenLinkDialog(true)
+  const onLinkButtonDown = ({ editor, ...props }) => {
+    if (onMouseDown) {
+      onMouseDown({ editor, ...props })
+    } else {
+      // When the dialog box is opened, the focus is lost as well as current selected text.
+      // We need to save it for later on.
+      editor.rememberCurrentSelection()
+      setOpenLinkDialog(true)
+    }
   }
 
   const handleDialogSave = url => {
@@ -43,14 +47,24 @@ export default function LinkButton({ ref, ...props }) {
         onMouseDown={event => onLinkButtonDown(event)}
         {...props}
       />
-      <SimpleDialog
-        open={openLinkDialog}
-        title="Add Link"
-        label="Link"
-        format="link"
-        onCancel={() => setOpenLinkDialog(false)}
-        onSave={({ value }) => handleDialogSave(value)}
-      />
+      {!onMouseDown && (
+        <SimpleDialog
+          open={openLinkDialog}
+          title="Add Link"
+          label="Link"
+          format="link"
+          onCancel={() => setOpenLinkDialog(false)}
+          onSave={({ value }) => handleDialogSave(value)}
+        />
+      )}
     </React.Fragment>
   )
+}
+
+LinkButton.propTypes = {
+  /** onMouseDown :
+   * disable the simple dialog and let's you add your own dialog
+   * And gives the onMouseDown event
+   */
+  onMouseDown: PropTypes.func,
 }
