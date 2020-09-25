@@ -20,8 +20,8 @@ const withCounter = editor => {
   editor.getWordsLength = nodes => {
     const content = editor.serialize(nodes)
     //Reg exp from https://css-tricks.com/build-word-counter-app/
-    return content && content.length
-      ? content.match(/\b[-?(\w+)?]+\b/gi).length
+    return content && content.replace(/\s/g, '') !== ''
+      ? content.match(/\S+/g).length
       : 0
   }
 
