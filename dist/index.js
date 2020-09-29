@@ -2251,18 +2251,19 @@ var useStyles$4 = styles.makeStyles(function (theme) {
 });
 
 /**
- * Renders a Comment. 
+ * Renders a Comment.
  *  1. Adds blueish background to the text the comment wraps
  *  2. On hover displays the comment.
- * 
+ *
  *  If `onClick` is passed, it is called if the text wrapped by the comment is clicked.
- * 
+ *
  *  Expects the `element` object passed as prop to have `element.data.body` to display the comment text.
- * 
+ *
  */
 var CommentElement = function CommentElement(_ref) {
   var element = _ref.element,
       _onClick = _ref.onClick,
+      className = _ref.className,
       children = _ref.children,
       attributes = _ref.attributes;
 
@@ -2272,9 +2273,13 @@ var CommentElement = function CommentElement(_ref) {
     { title: 'Comment: ' + element.data.body },
     React__default.createElement(
       'span',
-      _extends({ className: classes.root }, attributes, { onClick: function onClick(event) {
+      _extends({
+        className: classes.root + ' ' + className
+      }, attributes, {
+        onClick: function onClick(event) {
           return _onClick && _onClick({ event: event, element: element });
-        } }),
+        }
+      }),
       children
     )
   );
