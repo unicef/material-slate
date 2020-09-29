@@ -89,6 +89,16 @@ var slicedToArray = function () {
   };
 }();
 
+var toConsumableArray = function (arr) {
+  if (Array.isArray(arr)) {
+    for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
+
+    return arr2;
+  } else {
+    return Array.from(arr);
+  }
+};
+
 var MaterialEditor = _extends({}, slate.Editor);
 
 /**
@@ -196,7 +206,6 @@ var withBase = function withBase(editor) {
       editor.unwrapNode(node.type);
     }
     // if there is no text selected => insert the node.
-    //console.log(editor.selection)
     //console.log('isLocation', Location.isLocation(editor.selection))
     if (editor.isCollapsed()) {
       //console.log('is collapsed insertNodes')
@@ -207,6 +216,11 @@ var withBase = function withBase(editor) {
       //console.log('editor', editor.children)
       slate.Transforms.collapse(editor, { edge: 'end' });
     }
+    // Add {isLast} property to the last fragment of the comment.
+    var path = [].concat(toConsumableArray(MaterialEditor.last(editor, editor.selection)[1]));
+    //The last Node is a text whose parent is a comment.
+    path.pop(); // Removes last item of the path, to point the parent
+    slate.Transforms.setNodes(editor, { isLast: true }, { at: path }); //add isLast
   };
 
   /**
@@ -648,7 +662,7 @@ var withCounter = function withCounter(editor) {
   editor.getWordsLength = function (nodes) {
     var content = editor.serialize(nodes);
     //Reg exp from https://css-tricks.com/build-word-counter-app/
-    return content && content.length ? content.match(/\b[-?(\w+)?]+\b/gi).length : 0;
+    return content && content.replace(/\s/g, '') !== '' ? content.match(/\S+/g).length : 0;
   };
 
   /**
