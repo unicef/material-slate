@@ -98,7 +98,6 @@ const withBase = editor => {
       editor.unwrapNode(node.type)
     }
     // if there is no text selected => insert the node.
-    //console.log(editor.selection)
     //console.log('isLocation', Location.isLocation(editor.selection))
     if (editor.isCollapsed()) {
       //console.log('is collapsed insertNodes')
@@ -109,6 +108,9 @@ const withBase = editor => {
       //console.log('editor', editor.children)
       Transforms.collapse(editor, { edge: 'end' })
     }
+    const path = [...MaterialEditor.last(editor, editor.selection)[1]]
+    path.pop()
+    Transforms.setNodes(editor, { isLast: true }, { at: path })
   }
 
   /**
