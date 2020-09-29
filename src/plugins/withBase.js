@@ -108,9 +108,11 @@ const withBase = editor => {
       //console.log('editor', editor.children)
       Transforms.collapse(editor, { edge: 'end' })
     }
+    // Add {isLast} property to the last fragment of the comment.
     const path = [...MaterialEditor.last(editor, editor.selection)[1]]
-    path.pop()
-    Transforms.setNodes(editor, { isLast: true }, { at: path })
+    //The last Node is a text whose parent is a comment.
+    path.pop() // Removes last item of the path, to point the parent
+    Transforms.setNodes(editor, { isLast: true }, { at: path }) //add isLast
   }
 
   /**
