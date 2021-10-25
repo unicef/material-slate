@@ -64,36 +64,38 @@ const options = [
 
 export default function PeoplePicker({ onChange, searchingString }) {
   const classes = useStyles()
-  const [optionsToDisplay, setOptionsToDisplay] = useState(null)
+  const [optionsToDisplay, setOptionsToDisplay] = useState(options)
   const upPress = useKeyPress('ArrowUp')
   const downPress = useKeyPress('ArrowDown')
   const enterPress = useKeyPress('Enter')
   const tabPress = useKeyPress('Tab')
   const [cursor, setCursor] = useState(0)
   const refs =
-    options &&
-    options.reduce((accumulator, child, index) => {
+    optionsToDisplay &&
+    optionsToDisplay.reduce((accumulator, child, index) => {
       accumulator[index] = React.createRef()
       return accumulator
     }, {})
 
   // useEffect to select users from graph on initial load
   useEffect(() => {
+    const allOptions = options
     if (searchingString && searchingString.trim().length !== 0) {
       setOptionsToDisplay(
-        options.filter(
+        allOptions.filter(
           o =>
             o.label.indexOf(searchingString) > -1 ||
             o.value.indexOf(searchingString) > -1
         )
       )
+      setCursor(0)
     }
   }, [searchingString])
 
   useEffect(() => {
-    if (options && options.length && downPress) {
+    if (optionsToDisplay && optionsToDisplay.length && downPress) {
       const newCursorPosition =
-        cursor < options.length - 1 ? cursor + 1 : cursor
+        cursor < optionsToDisplay.length - 1 ? cursor + 1 : cursor
       setCursor(newCursorPosition)
       //scroll to the correct position
       refs[newCursorPosition].current.scrollIntoView({
@@ -103,7 +105,7 @@ export default function PeoplePicker({ onChange, searchingString }) {
   }, [downPress])
 
   useEffect(() => {
-    if (options && options.length && upPress) {
+    if (optionsToDisplay && optionsToDisplay.length && upPress) {
       const newCursorPosition = cursor > 0 ? cursor - 1 : cursor
       setCursor(newCursorPosition)
       //scroll to the correct position
@@ -114,15 +116,8 @@ export default function PeoplePicker({ onChange, searchingString }) {
   }, [upPress])
 
   useEffect(() => {
-    if (options && Array.isArray(options)) {
-      setOptionsToDisplay(options)
-      setCursor(0)
-    }
-  }, [options])
-
-  useEffect(() => {
-    if (options.length && (enterPress || tabPress)) {
-      onChange && onChange([options[cursor]])
+    if (optionsToDisplay.length && (enterPress || tabPress)) {
+      onChange && onChange([optionsToDisplay[cursor]])
     }
   }, [cursor, enterPress, tabPress])
 
