@@ -712,9 +712,9 @@ var withLinks = function withLinks(editor) {
 };
 
 /**
- * TODO: this should be in unicef material slate
  *
  * @param {Object} editor editor for the library
+ * Plugin to tag/mention users to the editor
  */
 var withMention = function withMention(editor) {
   var isInline = editor.isInline,

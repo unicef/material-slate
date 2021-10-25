@@ -2,9 +2,9 @@ import { Transforms } from 'slate'
 import { ReactEditor } from 'slate-react'
 
 /**
- * TODO: this should be in unicef material slate
  *
  * @param {Object} editor editor for the library
+ * Plugin to tag/mention users to the editor
  */
 const withMention = editor => {
   const { isInline, isVoid } = editor

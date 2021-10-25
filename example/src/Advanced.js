@@ -43,6 +43,22 @@ import Typography from '@material-ui/core/Typography'
 import initialValue from './initialValue'
 import { Editor, Range } from 'slate'
 import PeoplePicker from './Components/PeoplePicker'
+import { makeStyles } from '@material-ui/core'
+
+const useStyles = makeStyles(theme => ({
+  peoplePickerBox: {
+    position: 'relative',
+  },
+  peoplePickerContainer: {
+    top: '-9999px',
+    left: '-9999px',
+    position: 'absolute',
+    zIndex: 1,
+    background: 'white',
+    borderRadius: '4px',
+    boxShadow: '0 1px 5px rgba(0,0,0,.2)',
+  },
+}))
 
 /**
  * Example of advanced usage of the editor
@@ -52,6 +68,7 @@ import PeoplePicker from './Components/PeoplePicker'
  * the editor and sync them)
  */
 export default function Advanced() {
+  const classes = useStyles()
   const [value, setValue] = useState(initialValue())
 
   const editor = useMemo(
@@ -355,22 +372,10 @@ export default function Advanced() {
                 renderElement={props => handleRenderElement(props)}
               ></MaterialEditable>
               {target && (
-                <Box
-                  style={{
-                    position: 'relative',
-                  }}
-                >
+                <Box className={classes.peoplePickerBox}>
                   <Box
                     ref={mentionPickerRef}
-                    style={{
-                      top: '-9999px',
-                      left: '-9999px',
-                      position: 'absolute',
-                      zIndex: 1,
-                      background: 'white',
-                      borderRadius: '4px',
-                      boxShadow: '0 1px 5px rgba(0,0,0,.2)',
-                    }}
+                    className={classes.peoplePickerContainer}
                   >
                     <PeoplePicker
                       onChange={handlePeoplePickerChange}
