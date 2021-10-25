@@ -711,6 +711,64 @@ var withLinks = function withLinks(editor) {
   return editor;
 };
 
+/**
+ * TODO: this should be in unicef material slate
+ *
+ * @param {Object} editor editor for the library
+ */
+var withMention = function withMention(editor) {
+  var isInline = editor.isInline,
+      isVoid = editor.isVoid;
+
+  var MENTION_TYPE = 'mention';
+
+  /**
+   * Overwrite to indicate `mention` nodes are inline
+   */
+  editor.isInline = function (element) {
+    return element.type === MENTION_TYPE ? true : isInline(element);
+  };
+
+  /**
+   * Overwrite to indicate `mention` nodes are void
+   */
+  editor.isVoid = function (element) {
+    return element.type === MENTION_TYPE ? true : isVoid(element);
+  };
+
+  /**
+   *
+   * @param {*} text Label text to display
+   * @param {*} text Label text to display
+   * Inserts the mention within the body of the editor
+   */
+  editor.insertMention = function (identifier, text) {
+    var mention = {
+      type: 'mention',
+      identifier: identifier,
+      children: [{ text: text + ' ' }]
+    };
+    slate.Transforms.insertNodes(editor, mention);
+    // Transforms.move(editor)
+    slateReact.ReactEditor.focus(editor);
+    slate.Transforms.move(editor);
+  };
+
+  /**
+   *
+   * @param {Object} target Target range
+   * @param {String|Number} identifier Unique identifier for the mention (eg. id, email , etc..)
+   * @param {*} text Label text to display
+   * Select and insert a new mention within the body of the editor
+   */
+  editor.selectAndInsert = function (target, identifier, text) {
+    slate.Transforms.select(editor, target);
+    editor.insertMention(identifier, text);
+  };
+
+  return editor;
+};
+
 var useStyles = styles.makeStyles(function (theme) {
   return {
     root: {
@@ -2327,6 +2385,59 @@ var EndnoteElement = function EndnoteElement(_ref) {
   );
 };
 
+/**
+ * @param {Object} props props for the mention element
+ */
+function MentionElement(props) {
+  var attributes = props.attributes,
+      children = props.children,
+      element = props.element;
+
+  switch (element.type) {
+    case 'mention':
+      return React__default.createElement(Mention, props);
+    default:
+      return React__default.createElement(
+        'p',
+        attributes,
+        children
+      );
+  }
+}
+
+var Mention = function Mention(_ref) {
+  var attributes = _ref.attributes,
+      children = _ref.children,
+      element = _ref.element;
+
+  var selected = slateReact.useSelected();
+  var focused = slateReact.useFocused();
+  var textChild = element && element.children && element.children[0];
+  return React__default.createElement(
+    React.Fragment,
+    null,
+    textChild ? React__default.createElement(
+      'span',
+      _extends({}, attributes, {
+        contentEditable: false,
+        style: {
+          padding: '3px 3px 2px',
+          margin: '0 1px',
+          verticalAlign: 'baseline',
+          display: 'inline-block',
+          borderRadius: '4px',
+          backgroundColor: '#eee',
+          fontSize: '0.9em',
+          boxShadow: selected && focused ? '0 0 0 2px #B4D5FF' : 'none'
+        }
+      }),
+      '@',
+      textChild.text,
+      children
+    ) : React__default.createElement(React.Fragment, null)
+  );
+};
+
 var useStyles$6 = styles.makeStyles(function (theme) {
   return {
     text: {
@@ -2448,6 +2559,7 @@ exports.LinkButton = LinkButton;
 exports.MaterialEditable = MaterialEditable;
 exports.MaterialEditor = MaterialEditor;
 exports.MaterialSlate = MaterialSlate;
+exports.MentionElement = MentionElement;
 exports.NumberedListButton = NumberedListButton;
 exports.SimpleDialog = SimpleDialog;
 exports.StrikethroughButton = StrikethroughButton;
@@ -2463,4 +2575,5 @@ exports.withComments = withComments;
 exports.withCounter = withCounter;
 exports.withEndnotes = withEndnotes;
 exports.withLinks = withLinks;
+exports.withMention = withMention;
 //# sourceMappingURL=index.js.map

@@ -36,6 +36,7 @@ import LinkButton from './components/Buttons/LinkButton'
 // Render Elements
 import CommentElement from './components/Elements/CommentElement'
 import EndnoteElement from './components/Elements/EndnoteElement'
+import MentionElement from './components/Elements/MentionElement'
 //Counters
 import WordCounter from './components/Counters/WordCounter'
 import CharCounter from './components/Counters/CharCounter'
@@ -65,6 +66,7 @@ export {
   EndnoteButton,
   CommentElement,
   EndnoteElement,
+  MentionElement,
   SimpleDialog,
   WordCounter,
   CharCounter,
