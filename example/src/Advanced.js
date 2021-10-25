@@ -25,6 +25,7 @@ import {
   CommentElement,
   EndnoteElement,
   MentionElement,
+  getBeforeRangeOfTagging,
 } from '@unicef/material-slate'
 
 import List from '@material-ui/core/List'
@@ -41,6 +42,7 @@ import Typography from '@material-ui/core/Typography'
 // Initial contents of the editor
 import initialValue from './initialValue'
 import { Editor, Range } from 'slate'
+import PeoplePicker from './Components/PeoplePicker'
 
 /**
  * Example of advanced usage of the editor
@@ -249,6 +251,7 @@ export default function Advanced() {
           case 'Enter':
             event.preventDefault()
             break
+          case 'ArrowDown':
           case 'ArrowUp':
             event.preventDefault()
             break
@@ -297,105 +300,85 @@ export default function Advanced() {
     }
   }
 
-  const getBeforeRangeOfTagging = (editor, start, maxDistance = 3) => {
-    let taggingBeforeRange = null
-    for (let i = 1; i <= maxDistance; i++) {
-      const wordBefore = Editor.before(editor, start, {
-        unit: 'word',
-        distance: i,
-      })
-      const before = wordBefore && Editor.before(editor, wordBefore)
-      const beforeRange = before && Editor.range(editor, before, start)
-      const beforeText = beforeRange && Editor.string(editor, beforeRange)
-      // this is to avoid to overpass any tagged that is in the middle when typing
-      // (eg. @dey [other user tagged] yner - tagged users are not considered as words, but as space )
-      const spacesAndDistanceAreCorrect =
-        beforeText && i === beforeText.split(' ').filter(t => t).length
-      if (
-        beforeText &&
-        beforeText.startsWith('@') &&
-        spacesAndDistanceAreCorrect
-      ) {
-        taggingBeforeRange = beforeRange
-        break
-      }
-    }
-    return taggingBeforeRange
+  const handlePeoplePickerChange = value => {
+    const selectedUser = value && value[0]
+    editor.selectAndInsert(target, selectedUser.value, selectedUser.label)
+    // cancel any tagging process when the user finishes tagging a user
+    setCurrentTaggingFinished(true)
   }
 
   return (
     <>
       <Grid container spacing={3}>
         <Grid item sm={6}>
-          <MaterialSlate
-            editor={editor}
-            value={value}
-            onChange={handleChange}
-            onKeyDown={onKeyDown}
-            onBlur={() => console.log('blur')}
-          >
-            {/* By passing Buttons as children of the Toolbar you can customize it */}
-            <Toolbar>
-              <BoldButton />
-              <ItalicButton />
-              <UnderlinedButton />
-              <StrikethroughButton />
-              <CodeButton />
-              <ButtonSeparator />
-              <BulletedListButton />
-              <NumberedListButton />
+          <Box mb={20}>
+            <MaterialSlate
+              editor={editor}
+              value={value}
+              onChange={handleChange}
+              onBlur={() => console.log('blur')}
+            >
+              {/* By passing Buttons as children of the Toolbar you can customize it */}
+              <Toolbar>
+                <BoldButton />
+                <ItalicButton />
+                <UnderlinedButton />
+                <StrikethroughButton />
+                <CodeButton />
+                <ButtonSeparator />
+                <BulletedListButton />
+                <NumberedListButton />
 
-              {/* Disabled button.
+                {/* Disabled button.
             you can also use disableOnCollapse and disableOnSelection */}
-              <ToolbarButton type="block" format="blockquote" disabled />
+                <ToolbarButton type="block" format="blockquote" disabled />
 
-              {/* These two buttons require actions to be handled onMouseDown */}
-              <AddCommentButton
-                onMouseDown={event => onCustomButtonDown(event)}
-              />
-              <EndnoteButton onMouseDown={event => onCustomButtonDown(event)} />
-            </Toolbar>
-            <HoveringToolbar>
-              <BoldButton />
-              <ItalicButton />
-              <UnderlinedButton />
-              <StrikethroughButton />
-              <AddCommentButton
-                onMouseDown={event => onCustomButtonDown(event)}
-              />
-            </HoveringToolbar>
-            <MaterialEditable
-              renderElement={props => handleRenderElement(props)}
-            ></MaterialEditable>
-            {target && (
-              <Box
-                style={{
-                  position: 'relative',
-                }}
-              >
+                {/* These two buttons require actions to be handled onMouseDown */}
+                <AddCommentButton
+                  onMouseDown={event => onCustomButtonDown(event)}
+                />
+                <EndnoteButton
+                  onMouseDown={event => onCustomButtonDown(event)}
+                />
+              </Toolbar>
+              <HoveringToolbar>
+                <BoldButton />
+                <ItalicButton />
+                <UnderlinedButton />
+                <StrikethroughButton />
+                <AddCommentButton
+                  onMouseDown={event => onCustomButtonDown(event)}
+                />
+              </HoveringToolbar>
+              <MaterialEditable
+                onKeyDown={onKeyDown}
+                renderElement={props => handleRenderElement(props)}
+              ></MaterialEditable>
+              {target && (
                 <Box
-                  ref={mentionPickerRef}
-                  className={{
-                    top: '-9999px',
-                    left: '-9999px',
-                    position: 'absolute',
-                    zIndex: 1,
-                    background: 'white',
-                    borderRadius: '4px',
-                    boxShadow: '0 1px 5px rgba(0,0,0,.2)',
+                  style={{
+                    position: 'relative',
                   }}
                 >
-                  {/* <GraphPeoplePicker
-                    fullWidth
-                    options={[]}
-                    searchingString={search}
-                    onBlur={handlePeoplePickerChange}
-                    variant="list"
-                  /> */}
+                  <Box
+                    ref={mentionPickerRef}
+                    style={{
+                      top: '-9999px',
+                      left: '-9999px',
+                      position: 'absolute',
+                      zIndex: 1,
+                      background: 'white',
+                      borderRadius: '4px',
+                      boxShadow: '0 1px 5px rgba(0,0,0,.2)',
+                    }}
+                  >
+                    <PeoplePicker onChange={handlePeoplePickerChange} />
+                  </Box>
                 </Box>
-              </Box>
-            )}
-          </MaterialSlate>
+              )}
+            </MaterialSlate>
+          </Box>
+
           <SimpleDialog
             open={openCommentDialog}
             title="Add comment"

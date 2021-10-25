@@ -2544,6 +2544,38 @@ CharCounter.propTypes = {
   maxChars: PropTypes.number
 };
 
+/**
+ * get the range of the tagged user
+ * @param {Object} editor editor object
+ * @param {Object} start start position point in the editor
+ * @param {Number} maxDistance distance(words)in which the people picker will work with (separated by spaces)
+ * @returns start range of the tagged user
+ */
+var getBeforeRangeOfTagging = function getBeforeRangeOfTagging(editor, start) {
+  var maxDistance = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 3;
+
+  var taggingBeforeRange = null;
+  for (var i = 1; i <= maxDistance; i++) {
+    var wordBefore = slate.Editor.before(editor, start, {
+      unit: 'word',
+      distance: i
+    });
+    var before = wordBefore && slate.Editor.before(editor, wordBefore);
+    var beforeRange = before && slate.Editor.range(editor, before, start);
+    var beforeText = beforeRange && slate.Editor.string(editor, beforeRange);
+    // this is to avoid to overpass any tagged that is in the middle when typing
+    // (eg. @dey [other user tagged] yner - tagged users are not considered as words, but as space )
+    var spacesAndDistanceAreCorrect = beforeText && i === beforeText.split(' ').filter(function (t) {
+      return t;
+    }).length;
+    if (beforeText && beforeText.startsWith('@') && spacesAndDistanceAreCorrect) {
+      taggingBeforeRange = beforeRange;
+      break;
+    }
+  }
+  return taggingBeforeRange;
+};
+
 exports.AddCommentButton = AddCommentButton;
 exports.BoldButton = BoldButton;
 exports.BulletedListButton = BulletedListButton;
@@ -2571,6 +2603,7 @@ exports.createMaterialEditor = createMaterialEditor;
 exports.defaultHotkeys = defaultHotkeys;
 exports.defaultRenderElement = defaultRenderElement;
 exports.defaultRenderLeaf = defaultRenderLeaf;
+exports.getBeforeRangeOfTagging = getBeforeRangeOfTagging;
 exports.withComments = withComments;
 exports.withCounter = withCounter;
 exports.withEndnotes = withEndnotes;

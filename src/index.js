@@ -41,6 +41,8 @@ import MentionElement from './components/Elements/MentionElement'
 import WordCounter from './components/Counters/WordCounter'
 import CharCounter from './components/Counters/CharCounter'
 
+//helpers
+import { getBeforeRangeOfTagging } from './helpers/utils'
 export {
   MaterialEditor,
   MaterialSlate,
@@ -74,4 +76,5 @@ export {
   withLinks,
   LinkButton,
   defaultHotkeys,
+  getBeforeRangeOfTagging,
 }
