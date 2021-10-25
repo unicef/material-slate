@@ -7,6 +7,7 @@ import withComments from './plugins/withComments'
 import withEndnotes from './plugins/withEndnotes'
 import withCounter from './plugins/withCounter'
 import withLinks from './plugins/withLinks'
+import withMention from './plugins/withMention'
 
 // slate-react package overwrites
 import MaterialSlate from './slate-react/MaterialSlate'
@@ -46,6 +47,7 @@ export {
   createMaterialEditor,
   withComments,
   withEndnotes,
+  withMention,
   defaultRenderElement,
   defaultRenderLeaf,
   Toolbar,
