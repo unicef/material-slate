@@ -372,7 +372,10 @@ export default function Advanced() {
                       boxShadow: '0 1px 5px rgba(0,0,0,.2)',
                     }}
                   >
-                    <PeoplePicker onChange={handlePeoplePickerChange} />
+                    <PeoplePicker
+                      onChange={handlePeoplePickerChange}
+                      searchingString={search}
+                    />
                   </Box>
                 </Box>
               )}

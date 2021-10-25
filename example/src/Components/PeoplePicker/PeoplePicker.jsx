@@ -62,7 +62,7 @@ const options = [
   { value: 'vinu@some.com', label: 'Vinu Ganesan' },
 ]
 
-export default function PeoplePicker({ onChange }) {
+export default function PeoplePicker({ onChange, searchingString }) {
   const classes = useStyles()
   const [optionsToDisplay, setOptionsToDisplay] = useState(null)
   const upPress = useKeyPress('ArrowUp')
@@ -76,6 +76,19 @@ export default function PeoplePicker({ onChange }) {
       accumulator[index] = React.createRef()
       return accumulator
     }, {})
+
+  // useEffect to select users from graph on initial load
+  useEffect(() => {
+    if (searchingString && searchingString.trim().length !== 0) {
+      setOptionsToDisplay(
+        options.filter(
+          o =>
+            o.label.indexOf(searchingString) > -1 ||
+            o.value.indexOf(searchingString) > -1
+        )
+      )
+    }
+  }, [searchingString])
 
   useEffect(() => {
     if (options && options.length && downPress) {
@@ -153,4 +166,6 @@ export default function PeoplePicker({ onChange }) {
 PeoplePicker.propTypes = {
   /** call when user selects an item */
   onChange: PropTypes.func,
+  /** string to search across items */
+  searchingString: PropTypes.string,
 }
