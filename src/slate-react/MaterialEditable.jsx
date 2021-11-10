@@ -99,7 +99,7 @@ MaterialEditable.propTypes = {
   /** Called when a leaf needs to be rendered */
   renderLeaf: PropTypes.func,
   /** Text to display when there are no contents on the editor. Default" "Type some text..." */
-  placeholder: PropTypes.string,
+  placeholder: PropTypes.any,
   /**
    * Additional hotkeys to be added other than default. Object of the form `{'mod+k': {type: 'mark', value: 'italic'}
    * defaultHotkeys can be disallowed by passing hotkeys as null
