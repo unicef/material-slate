@@ -98,7 +98,7 @@ MaterialEditable.propTypes = {
   renderElement: PropTypes.func,
   /** Called when a leaf needs to be rendered */
   renderLeaf: PropTypes.func,
-  /** Text to display when there are no contents on the editor. Default" "Type some text..." */
+  /** Text/component to display when there are no contents on the editor. Default" "Type some text..." */
   placeholder: PropTypes.any,
   /**
    * Additional hotkeys to be added other than default. Object of the form `{'mod+k': {type: 'mark', value: 'italic'}
