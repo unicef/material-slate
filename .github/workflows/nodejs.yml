@@ -4,10 +4,13 @@
 name: Node.js CI
 
 on:
-  push:
-    branches: [master]
-  pull_request:
-    branches: [master]
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Message'
+        required: false
+  release:
+    types: [created]
 
 jobs:
   build:
