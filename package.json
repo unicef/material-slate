@@ -1,8 +1,8 @@
 {
   "name": "@unicef/material-slate",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "Material UI rich text editor based on Slate for react",
-  "main": "index.js",
+  "main": "./dist/index.js",
   "homepage": "https://unicef.github.io/material-slate",
   "repository": {
     "type": "git",
