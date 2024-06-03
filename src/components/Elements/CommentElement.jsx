@@ -1,12 +1,9 @@
 import React from 'react'
-import Tooltip from '@material-ui/core/Tooltip'
-import { makeStyles } from '@material-ui/core/styles'
+import { Tooltip, styled } from '@mui/material'
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    backgroundColor: '#e1f5fe',
-    cursor: 'pointer',
-  },
+const StyledBox = styled(Box)(({ theme }) => ({
+  backgroundColor: '#e1f5fe',
+  cursor: 'pointer',
 }))
 
 /**
@@ -26,16 +23,16 @@ const CommentElement = ({
   children,
   attributes,
 }) => {
-  const classes = useStyles()
   return (
     <Tooltip title={`Comment: ${element.data.body}`}>
-      <span
-        className={`${classes.root} ${className}`}
+      <StyledBox
+        component="span"
+        className={`${className}`}
         {...attributes}
         onClick={event => onClick && onClick({ event, element })}
       >
         {children}
-      </span>
+      </StyledBox>
     </Tooltip>
   )
 }

@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { useSlate } from 'slate-react'
+import LinkIcon from '@mui/icons-material/Link'
+
 import ToolbarButton from './ToolbarButton'
-import LinkIcon from '@material-ui/icons/Link'
 import SimpleDialog from '../SimpleDialog'
 
 /**

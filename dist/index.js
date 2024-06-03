@@ -10,20 +10,11 @@ var slateHistory = require('slate-history');
 var React = require('react');
 var React__default = _interopDefault(React);
 var PropTypes = _interopDefault(require('prop-types'));
-var Box = _interopDefault(require('@material-ui/core/Box'));
-var styles = require('@material-ui/core/styles');
-var core = require('@material-ui/core');
-var IconButton = _interopDefault(require('@material-ui/core/IconButton'));
-var Tooltip = _interopDefault(require('@material-ui/core/Tooltip'));
-var SvgIcon = _interopDefault(require('@material-ui/core/SvgIcon'));
+var material = require('@mui/material');
+var utils = _interopDefault(require('@mui/material/utils'));
+var jsxRuntime = _interopDefault(require('react/jsx-runtime'));
 var ReactDOM = _interopDefault(require('react-dom'));
-var Button = _interopDefault(require('@material-ui/core/Button'));
-var TextField = _interopDefault(require('@material-ui/core/TextField'));
-var Dialog = _interopDefault(require('@material-ui/core/Dialog'));
-var DialogTitle = _interopDefault(require('@material-ui/core/DialogTitle'));
-var DialogContent = _interopDefault(require('@material-ui/core/DialogContent'));
-var DialogActions = _interopDefault(require('@material-ui/core/DialogActions'));
-var Typography = _interopDefault(require('@material-ui/core/Typography'));
+var styles = require('@mui/material/styles');
 
 var _extends = Object.assign || function (target) {
   for (var i = 1; i < arguments.length; i++) {
@@ -711,17 +702,16 @@ var withLinks = function withLinks(editor) {
   return editor;
 };
 
-var useStyles = styles.makeStyles(function (theme) {
+var StyledMaterialSlate = material.styled(material.Box)(function (_ref) {
+  var theme = _ref.theme;
   return {
-    root: {
-      borderRadius: theme.shape.borderRadius,
-      border: '1px solid',
-      borderColor: theme.palette.grey[400],
-      '&:hover': {
-        borderColor: theme.palette.text.primary
-      }
+    borderRadius: theme.shape.borderRadius,
+    border: '1px solid',
+    borderColor: theme.palette.grey[400],
+    '&:hover': {
+      borderColor: theme.palette.text.primary
     },
-    focused: {
+    '&.materialSlate-focused': {
       borderColor: theme.palette.primary.main,
       '&:hover': {
         borderColor: theme.palette.primary.main
@@ -737,15 +727,13 @@ var useStyles = styles.makeStyles(function (theme) {
  *
  *
  */
-function MaterialSlate(_ref) {
-  var value = _ref.value,
-      editor = _ref.editor,
-      _onChange = _ref.onChange,
-      children = _ref.children,
-      className = _ref.className,
-      focusClassName = _ref.focusClassName;
-
-  var classes = useStyles();
+function MaterialSlate(_ref2) {
+  var value = _ref2.value,
+      editor = _ref2.editor,
+      _onChange = _ref2.onChange,
+      children = _ref2.children,
+      className = _ref2.className,
+      focusClassName = _ref2.focusClassName;
 
   var _useState = React.useState(false),
       _useState2 = slicedToArray(_useState, 2),
@@ -753,7 +741,7 @@ function MaterialSlate(_ref) {
       setIsFocused = _useState2[1];
 
   return React__default.createElement(
-    Box,
+    StyledMaterialSlate,
     {
       onBlur: function onBlur() {
         return setIsFocused(false);
@@ -761,7 +749,7 @@ function MaterialSlate(_ref) {
       onFocus: function onFocus() {
         return setIsFocused(true);
       },
-      className: classes.root + ' ' + (isFocused && (focusClassName ? focusClassName : classes.focused)) + ' ' + className
+      className: classes.root + ' ' + (isFocused && (focusClassName ? focusClassName : 'materialSlate-focused')) + ' ' + className
     },
     React__default.createElement(
       slateReact.Slate,
@@ -947,6 +935,10 @@ function parseHotkey(hotkey, options) {
 
       var name = toKeyName(value);
       var modifier = MODIFIERS[name];
+
+      if (value.length > 1 && !modifier && !ALIASES[value] && !CODES[name]) {
+        throw new TypeError('Unknown modifier: "' + value + '"');
+      }
 
       if (length === 1 || !modifier) {
         if (byKey) {
@@ -1187,14 +1179,13 @@ var defaultHotkeys = {
   }
 };
 
-var useStyles$1 = styles.makeStyles(function (theme) {
+var StyledEditor = material.styled(slateReact.Editable)(function (_ref) {
+  var theme = _ref.theme;
   return {
-    editable: {
-      paddingLeft: theme.spacing(1),
-      paddingRight: theme.spacing(1),
-      paddingBottom: theme.spacing(1),
-      fontFamily: theme.typography.fontFamily
-    }
+    paddingLeft: theme.spacing(1),
+    paddingRight: theme.spacing(1),
+    paddingBottom: theme.spacing(1),
+    fontFamily: theme.typography.fontFamily
   };
 });
 
@@ -1202,18 +1193,17 @@ var useStyles$1 = styles.makeStyles(function (theme) {
  * Wrapper of Slate Editable
  *
  */
-function MaterialEditable(_ref) {
-  var renderElement = _ref.renderElement,
-      renderLeaf = _ref.renderLeaf,
-      placeholder = _ref.placeholder,
-      hotkeys = _ref.hotkeys,
-      onHotkey = _ref.onHotkey,
-      children = _ref.children,
-      className = _ref.className,
-      props = objectWithoutProperties(_ref, ['renderElement', 'renderLeaf', 'placeholder', 'hotkeys', 'onHotkey', 'children', 'className']);
+function MaterialEditable(_ref2) {
+  var renderElement = _ref2.renderElement,
+      renderLeaf = _ref2.renderLeaf,
+      placeholder = _ref2.placeholder,
+      hotkeys = _ref2.hotkeys,
+      onHotkey = _ref2.onHotkey,
+      children = _ref2.children,
+      className = _ref2.className,
+      props = objectWithoutProperties(_ref2, ['renderElement', 'renderLeaf', 'placeholder', 'hotkeys', 'onHotkey', 'children', 'className']);
 
   var editor = slateReact.useSlate();
-  var classes = useStyles$1();
 
   // Define a rendering function based on the element passed to `props`.
   // Props is deconstructed in the {element, attributes, children, rest (any other prop)
@@ -1248,7 +1238,7 @@ function MaterialEditable(_ref) {
     }
   };
   return React__default.createElement(
-    slateReact.Editable,
+    StyledEditor,
     _extends({
       renderElement: handleRenderElement,
       renderLeaf: handleRenderLeaf,
@@ -1256,7 +1246,7 @@ function MaterialEditable(_ref) {
         return handleOnKeyDown(event);
       },
       placeholder: placeholder,
-      className: classes.editable + ' ' + className
+      className: className
     }, props),
     children
   );
@@ -1276,8 +1266,8 @@ MaterialEditable.defaultProps = {
   renderElement: PropTypes.func,
   /** Called when a leaf needs to be rendered */
   renderLeaf: PropTypes.func,
-  /** Text to display when there are no contents on the editor. Default" "Type some text..." */
-  placeholder: PropTypes.string,
+  /** Text/component to display when there are no contents on the editor. Default" "Type some text..." */
+  placeholder: PropTypes.any,
   /**
    * Additional hotkeys to be added other than default. Object of the form `{'mod+k': {type: 'mark', value: 'italic'}
    * defaultHotkeys can be disallowed by passing hotkeys as null
@@ -1291,90 +1281,45 @@ MaterialEditable.defaultProps = {
 };
 
 var interopRequireDefault = createCommonjsModule(function (module) {
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : {
-    "default": obj
+function _interopRequireDefault(e) {
+  return e && e.__esModule ? e : {
+    "default": e
   };
 }
-
-module.exports = _interopRequireDefault;
+module.exports = _interopRequireDefault, module.exports.__esModule = true, module.exports["default"] = module.exports;
 });
 
 unwrapExports(interopRequireDefault);
 
-var _extends_1 = createCommonjsModule(function (module) {
-function _extends() {
-  module.exports = _extends = Object.assign || function (target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i];
-
-      for (var key in source) {
-        if (Object.prototype.hasOwnProperty.call(source, key)) {
-          target[key] = source[key];
-        }
-      }
-    }
-
-    return target;
-  };
-
-  return _extends.apply(this, arguments);
-}
-
-module.exports = _extends;
-});
-
-var createSvgIcon_1 = createCommonjsModule(function (module, exports) {
-
-
+var createSvgIcon = createCommonjsModule(function (module, exports) {
+'use client';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = createSvgIcon;
-
-var _extends2 = interopRequireDefault(_extends_1);
-
-var _react = interopRequireDefault(React__default);
-
-var _SvgIcon = interopRequireDefault(SvgIcon);
-
-function createSvgIcon(path, displayName) {
-  var Component = _react.default.memo(_react.default.forwardRef(function (props, ref) {
-    return _react.default.createElement(_SvgIcon.default, (0, _extends2.default)({
-      ref: ref
-    }, props), path);
-  }));
-
-  if (process.env.NODE_ENV !== 'production') {
-    Component.displayName = "".concat(displayName, "Icon");
+Object.defineProperty(exports, "default", {
+  enumerable: true,
+  get: function () {
+    return utils.createSvgIcon;
   }
-
-  Component.muiName = _SvgIcon.default.muiName;
-  return Component;
-}
+});
 });
 
-unwrapExports(createSvgIcon_1);
+unwrapExports(createSvgIcon);
 
 var CropSquareOutlined = createCommonjsModule(function (module, exports) {
-
+"use client";
 
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
+var _createSvgIcon = interopRequireDefault(createSvgIcon);
 
-var _react = interopRequireDefault(React__default);
-
-var _createSvgIcon = interopRequireDefault(createSvgIcon_1);
-
-var _default = (0, _createSvgIcon.default)(_react.default.createElement("path", {
-  d: "M18 4H6c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H6V6h12v12z"
+var _default = exports.default = (0, _createSvgIcon.default)( /*#__PURE__*/(0, jsxRuntime.jsx)("path", {
+  d: "M18 4H6c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2m0 14H6V6h12z"
 }), 'CropSquareOutlined');
-
-exports.default = _default;
 });
 
 var CropSquareOutlined$1 = unwrapExports(CropSquareOutlined);
@@ -1450,7 +1395,7 @@ var ToolbarButton = React__default.forwardRef(function (_ref, ref) {
   };
 
   return disabled || isDisabled() ? React__default.createElement(
-    IconButton,
+    material.IconButton,
     _extends({
       'aria-label': tooltip ? tooltip : defaultTooltip(),
       ref: ref,
@@ -1462,13 +1407,13 @@ var ToolbarButton = React__default.forwardRef(function (_ref, ref) {
     }, rest),
     icon
   ) : React__default.createElement(
-    Tooltip,
+    material.Tooltip,
     {
       title: tooltip ? tooltip : defaultTooltip(),
       placement: placement
     },
     React__default.createElement(
-      IconButton,
+      material.IconButton,
       _extends({
         'aria-label': tooltip ? tooltip : defaultTooltip(),
         ref: ref,
@@ -1558,7 +1503,7 @@ ToolbarButton.defaultProps = {
   disableOnCollapse: PropTypes.bool,
 
   /**
-   * Instance a component. The icon that will be displayed. Typically an icon from @material-ui/icons
+   * Instance a component. The icon that will be displayed. Typically an icon from @mui/icons-material
    */
   icon: PropTypes.object,
 
@@ -1569,253 +1514,250 @@ ToolbarButton.defaultProps = {
 };
 
 var FormatBold = createCommonjsModule(function (module, exports) {
-
+"use client";
 
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
+var _createSvgIcon = interopRequireDefault(createSvgIcon);
 
-var _react = interopRequireDefault(React__default);
-
-var _createSvgIcon = interopRequireDefault(createSvgIcon_1);
-
-var _default = (0, _createSvgIcon.default)(_react.default.createElement("path", {
-  d: "M15.6 10.79c.97-.67 1.65-1.77 1.65-2.79 0-2.26-1.75-4-4-4H7v14h7.04c2.09 0 3.71-1.7 3.71-3.79 0-1.52-.86-2.82-2.15-3.42zM10 6.5h3c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5h-3v-3zm3.5 9H10v-3h3.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5z"
+var _default = exports.default = (0, _createSvgIcon.default)( /*#__PURE__*/(0, jsxRuntime.jsx)("path", {
+  d: "M15.6 10.79c.97-.67 1.65-1.77 1.65-2.79 0-2.26-1.75-4-4-4H7v14h7.04c2.09 0 3.71-1.7 3.71-3.79 0-1.52-.86-2.82-2.15-3.42M10 6.5h3c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5h-3zm3.5 9H10v-3h3.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5"
 }), 'FormatBold');
-
-exports.default = _default;
 });
 
 var FormatBold$1 = unwrapExports(FormatBold);
 
 /**
  * Toolbar button for bold text mark
- * 
+ *
  * @see ToolbarButton
  */
 
 var BoldButton = React__default.forwardRef(function (props, ref) {
-  return React__default.createElement(ToolbarButton, _extends({ icon: React__default.createElement(FormatBold$1, null), type: 'mark', format: 'bold', ref: ref }, props));
+  return React__default.createElement(ToolbarButton, _extends({
+    icon: React__default.createElement(FormatBold$1, null),
+    type: 'mark',
+    format: 'bold',
+    ref: ref
+  }, props));
 });
 
 var FormatItalicOutlined = createCommonjsModule(function (module, exports) {
-
+"use client";
 
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
+var _createSvgIcon = interopRequireDefault(createSvgIcon);
 
-var _react = interopRequireDefault(React__default);
-
-var _createSvgIcon = interopRequireDefault(createSvgIcon_1);
-
-var _default = (0, _createSvgIcon.default)(_react.default.createElement("path", {
-  d: "M10 4v3h2.21l-3.42 8H6v3h8v-3h-2.21l3.42-8H18V4h-8z"
+var _default = exports.default = (0, _createSvgIcon.default)( /*#__PURE__*/(0, jsxRuntime.jsx)("path", {
+  d: "M10 4v3h2.21l-3.42 8H6v3h8v-3h-2.21l3.42-8H18V4z"
 }), 'FormatItalicOutlined');
-
-exports.default = _default;
 });
 
 var FormatItalicOutlined$1 = unwrapExports(FormatItalicOutlined);
 
 /**
  * Toolbar button for italic text mark
- * 
+ *
  * @see ToolbarButton
  */
 
 var ItalicButton = React__default.forwardRef(function (props, ref) {
-  return React__default.createElement(ToolbarButton, _extends({ icon: React__default.createElement(FormatItalicOutlined$1, null), type: 'mark', format: 'italic', ref: ref }, props));
+  return React__default.createElement(ToolbarButton, _extends({
+    icon: React__default.createElement(FormatItalicOutlined$1, null),
+    type: 'mark',
+    format: 'italic',
+    ref: ref
+  }, props));
 });
 
 var FormatUnderlined = createCommonjsModule(function (module, exports) {
-
+"use client";
 
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
+var _createSvgIcon = interopRequireDefault(createSvgIcon);
 
-var _react = interopRequireDefault(React__default);
-
-var _createSvgIcon = interopRequireDefault(createSvgIcon_1);
-
-var _default = (0, _createSvgIcon.default)(_react.default.createElement("path", {
-  d: "M12 17c3.31 0 6-2.69 6-6V3h-2.5v8c0 1.93-1.57 3.5-3.5 3.5S8.5 12.93 8.5 11V3H6v8c0 3.31 2.69 6 6 6zm-7 2v2h14v-2H5z"
+var _default = exports.default = (0, _createSvgIcon.default)( /*#__PURE__*/(0, jsxRuntime.jsx)("path", {
+  d: "M12 17c3.31 0 6-2.69 6-6V3h-2.5v8c0 1.93-1.57 3.5-3.5 3.5S8.5 12.93 8.5 11V3H6v8c0 3.31 2.69 6 6 6m-7 2v2h14v-2z"
 }), 'FormatUnderlined');
-
-exports.default = _default;
 });
 
 var FormatUnderlined$1 = unwrapExports(FormatUnderlined);
 
 /**
  * Toolbar button for underlined text mark
- * 
+ *
  * @see ToolbarButton
  */
 var UnderlinedButton = React__default.forwardRef(function (props, ref) {
-  return React__default.createElement(ToolbarButton, _extends({ icon: React__default.createElement(FormatUnderlined$1, null), type: 'mark', format: 'underlined', ref: ref }, props));
+  return React__default.createElement(ToolbarButton, _extends({
+    icon: React__default.createElement(FormatUnderlined$1, null),
+    type: 'mark',
+    format: 'underlined',
+    ref: ref
+  }, props));
 });
 
 var StrikethroughS = createCommonjsModule(function (module, exports) {
-
+"use client";
 
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
+var _createSvgIcon = interopRequireDefault(createSvgIcon);
 
-var _react = interopRequireDefault(React__default);
-
-var _createSvgIcon = interopRequireDefault(createSvgIcon_1);
-
-var _default = (0, _createSvgIcon.default)(_react.default.createElement("path", {
-  d: "M6.85 7.08C6.85 4.37 9.45 3 12.24 3c1.64 0 3 .49 3.9 1.28.77.65 1.46 1.73 1.46 3.24h-3.01c0-.31-.05-.59-.15-.85-.29-.86-1.2-1.28-2.25-1.28-1.86 0-2.34 1.02-2.34 1.7 0 .48.25.88.74 1.21.38.25.77.48 1.41.7H7.39c-.21-.34-.54-.89-.54-1.92zM21 12v-2H3v2h9.62c1.15.45 1.96.75 1.96 1.97 0 1-.81 1.67-2.28 1.67-1.54 0-2.93-.54-2.93-2.51H6.4c0 .55.08 1.13.24 1.58.81 2.29 3.29 3.3 5.67 3.3 2.27 0 5.3-.89 5.3-4.05 0-.3-.01-1.16-.48-1.94H21V12z"
+var _default = exports.default = (0, _createSvgIcon.default)( /*#__PURE__*/(0, jsxRuntime.jsx)("path", {
+  d: "M6.85 7.08C6.85 4.37 9.45 3 12.24 3c1.64 0 3 .49 3.9 1.28.77.65 1.46 1.73 1.46 3.24h-3.01c0-.31-.05-.59-.15-.85-.29-.86-1.2-1.28-2.25-1.28-1.86 0-2.34 1.02-2.34 1.7 0 .48.25.88.74 1.21.38.25.77.48 1.41.7H7.39c-.21-.34-.54-.89-.54-1.92M21 12v-2H3v2h9.62c1.15.45 1.96.75 1.96 1.97 0 1-.81 1.67-2.28 1.67-1.54 0-2.93-.54-2.93-2.51H6.4c0 .55.08 1.13.24 1.58.81 2.29 3.29 3.3 5.67 3.3 2.27 0 5.3-.89 5.3-4.05 0-.3-.01-1.16-.48-1.94H21z"
 }), 'StrikethroughS');
-
-exports.default = _default;
 });
 
 var StrikethroughSIcon = unwrapExports(StrikethroughS);
 
 /**
  * Toolbar button for strike through text mark
- * 
+ *
  * @see ToolbarButton
  */
 
 var StrikethroughButton = React__default.forwardRef(function (props, ref) {
-  return React__default.createElement(ToolbarButton, _extends({ icon: React__default.createElement(StrikethroughSIcon, null), type: 'mark', format: 'strikethrough', ref: ref }, props));
+  return React__default.createElement(ToolbarButton, _extends({
+    icon: React__default.createElement(StrikethroughSIcon, null),
+    type: 'mark',
+    format: 'strikethrough',
+    ref: ref
+  }, props));
 });
 
 var Code = createCommonjsModule(function (module, exports) {
-
+"use client";
 
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
+var _createSvgIcon = interopRequireDefault(createSvgIcon);
 
-var _react = interopRequireDefault(React__default);
-
-var _createSvgIcon = interopRequireDefault(createSvgIcon_1);
-
-var _default = (0, _createSvgIcon.default)(_react.default.createElement("path", {
-  d: "M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"
+var _default = exports.default = (0, _createSvgIcon.default)( /*#__PURE__*/(0, jsxRuntime.jsx)("path", {
+  d: "M9.4 16.6 4.8 12l4.6-4.6L8 6l-6 6 6 6zm5.2 0 4.6-4.6-4.6-4.6L16 6l6 6-6 6z"
 }), 'Code');
-
-exports.default = _default;
 });
 
 var CodeIcon = unwrapExports(Code);
 
 /**
  * Toolbar button for adding code mono-spaced text mark
- * 
+ *
  * @see ToolbarButton
  */
 
 var CodeButton = React__default.forwardRef(function (props, ref) {
-  return React__default.createElement(ToolbarButton, _extends({ icon: React__default.createElement(CodeIcon, null), type: 'mark', format: 'code', ref: ref }, props));
+  return React__default.createElement(ToolbarButton, _extends({
+    icon: React__default.createElement(CodeIcon, null),
+    type: 'mark',
+    format: 'code',
+    ref: ref
+  }, props));
 });
 
 var FormatListBulleted = createCommonjsModule(function (module, exports) {
-
+"use client";
 
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
+var _createSvgIcon = interopRequireDefault(createSvgIcon);
 
-var _react = interopRequireDefault(React__default);
-
-var _createSvgIcon = interopRequireDefault(createSvgIcon_1);
-
-var _default = (0, _createSvgIcon.default)(_react.default.createElement("path", {
-  d: "M4 10.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm0-6c-.83 0-1.5.67-1.5 1.5S3.17 7.5 4 7.5 5.5 6.83 5.5 6 4.83 4.5 4 4.5zm0 12c-.83 0-1.5.68-1.5 1.5s.68 1.5 1.5 1.5 1.5-.68 1.5-1.5-.67-1.5-1.5-1.5zM7 19h14v-2H7v2zm0-6h14v-2H7v2zm0-8v2h14V5H7z"
+var _default = exports.default = (0, _createSvgIcon.default)( /*#__PURE__*/(0, jsxRuntime.jsx)("path", {
+  d: "M4 10.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5m0-6c-.83 0-1.5.67-1.5 1.5S3.17 7.5 4 7.5 5.5 6.83 5.5 6 4.83 4.5 4 4.5m0 12c-.83 0-1.5.68-1.5 1.5s.68 1.5 1.5 1.5 1.5-.68 1.5-1.5-.67-1.5-1.5-1.5M7 19h14v-2H7zm0-6h14v-2H7zm0-8v2h14V5z"
 }), 'FormatListBulleted');
-
-exports.default = _default;
 });
 
 var FormatListBulleted$1 = unwrapExports(FormatListBulleted);
 
 /**
  * Toolbar button for underlined text mark
- * 
+ *
  * @see ToolbarButton
- * 
+ *
  */
 var BulletedListButton = React__default.forwardRef(function (props, ref) {
-  return React__default.createElement(ToolbarButton, _extends({ icon: React__default.createElement(FormatListBulleted$1, null), type: 'block', format: 'bulleted-list', ref: ref }, props));
+  return React__default.createElement(ToolbarButton, _extends({
+    icon: React__default.createElement(FormatListBulleted$1, null),
+    type: 'block',
+    format: 'bulleted-list',
+    ref: ref
+  }, props));
 });
 
 var FormatListNumbered = createCommonjsModule(function (module, exports) {
-
+"use client";
 
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
+var _createSvgIcon = interopRequireDefault(createSvgIcon);
 
-var _react = interopRequireDefault(React__default);
-
-var _createSvgIcon = interopRequireDefault(createSvgIcon_1);
-
-var _default = (0, _createSvgIcon.default)(_react.default.createElement("path", {
-  d: "M2 17h2v.5H3v1h1v.5H2v1h3v-4H2v1zm1-9h1V4H2v1h1v3zm-1 3h1.8L2 13.1v.9h3v-1H3.2L5 10.9V10H2v1zm5-6v2h14V5H7zm0 14h14v-2H7v2zm0-6h14v-2H7v2z"
+var _default = exports.default = (0, _createSvgIcon.default)( /*#__PURE__*/(0, jsxRuntime.jsx)("path", {
+  d: "M2 17h2v.5H3v1h1v.5H2v1h3v-4H2zm1-9h1V4H2v1h1zm-1 3h1.8L2 13.1v.9h3v-1H3.2L5 10.9V10H2zm5-6v2h14V5zm0 14h14v-2H7zm0-6h14v-2H7z"
 }), 'FormatListNumbered');
-
-exports.default = _default;
 });
 
 var FormatListNumbered$1 = unwrapExports(FormatListNumbered);
 
 /**
  * Toolbar button for numbered list block
- * 
+ *
  * @see ToolbarButton
  */
 
 var NumberedListButton = React__default.forwardRef(function (props, ref) {
-  return React__default.createElement(ToolbarButton, _extends({ icon: React__default.createElement(FormatListNumbered$1, null), type: 'block', format: 'numbered-list', ref: ref }, props));
+  return React__default.createElement(ToolbarButton, _extends({
+    icon: React__default.createElement(FormatListNumbered$1, null),
+    type: 'block',
+    format: 'numbered-list',
+    ref: ref
+  }, props));
 });
 
-var useStyles$2 = styles.makeStyles(function (theme) {
+var StyledToolBar = material.styled(material.Box)(function (_ref) {
+  var theme = _ref.theme;
   return {
-    toolbar: {
-      backgroundColor: theme.palette.grey[200],
-      padding: theme.spacing(1 / 4)
-    }
+    backgroundColor: theme.palette.grey[200],
+    padding: theme.spacing(1 / 4)
   };
 });
 
 /**
  * Toolbar that appears on the top of the editor.
- * 
+ *
  * It accepts any content as children. If no children are set it displays by default the following buttons:
  * Bold, italic, underline, strike through, code, bulleted list and numbered list
  */
-function Toolbar(_ref) {
-  var children = _ref.children,
-      className = _ref.className,
-      props = objectWithoutProperties(_ref, ['children', 'className']);
+function Toolbar(_ref2) {
+  var children = _ref2.children,
+      className = _ref2.className,
+      props = objectWithoutProperties(_ref2, ['children', 'className']);
 
-
-  var classes = useStyles$2();
   return React__default.createElement(
-    core.Box,
-    _extends({ className: classes.toolbar, borderRadius: 'borderRadius' }, props),
+    StyledToolBar,
+    _extends({ borderRadius: 'borderRadius' }, props),
     !children && React__default.createElement(
       React__default.Fragment,
       null,
@@ -1841,37 +1783,36 @@ var Portal = function Portal(_ref) {
   return ReactDOM.createPortal(children, document.body);
 };
 
-var useStyles$3 = styles.makeStyles(function (theme) {
-  return {
-    hoveringToolbar: {
+var StyledBox = styled(Box)(function (_ref2) {
+  var theme = _ref2.theme;
+  return _extends({}, function (props) {
+    return !props.className && {
       position: 'absolute',
       padding: theme.spacing(1 / 4),
       zIndex: 1,
-      top: "-10000px",
-      left: "-10000px",
+      top: '-10000px',
+      left: '-10000px',
       opacity: 0,
       backgroundColor: theme.palette.grey[200],
-      transition: "opacity 0.75s"
-    }
-  };
+      transition: 'opacity 0.75s'
+    };
+  });
 });
 
 /**
- * A hovering toolbar that is, a toolbar that appears over a selected text, and only when there is 
- * a selection. 
- * 
+ * A hovering toolbar that is, a toolbar that appears over a selected text, and only when there is
+ * a selection.
+ *
  * If no children are provided it displays the following buttons:
  * Bold, italic, underlined, strike through and code.
- * 
- * Children will typically be `ToolbarButton`. 
+ *
+ * Children will typically be `ToolbarButton`.
  */
-function HoveringToolbar(_ref2) {
-  var children = _ref2.children,
-      className = _ref2.className,
-      props = objectWithoutProperties(_ref2, ['children', 'className']);
+function HoveringToolbar(_ref3) {
+  var children = _ref3.children,
+      className = _ref3.className,
+      props = objectWithoutProperties(_ref3, ['children', 'className']);
 
-
-  var classes = useStyles$3();
   var ref = React.useRef();
   var editor = slateReact.useSlate();
 
@@ -1901,11 +1842,11 @@ function HoveringToolbar(_ref2) {
     Portal,
     null,
     React__default.createElement(
-      Box,
+      StyledBox,
       _extends({
         borderRadius: 'borderRadius',
         ref: ref,
-        className: className ? className : classes.hoveringToolbar
+        className: className || ''
       }, props),
       !children && React__default.createElement(
         React__default.Fragment,
@@ -1923,29 +1864,34 @@ function HoveringToolbar(_ref2) {
 
 /**
  * Toolbar button separator.
- * 
- * Displays an horizontal line. Use it for separating groups of buttons. 
- * 
+ *
+ * Displays an horizontal line. Use it for separating groups of buttons.
+ *
  */
 
 function ButtonSeparator(_ref) {
   var borderColor = _ref.borderColor,
       other = objectWithoutProperties(_ref, ['borderColor']);
 
-  var theme = styles.useTheme();
   return React__default.createElement(
-    Box,
+    material.Box,
     _extends({ display: 'inline' }, other),
-    React__default.createElement(Box, { borderLeft: 1, borderColor: borderColor ? borderColor : "grey.400", marginLeft: '2px', marginRight: '2px', display: 'inline' })
+    React__default.createElement(material.Box, {
+      borderLeft: 1,
+      borderColor: borderColor ? borderColor : 'grey.400',
+      marginLeft: '2px',
+      marginRight: '2px',
+      display: 'inline'
+    })
   );
 }
 
 /**
  * Simple dialog box with a text field and two buttons Cancel and Save.
- * Three props need to be set: 
- *  
+ * Three props need to be set:
+ *
  *  1. `onCancel` called when the cancel button is pressed ,
- *  2. `onSave` called when the save button is pressed 
+ *  2. `onSave` called when the save button is pressed
  *  3. open, boolean that indicates if the dialog is displayed (true) or not (false)
  *
  */
@@ -1978,7 +1924,7 @@ function SimpleDialog(_ref) {
   };
 
   return React__default.createElement(
-    Dialog,
+    material.Dialog,
     {
       open: open,
       onClose: handleOnCancel,
@@ -1988,33 +1934,49 @@ function SimpleDialog(_ref) {
       maxWidth: props.maxWidth ? props.maxWidth : 'xs'
     },
     React__default.createElement(
-      DialogTitle,
+      material.DialogTitle,
       { id: 'dialog-title' },
       title
     ),
     React__default.createElement(
-      DialogContent,
+      material.DialogContent,
       null,
-      React__default.createElement(TextField, { fullWidth: true, multiline: true, autoFocus: true, defaultValue: defaultValue, label: label, variant: 'outlined',
+      React__default.createElement(material.TextField, {
+        fullWidth: true,
+        multiline: true,
+        autoFocus: true,
+        defaultValue: defaultValue,
+        label: label,
+        variant: 'outlined',
         onChange: function onChange(event) {
           return setValue(event.target.value);
-        }, required: true })
+        },
+        required: true
+      })
     ),
     React__default.createElement(
-      DialogActions,
+      material.DialogActions,
       null,
       React__default.createElement(
-        Button,
-        { onClick: function onClick() {
+        material.Button,
+        {
+          onClick: function onClick() {
             return handleOnCancel();
-          }, color: 'primary', variant: 'outlined' },
+          },
+          color: 'primary',
+          variant: 'outlined'
+        },
         'Cancel'
       ),
       React__default.createElement(
-        Button,
-        { onClick: function onClick(event) {
+        material.Button,
+        {
+          onClick: function onClick(event) {
             return handleOnSave();
-          }, color: 'primary', variant: 'contained' },
+          },
+          color: 'primary',
+          variant: 'contained'
+        },
         'Save'
       )
     )
@@ -2027,7 +1989,7 @@ SimpleDialog.propTypes = {
    */
   open: PropTypes.bool.isRequired,
   /**
-   * Called whe the Cancel button is pressed 
+   * Called whe the Cancel button is pressed
    */
   onCancel: PropTypes.func.isRequired,
   /**
@@ -2046,9 +2008,9 @@ SimpleDialog.propTypes = {
   label: PropTypes.string,
 
   /**
-   * Format of the element to be added/edited. 
+   * Format of the element to be added/edited.
    * For example: bold, italic, comment, link, endnote
-   * 
+   *
    * Just required if you use the same dialog for different type of nodes.
    */
   format: PropTypes.string,
@@ -2060,32 +2022,27 @@ SimpleDialog.propTypes = {
 };
 
 var AddCommentOutlined = createCommonjsModule(function (module, exports) {
-
+"use client";
 
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
+var _createSvgIcon = interopRequireDefault(createSvgIcon);
 
-var _react = interopRequireDefault(React__default);
-
-var _createSvgIcon = interopRequireDefault(createSvgIcon_1);
-
-var _default = (0, _createSvgIcon.default)(_react.default.createElement("path", {
-  d: "M22 4c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4V4zm-2 13.17L18.83 16H4V4h16v13.17zM13 5h-2v4H7v2h4v4h2v-4h4V9h-4z"
+var _default = exports.default = (0, _createSvgIcon.default)( /*#__PURE__*/(0, jsxRuntime.jsx)("path", {
+  d: "M22 4c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4zm-2 13.17L18.83 16H4V4h16zM13 5h-2v4H7v2h4v4h2v-4h4V9h-4z"
 }), 'AddCommentOutlined');
-
-exports.default = _default;
 });
 
 var AddCommentOutlinedIcon = unwrapExports(AddCommentOutlined);
 
 /**
  * Toolbar button for adding comments.
- * 
+ *
  * The button is disabled on collapse.
- * 
+ *
  * @see ToolbarButton
  */
 
@@ -2101,30 +2058,25 @@ var AddCommentButton = React__default.forwardRef(function (props, ref) {
 });
 
 var CallToActionOutlined = createCommonjsModule(function (module, exports) {
-
+"use client";
 
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
+var _createSvgIcon = interopRequireDefault(createSvgIcon);
 
-var _react = interopRequireDefault(React__default);
-
-var _createSvgIcon = interopRequireDefault(createSvgIcon_1);
-
-var _default = (0, _createSvgIcon.default)(_react.default.createElement("path", {
-  d: "M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H3V5h18v14zM5 15h14v3H5z"
+var _default = exports.default = (0, _createSvgIcon.default)( /*#__PURE__*/(0, jsxRuntime.jsx)("path", {
+  d: "M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m0 16H3V5h18zM5 15h14v3H5z"
 }), 'CallToActionOutlined');
-
-exports.default = _default;
 });
 
 var CallToActionOutlinedIcon = unwrapExports(CallToActionOutlined);
 
 /**
  * Toolbar button for adding endnotes
- * 
+ *
  * @see ToolbarButton
  */
 
@@ -2140,23 +2092,18 @@ var EndnoteButton = React__default.forwardRef(function (props, ref) {
 });
 
 var Link = createCommonjsModule(function (module, exports) {
-
+"use client";
 
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
+var _createSvgIcon = interopRequireDefault(createSvgIcon);
 
-var _react = interopRequireDefault(React__default);
-
-var _createSvgIcon = interopRequireDefault(createSvgIcon_1);
-
-var _default = (0, _createSvgIcon.default)(_react.default.createElement("path", {
-  d: "M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
+var _default = exports.default = (0, _createSvgIcon.default)( /*#__PURE__*/(0, jsxRuntime.jsx)("path", {
+  d: "M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1M8 13h8v-2H8zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5"
 }), 'Link');
-
-exports.default = _default;
 });
 
 var LinkIcon = unwrapExports(Link);
@@ -2241,12 +2188,11 @@ LinkButton.propTypes = {
   onMouseDown: PropTypes.func
 };
 
-var useStyles$4 = styles.makeStyles(function (theme) {
+var StyledBox$1 = material.styled(Box)(function (_ref) {
+  var theme = _ref.theme;
   return {
-    root: {
-      backgroundColor: '#e1f5fe',
-      cursor: 'pointer'
-    }
+    backgroundColor: '#e1f5fe',
+    cursor: 'pointer'
   };
 });
 
@@ -2260,21 +2206,21 @@ var useStyles$4 = styles.makeStyles(function (theme) {
  *  Expects the `element` object passed as prop to have `element.data.body` to display the comment text.
  *
  */
-var CommentElement = function CommentElement(_ref) {
-  var element = _ref.element,
-      _onClick = _ref.onClick,
-      className = _ref.className,
-      children = _ref.children,
-      attributes = _ref.attributes;
+var CommentElement = function CommentElement(_ref2) {
+  var element = _ref2.element,
+      _onClick = _ref2.onClick,
+      className = _ref2.className,
+      children = _ref2.children,
+      attributes = _ref2.attributes;
 
-  var classes = useStyles$4();
   return React__default.createElement(
-    Tooltip,
+    material.Tooltip,
     { title: 'Comment: ' + element.data.body },
     React__default.createElement(
-      'span',
+      StyledBox$1,
       _extends({
-        className: classes.root + ' ' + className
+        component: 'span',
+        className: '' + className
       }, attributes, {
         onClick: function onClick(event) {
           return _onClick && _onClick({ event: event, element: element });
@@ -2285,11 +2231,10 @@ var CommentElement = function CommentElement(_ref) {
   );
 };
 
-var useStyles$5 = styles.makeStyles(function (theme) {
+var StyledBox$2 = material.styled(material.Box)(function (_ref) {
+  var theme = _ref.theme;
   return {
-    root: {
-      cursor: 'pointer'
-    }
+    cursor: 'pointer'
   };
 });
 
@@ -2302,20 +2247,19 @@ var useStyles$5 = styles.makeStyles(function (theme) {
  *
  * If `onClick` prop is set it is called if user clicks the tex
  */
-var EndnoteElement = function EndnoteElement(_ref) {
-  var element = _ref.element,
-      _onClick = _ref.onClick,
-      attributes = _ref.attributes,
-      children = _ref.children;
+var EndnoteElement = function EndnoteElement(_ref2) {
+  var element = _ref2.element,
+      _onClick = _ref2.onClick,
+      attributes = _ref2.attributes,
+      children = _ref2.children;
 
-  var classes = useStyles$5();
   return React__default.createElement(
-    Tooltip,
+    material.Tooltip,
     { placement: 'top', title: '' + element.data.value },
     React__default.createElement(
-      'sup',
+      StyledBox$2,
       _extends({
-        className: classes.root
+        component: 'sup'
       }, attributes, {
         onClick: function onClick(event) {
           return _onClick && _onClick({ event: event, element: element });
@@ -2327,15 +2271,11 @@ var EndnoteElement = function EndnoteElement(_ref) {
   );
 };
 
-var useStyles$6 = styles.makeStyles(function (theme) {
+var Text = material.styled(material.Typography)(function (_ref) {
+  var theme = _ref.theme;
   return {
-    text: {
-      marginTop: theme.spacing(0.5),
-      marginLeft: theme.spacing(1)
-    },
-    textError: {
-      color: theme.palette.error.main
-    }
+    marginTop: theme.spacing(0.5),
+    marginLeft: theme.spacing(1)
   };
 });
 
@@ -2347,10 +2287,9 @@ var useStyles$6 = styles.makeStyles(function (theme) {
  *  - When maxWords is undefined, wordsLength = 90 `Ex: 90 words` will be displayed
  * Word counter will be displayed with error color, when wordLength exceeds maxWords
  */
-function WordCounter(_ref) {
-  var maxWords = _ref.maxWords;
+function WordCounter(_ref2) {
+  var maxWords = _ref2.maxWords;
 
-  var classes = useStyles$6();
   var editor = slateReact.useSlate();
   var children = editor.children;
   // Words length
@@ -2360,11 +2299,11 @@ function WordCounter(_ref) {
   var errorExceedWordsLimit = wordsLength > maxWords;
 
   return React__default.createElement(
-    Typography,
+    Text,
     {
       variant: 'subtitle2',
       color: 'textSecondary',
-      className: classes.text + ' ' + (errorExceedWordsLimit && classes.textError)
+      sx: _extends({}, errorExceedWordsLimit && { color: 'error.main' })
     },
     maxWords ? wordsLength + ' / ' + maxWords : wordsLength,
     ' words'
@@ -2380,15 +2319,11 @@ WordCounter.propTypes = {
   maxWords: PropTypes.number
 };
 
-var useStyles$7 = styles.makeStyles(function (theme) {
+var Text$1 = styles.styled(material.Typography)(function (_ref) {
+  var theme = _ref.theme;
   return {
-    text: {
-      marginTop: theme.spacing(0.5),
-      marginLeft: theme.spacing(1)
-    },
-    textError: {
-      color: theme.palette.error.main
-    }
+    marginTop: theme.spacing(0.5),
+    marginLeft: theme.spacing(1)
   };
 });
 
@@ -2400,10 +2335,9 @@ var useStyles$7 = styles.makeStyles(function (theme) {
  *  - When maxChars is undefined, charLength = 90 `Ex: 90 characters` will be displayed
  * Char counter will be displayed with error color, when CharLength exceeds maxChars
  */
-function CharCounter(_ref) {
-  var maxChars = _ref.maxChars;
+function CharCounter(_ref2) {
+  var maxChars = _ref2.maxChars;
 
-  var classes = useStyles$7();
   var editor = slateReact.useSlate();
   var children = editor.children;
   // Char length
@@ -2413,11 +2347,11 @@ function CharCounter(_ref) {
   var errorExceedCharsLimit = charLength > maxChars;
 
   return React__default.createElement(
-    Typography,
+    Text$1,
     {
       variant: 'subtitle2',
       color: 'textSecondary',
-      className: classes.text + ' ' + (errorExceedCharsLimit && classes.textError)
+      sx: _extends({}, errorExceedCharsLimit && { color: 'error.main' })
     },
     maxChars ? charLength + ' / ' + maxChars : charLength,
     ' characters'

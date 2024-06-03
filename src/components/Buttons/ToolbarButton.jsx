@@ -1,9 +1,8 @@
 import React from 'react'
 import { useSlate } from 'slate-react'
 import PropTypes from 'prop-types'
-import IconButton from '@material-ui/core/IconButton'
-import Tooltip from '@material-ui/core/Tooltip'
-import CropSquareOutlined from '@material-ui/icons/CropSquareOutlined'
+import { IconButton, Tooltip } from '@mui/material'
+import CropSquareOutlined from '@mui/icons-material/CropSquareOutlined'
 
 /**
  * ToolbarButton is the base button for any button on the toolbars.
@@ -191,7 +190,7 @@ ToolbarButton.propTypes = {
   disableOnCollapse: PropTypes.bool,
 
   /**
-   * Instance a component. The icon that will be displayed. Typically an icon from @material-ui/icons
+   * Instance a component. The icon that will be displayed. Typically an icon from @mui/icons-material
    */
   icon: PropTypes.object,
 
