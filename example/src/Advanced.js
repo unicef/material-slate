@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useState, useMemo, useCallback } from 'react'
 import {
   MaterialSlate,
@@ -21,8 +21,11 @@ import {
   defaultRenderElement,
   withEndnotes,
   withComments,
+  withMention,
   CommentElement,
   EndnoteElement,
+  MentionElement,
+  getBeforeRangeOfTagging,
 } from '@unicef/material-slate'
 
 import List from '@material-ui/core/List'
@@ -38,6 +41,24 @@ import Typography from '@material-ui/core/Typography'
 
 // Initial contents of the editor
 import initialValue from './initialValue'
+import { Editor, Range } from 'slate'
+import PeoplePicker from './Components/PeoplePicker'
+import { makeStyles } from '@material-ui/core'
+
+const useStyles = makeStyles(theme => ({
+  peoplePickerBox: {
+    position: 'relative',
+  },
+  peoplePickerContainer: {
+    top: '-9999px',
+    left: '-9999px',
+    position: 'absolute',
+    zIndex: 1,
+    background: 'white',
+    borderRadius: '4px',
+    boxShadow: '0 1px 5px rgba(0,0,0,.2)',
+  },
+}))
 
 /**
  * Example of advanced usage of the editor
@@ -47,17 +68,26 @@ import initialValue from './initialValue'
  * the editor and sync them)
  */
 export default function Advanced() {
+  const classes = useStyles()
   const [value, setValue] = useState(initialValue())
 
   const editor = useMemo(
-    () => withEndnotes(withComments(createMaterialEditor())),
+    () => withMention(withEndnotes(withComments(createMaterialEditor()))),
     []
   )
+
+  const mentionPickerRef = useRef()
   // Handles the dialog that is opened upon clicking the Comment Toolbar/HoveringBar button
   const [openCommentDialog, setOpenCommentDialog] = useState(false)
   // Handles the dialog that is opened upon clicking the Endnote Toolbar/HoveringBar button
   const [openEndnoteDialog, setOpenEndnoteDialog] = useState(false)
 
+  // current search for the mention
+  const [search, setSearch] = useState('')
+  // target of the current position for tagging
+  const [target, setTarget] = useState()
+  // tagging that is being processed
+  const [currentTaggingFinished, setCurrentTaggingFinished] = useState(false)
   // External list of comments
   const [comments, setComments] = useState([])
   // External list of endnotes
@@ -176,6 +206,23 @@ export default function Advanced() {
     editor.syncEndnotes(endnotes)
   }, [endnotes, editor])
 
+  // reset target element when mention is finished
+  useEffect(() => {
+    if (currentTaggingFinished) {
+      setTarget(null)
+    }
+  }, [currentTaggingFinished])
+
+  // set picker container styling
+  useEffect(() => {
+    if (target) {
+      const el = mentionPickerRef.current
+      el.style.top = `0px`
+      el.style.left = `0px`
+      el.style.width = `100%`
+    }
+  }, [editor, search, target])
+
   // All the basic buttons are handled within the MaterialEditable, but custom toolbar buttons
   // shall be handled in this function.
   //
@@ -195,6 +242,12 @@ export default function Advanced() {
               {children}
             </EndnoteElement>
           )
+        case 'mention':
+          return (
+            <MentionElement element={element} attributes={attributes}>
+              {children}
+            </MentionElement>
+          )
         default:
           return defaultRenderElement({
             element,
@@ -207,50 +260,133 @@ export default function Advanced() {
     []
   )
 
+  const onKeyDown = useCallback(
+    event => {
+      if (target) {
+        switch (event.key) {
+          case 'Tab':
+          case 'Enter':
+            event.preventDefault()
+            break
+          case 'ArrowDown':
+          case 'ArrowUp':
+            event.preventDefault()
+            break
+          case 'Escape':
+            // cancel any tagging , unless the user comes back to the first word
+            setCurrentTaggingFinished(true)
+            break
+          default:
+            break
+        }
+      }
+    },
+    [target]
+  )
+
+  const handleChange = value => {
+    setValue(value)
+
+    const { selection } = editor
+
+    if (selection && Range.isCollapsed(selection)) {
+      const [start] = Range.edges(selection)
+      const beforeRange = getBeforeRangeOfTagging(editor, start)
+      const beforeText = beforeRange && Editor.string(editor, beforeRange)
+      const beforeMatch = beforeText && beforeText.match(/^@[(\w+)(\s)]+$/) // beforeText.match(/^@(\w+)$/)
+      const after = Editor.after(editor, start)
+      const afterRange = Editor.range(editor, start, after)
+      const afterText = Editor.string(editor, afterRange)
+      const afterMatch = afterText.match(/^(\s|$)/)
+
+      if (!beforeMatch) setTarget(null)
+      if (beforeMatch && afterMatch && !currentTaggingFinished) {
+        setTarget(beforeRange)
+        beforeMatch[0] && setSearch(beforeMatch[0].replace('@', ''))
+        return
+      } else if (
+        // ensure the people picker appears again if the user goes back to the initial word
+        // with a @ at the beginning. It is important to make sure that this only applies to the FIRST word,
+        // not the second or third (beforeText.split(' ').length === 1))
+        (beforeText &&
+          beforeText.startsWith('@') &&
+          beforeText.split(' ').length === 1) ||
+        !beforeText
+      )
+        setCurrentTaggingFinished(false)
+    }
+  }
+
+  const handlePeoplePickerChange = value => {
+    const selectedUser = value && value[0]
+    editor.selectAndInsert(target, selectedUser.value, selectedUser.label)
+    // cancel any tagging process when the user finishes tagging a user
+    setCurrentTaggingFinished(true)
+  }
+
   return (
     <>
       <Grid container spacing={3}>
         <Grid item sm={6}>
-          <MaterialSlate
-            editor={editor}
-            value={value}
-            onChange={value => setValue(value)}
-            onBlur={() => console.log('blur')}
-          >
-            {/* By passing Buttons as children of the Toolbar you can customize it */}
-            <Toolbar>
-              <BoldButton />
-              <ItalicButton />
-              <UnderlinedButton />
-              <StrikethroughButton />
-              <CodeButton />
-              <ButtonSeparator />
-              <BulletedListButton />
-              <NumberedListButton />
+          <Box mb={20}>
+            <MaterialSlate
+              editor={editor}
+              value={value}
+              onChange={handleChange}
+              onBlur={() => console.log('blur')}
+            >
+              {/* By passing Buttons as children of the Toolbar you can customize it */}
+              <Toolbar>
+                <BoldButton />
+                <ItalicButton />
+                <UnderlinedButton />
+                <StrikethroughButton />
+                <CodeButton />
+                <ButtonSeparator />
+                <BulletedListButton />
+                <NumberedListButton />
 
-              {/* Disabled button.
+                {/* Disabled button.
             you can also use disableOnCollapse and disableOnSelection */}
-              <ToolbarButton type="block" format="blockquote" disabled />
+                <ToolbarButton type="block" format="blockquote" disabled />
 
-              {/* These two buttons require actions to be handled onMouseDown */}
-              <AddCommentButton
-                onMouseDown={event => onCustomButtonDown(event)}
-              />
-              <EndnoteButton onMouseDown={event => onCustomButtonDown(event)} />
-            </Toolbar>
-            <HoveringToolbar>
-              <BoldButton />
-              <ItalicButton />
-              <UnderlinedButton />
-              <StrikethroughButton />
-              <AddCommentButton
-                onMouseDown={event => onCustomButtonDown(event)}
-              />
-            </HoveringToolbar>
-            <MaterialEditable
-              renderElement={props => handleRenderElement(props)}
-            ></MaterialEditable>
-          </MaterialSlate>
+                {/* These two buttons require actions to be handled onMouseDown */}
+                <AddCommentButton
+                  onMouseDown={event => onCustomButtonDown(event)}
+                />
+                <EndnoteButton
+                  onMouseDown={event => onCustomButtonDown(event)}
+                />
+              </Toolbar>
+              <HoveringToolbar>
+                <BoldButton />
+                <ItalicButton />
+                <UnderlinedButton />
+                <StrikethroughButton />
+                <AddCommentButton
+                  onMouseDown={event => onCustomButtonDown(event)}
+                />
+              </HoveringToolbar>
+              <MaterialEditable
+                onKeyDown={onKeyDown}
+                renderElement={props => handleRenderElement(props)}
+              ></MaterialEditable>
+              {target && (
+                <Box className={classes.peoplePickerBox}>
+                  <Box
+                    ref={mentionPickerRef}
+                    className={classes.peoplePickerContainer}
+                  >
+                    <PeoplePicker
+                      onChange={handlePeoplePickerChange}
+                      searchingString={search}
+                    />
+                  </Box>
+                </Box>
+              )}
+            </MaterialSlate>
+          </Box>
+
           <SimpleDialog
             open={openCommentDialog}
             title="Add comment"
