@@ -10,10 +10,9 @@ import defaultRenderLeaf from './defaultRenderLeaf'
 import defaultHotkeys from './defaultHotkeys'
 
 const StyledEditor = styled(Editable)(({ theme }) => ({
-  paddingLeft: theme.spacing(1),
-  paddingRight: theme.spacing(1),
-  paddingBottom: theme.spacing(1),
+  padding: theme.spacing(1),
   fontFamily: theme.typography.fontFamily,
+  outline: 'none',
 }))
 
 /**

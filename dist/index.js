@@ -1201,10 +1201,9 @@ var defaultHotkeys = {
 var StyledEditor = material.styled(slateReact.Editable)(function (_ref) {
   var theme = _ref.theme;
   return {
-    paddingLeft: theme.spacing(1),
-    paddingRight: theme.spacing(1),
-    paddingBottom: theme.spacing(1),
-    fontFamily: theme.typography.fontFamily
+    padding: theme.spacing(1),
+    fontFamily: theme.typography.fontFamily,
+    outline: 'none'
   };
 });
 
