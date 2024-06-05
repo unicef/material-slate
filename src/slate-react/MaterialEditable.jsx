@@ -20,11 +20,12 @@ const StyledEditor = styled(Editable)(({ theme }) => ({
  * Wrapper of Slate Editable
  *
  */
+
 export default function MaterialEditable({
   renderElement,
   renderLeaf,
-  placeholder,
-  hotkeys,
+  placeholder = 'Type some text...',
+  hotkeys = defaultHotkeys,
   onHotkey,
   children,
   className,
@@ -79,14 +80,6 @@ export default function MaterialEditable({
     </StyledEditor>
   )
 }
-
-// Specifies the default values for props:
-MaterialEditable.defaultProps = {
-  placeholder: 'Type some text...',
-  hotkeys: defaultHotkeys,
-}
-
-// TODO add info about arguments in functions
 
 MaterialEditable.propTypes = {
   /** To style and override the existing class  */

@@ -10,16 +10,17 @@ import CropSquareOutlined from '@mui/icons-material/CropSquareOutlined'
  *
  * It displays a tooltip text on hover. If tooltip text is not passed as a prop it will use the capitalized text of the format
  */
+
 const ToolbarButton = React.forwardRef(
   (
     {
       tooltip,
-      placement,
-      icon,
+      placement = 'top',
+      icon = <CropSquareOutlined />,
       type,
       disabled,
-      disableOnSelection,
-      disableOnCollapse,
+      disableOnSelection = false,
+      disableOnCollapse = false,
       format,
       onMouseDown,
       isActive,
@@ -113,13 +114,6 @@ const ToolbarButton = React.forwardRef(
 )
 
 export default ToolbarButton
-
-ToolbarButton.defaultProps = {
-  placement: 'top',
-  icon: <CropSquareOutlined />,
-  disableOnCollapse: false,
-  disableOnSelection: false,
-}
 
 // PropTypes
 ToolbarButton.propTypes = {

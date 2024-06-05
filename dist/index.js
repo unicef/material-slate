@@ -1212,11 +1212,14 @@ var StyledEditor = material.styled(slateReact.Editable)(function (_ref) {
  * Wrapper of Slate Editable
  *
  */
+
 function MaterialEditable(_ref2) {
   var renderElement = _ref2.renderElement,
       renderLeaf = _ref2.renderLeaf,
-      placeholder = _ref2.placeholder,
-      hotkeys = _ref2.hotkeys,
+      _ref2$placeholder = _ref2.placeholder,
+      placeholder = _ref2$placeholder === undefined ? 'Type some text...' : _ref2$placeholder,
+      _ref2$hotkeys = _ref2.hotkeys,
+      hotkeys = _ref2$hotkeys === undefined ? defaultHotkeys : _ref2$hotkeys,
       onHotkey = _ref2.onHotkey,
       children = _ref2.children,
       className = _ref2.className,
@@ -1271,14 +1274,7 @@ function MaterialEditable(_ref2) {
   );
 }
 
-// Specifies the default values for props:
-MaterialEditable.defaultProps = {
-  placeholder: 'Type some text...',
-  hotkeys: defaultHotkeys
-
-  // TODO add info about arguments in functions
-
-};MaterialEditable.propTypes = {
+MaterialEditable.propTypes = {
   /** To style and override the existing class  */
   className: PropTypes.string,
   /** Called when an element needs to be rendered */
@@ -1349,14 +1345,19 @@ var CropSquareOutlined$1 = unwrapExports(CropSquareOutlined);
  *
  * It displays a tooltip text on hover. If tooltip text is not passed as a prop it will use the capitalized text of the format
  */
+
 var ToolbarButton = React__default.forwardRef(function (_ref, ref) {
   var tooltip = _ref.tooltip,
-      placement = _ref.placement,
-      icon = _ref.icon,
+      _ref$placement = _ref.placement,
+      placement = _ref$placement === undefined ? 'top' : _ref$placement,
+      _ref$icon = _ref.icon,
+      icon = _ref$icon === undefined ? React__default.createElement(CropSquareOutlined$1, null) : _ref$icon,
       type = _ref.type,
       disabled = _ref.disabled,
-      disableOnSelection = _ref.disableOnSelection,
-      disableOnCollapse = _ref.disableOnCollapse,
+      _ref$disableOnSelecti = _ref.disableOnSelection,
+      disableOnSelection = _ref$disableOnSelecti === undefined ? false : _ref$disableOnSelecti,
+      _ref$disableOnCollaps = _ref.disableOnCollapse,
+      disableOnCollapse = _ref$disableOnCollaps === undefined ? false : _ref$disableOnCollaps,
       format = _ref.format,
       onMouseDown = _ref.onMouseDown,
       isActive = _ref.isActive,
@@ -1447,14 +1448,8 @@ var ToolbarButton = React__default.forwardRef(function (_ref, ref) {
   );
 });
 
-ToolbarButton.defaultProps = {
-  placement: 'top',
-  icon: React__default.createElement(CropSquareOutlined$1, null),
-  disableOnCollapse: false,
-  disableOnSelection: false
-
-  // PropTypes
-};ToolbarButton.propTypes = {
+// PropTypes
+ToolbarButton.propTypes = {
   /**
    * Text displayed on the button tooltip. By Default it is the capitalized `format` string.
    * For instance, `bold` is displayed as `Bold`.
