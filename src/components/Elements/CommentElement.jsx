@@ -1,5 +1,5 @@
 import React from 'react'
-import { Tooltip, styled } from '@mui/material'
+import { Box, Tooltip, styled } from '@mui/material'
 
 const StyledBox = styled(Box)(({ theme }) => ({
   backgroundColor: '#e1f5fe',

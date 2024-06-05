@@ -16,6 +16,21 @@ var jsxRuntime = _interopDefault(require('react/jsx-runtime'));
 var ReactDOM = _interopDefault(require('react-dom'));
 var styles = require('@mui/material/styles');
 
+var defineProperty = function (obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
+};
+
 var _extends = Object.assign || function (target) {
   for (var i = 1; i < arguments.length; i++) {
     var source = arguments[i];
@@ -749,13 +764,17 @@ function MaterialSlate(_ref2) {
       onFocus: function onFocus() {
         return setIsFocused(true);
       },
-      className: classes.root + ' ' + (isFocused && (focusClassName ? focusClassName : 'materialSlate-focused')) + ' ' + className
+      className: (isFocused && (focusClassName ? focusClassName : 'materialSlate-focused')) + ' ' + className
     },
     React__default.createElement(
       slateReact.Slate,
-      { value: value, editor: editor, onChange: function onChange(value) {
+      {
+        initialValue: value,
+        editor: editor,
+        onChange: function onChange(value) {
           return _onChange(value);
-        } },
+        }
+      },
       children
     )
   );
@@ -1783,19 +1802,21 @@ var Portal = function Portal(_ref) {
   return ReactDOM.createPortal(children, document.body);
 };
 
-var StyledBox = styled(Box)(function (_ref2) {
+var classes = {
+  hoveringToolbar: 'hoveringToolbar'
+};
+
+var StyledBox = material.styled(material.Box)(function (_ref2) {
   var theme = _ref2.theme;
-  return _extends({}, function (props) {
-    return !props.className && {
-      position: 'absolute',
-      padding: theme.spacing(1 / 4),
-      zIndex: 1,
-      top: '-10000px',
-      left: '-10000px',
-      opacity: 0,
-      backgroundColor: theme.palette.grey[200],
-      transition: 'opacity 0.75s'
-    };
+  return defineProperty({}, '&.' + classes.hoveringToolbar, {
+    position: 'absolute',
+    padding: theme.spacing(1 / 4),
+    zIndex: 1,
+    top: '-10000px',
+    left: '-10000px',
+    opacity: 0,
+    backgroundColor: theme.palette.grey[200],
+    transition: 'opacity 0.75s'
   });
 });
 
@@ -1808,10 +1829,10 @@ var StyledBox = styled(Box)(function (_ref2) {
  *
  * Children will typically be `ToolbarButton`.
  */
-function HoveringToolbar(_ref3) {
-  var children = _ref3.children,
-      className = _ref3.className,
-      props = objectWithoutProperties(_ref3, ['children', 'className']);
+function HoveringToolbar(_ref4) {
+  var children = _ref4.children,
+      className = _ref4.className,
+      props = objectWithoutProperties(_ref4, ['children', 'className']);
 
   var ref = React.useRef();
   var editor = slateReact.useSlate();
@@ -1834,8 +1855,9 @@ function HoveringToolbar(_ref3) {
     var domRange = domSelection.getRangeAt(0);
     var rect = domRange.getBoundingClientRect();
     el.style.opacity = 1;
-    el.style.top = rect.top + window.pageYOffset - el.offsetHeight - 4 + 'px';
-    el.style.left = rect.left + window.pageXOffset - el.offsetWidth / 2 + rect.width / 2 + 'px';
+    el.style.top = rect.top + window.scrollY - el.offsetHeight - 4 + 'px';
+    var left = rect.left + window.scrollX - el.offsetWidth / 2 + rect.width / 2;
+    el.style.left = (left < 0 ? 4 : left) + 'px';
   });
 
   return React__default.createElement(
@@ -1846,7 +1868,7 @@ function HoveringToolbar(_ref3) {
       _extends({
         borderRadius: 'borderRadius',
         ref: ref,
-        className: className || ''
+        className: className ? className : classes.hoveringToolbar
       }, props),
       !children && React__default.createElement(
         React__default.Fragment,
@@ -2188,7 +2210,7 @@ LinkButton.propTypes = {
   onMouseDown: PropTypes.func
 };
 
-var StyledBox$1 = material.styled(Box)(function (_ref) {
+var StyledBox$1 = material.styled(material.Box)(function (_ref) {
   var theme = _ref.theme;
   return {
     backgroundColor: '#e1f5fe',

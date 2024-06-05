@@ -25,16 +25,18 @@ import {
   EndnoteElement,
 } from '@unicef/material-slate'
 
-import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemText from '@material-ui/core/ListItemText'
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
-import Box from '@material-ui/core/Box'
+import {
+  List,
+  ListItem,
+  ListItemText,
+  ListItemSecondaryAction,
+  Box,
+  Grid,
+  Typography,
+  IconButton,
+} from '@mui/material'
 
-import DeleteOutline from '@material-ui/icons/DeleteOutline'
-import IconButton from '@material-ui/core/IconButton'
-import Grid from '@material-ui/core/Grid'
-import Typography from '@material-ui/core/Typography'
+import DeleteOutline from '@mui/icons-material/DeleteOutline'
 
 // Initial contents of the editor
 import initialValue from './initialValue'

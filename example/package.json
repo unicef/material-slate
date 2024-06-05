@@ -1,21 +1,22 @@
 {
   "name": "@unicef/material-slate-example",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "homepage": "https://unicef.github.io/material-slate/",
   "dependencies": {
-    "@material-ui/core": "file:../node_modules/@material-ui/core",
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.3.2",
-    "@testing-library/user-event": "^7.1.2",
+    "@emotion/styled": "^11.10.5",
+    "@mui/material": "file:../node_modules/@mui/material",
+    "@testing-library/jest-dom": "^6.4.5",
+    "@testing-library/react": "^16.0.0",
+    "@testing-library/user-event": "^14.5.2",
     "@unicef/material-slate": "file:..",
     "is-url": "^1.2.4",
     "react": "file:../node_modules/react",
     "react-dom": "file:../node_modules/react-dom",
-    "react-scripts": "3.4.0",
-    "slate": "^0.57.1",
-    "slate-history": "^0.57.1",
-    "slate-react": "^0.57.1"
+    "react-scripts": "^5.0.1",
+    "slate": "^0.103.0",
+    "slate-history": "^0.100.0",
+    "slate-react": "^0.104.0"
   },
   "scripts": {
     "start": "react-scripts start",

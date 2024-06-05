@@ -39,11 +39,15 @@ export default function MaterialSlate({
     <StyledMaterialSlate
       onBlur={() => setIsFocused(false)}
       onFocus={() => setIsFocused(true)}
-      className={`${classes.root} ${
+      className={`${
         isFocused && (focusClassName ? focusClassName : 'materialSlate-focused')
       } ${className}`}
     >
-      <Slate value={value} editor={editor} onChange={value => onChange(value)}>
+      <Slate
+        initialValue={value}
+        editor={editor}
+        onChange={value => onChange(value)}
+      >
         {children}
       </Slate>
     </StyledMaterialSlate>

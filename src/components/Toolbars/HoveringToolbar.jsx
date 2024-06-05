@@ -1,8 +1,8 @@
 import React, { useRef, useEffect } from 'react'
 import ReactDOM from 'react-dom'
-
 import { Editor, Range } from 'slate'
 import { ReactEditor, useSlate } from 'slate-react'
+import { Box, styled } from '@mui/material'
 
 import BoldButton from '../Buttons/BoldButton'
 import ItalicButton from '../Buttons/ItalicButton'
@@ -14,18 +14,21 @@ const Portal = ({ children }) => {
   return ReactDOM.createPortal(children, document.body)
 }
 
+const classes = {
+  hoveringToolbar: 'hoveringToolbar',
+}
+
 const StyledBox = styled(Box)(({ theme }) => ({
-  ...props =>
-    !props.className && {
-      position: 'absolute',
-      padding: theme.spacing(1 / 4),
-      zIndex: 1,
-      top: '-10000px',
-      left: '-10000px',
-      opacity: 0,
-      backgroundColor: theme.palette.grey[200],
-      transition: 'opacity 0.75s',
-    },
+  [`&.${classes.hoveringToolbar}`]: {
+    position: 'absolute',
+    padding: theme.spacing(1 / 4),
+    zIndex: 1,
+    top: '-10000px',
+    left: '-10000px',
+    opacity: 0,
+    backgroundColor: theme.palette.grey[200],
+    transition: 'opacity 0.75s',
+  },
 }))
 
 /**
@@ -63,10 +66,10 @@ export default function HoveringToolbar({ children, className, ...props }) {
     const domRange = domSelection.getRangeAt(0)
     const rect = domRange.getBoundingClientRect()
     el.style.opacity = 1
-    el.style.top = `${rect.top + window.pageYOffset - el.offsetHeight - 4}px`
-    el.style.left = `${
-      rect.left + window.pageXOffset - el.offsetWidth / 2 + rect.width / 2
-    }px`
+    el.style.top = `${rect.top + window.scrollY - el.offsetHeight - 4}px`
+    const left =
+      rect.left + window.scrollX - el.offsetWidth / 2 + rect.width / 2
+    el.style.left = `${left < 0 ? 4 : left}px`
   })
 
   return (
@@ -74,7 +77,7 @@ export default function HoveringToolbar({ children, className, ...props }) {
       <StyledBox
         borderRadius="borderRadius"
         ref={ref}
-        className={className || ''}
+        className={className ? className : classes.hoveringToolbar}
         {...props}
       >
         {!children && (
