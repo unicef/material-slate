@@ -1958,18 +1958,22 @@ function SimpleDialog(_ref) {
     React__default.createElement(
       material.DialogContent,
       null,
-      React__default.createElement(material.TextField, {
-        fullWidth: true,
-        multiline: true,
-        autoFocus: true,
-        defaultValue: defaultValue,
-        label: label,
-        variant: 'outlined',
-        onChange: function onChange(event) {
-          return setValue(event.target.value);
-        },
-        required: true
-      })
+      React__default.createElement(
+        material.Box,
+        null,
+        React__default.createElement(material.TextField, {
+          fullWidth: true,
+          multiline: true,
+          autoFocus: true,
+          defaultValue: defaultValue,
+          label: label,
+          variant: 'outlined',
+          onChange: function onChange(event) {
+            return setValue(event.target.value);
+          },
+          required: true
+        })
+      )
     ),
     React__default.createElement(
       material.DialogActions,

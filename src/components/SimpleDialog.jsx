@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import {
+  Box,
   Button,
   Dialog,
   DialogActions,
@@ -52,16 +53,18 @@ export default function SimpleDialog({
     >
       <DialogTitle id="dialog-title">{title}</DialogTitle>
       <DialogContent>
-        <TextField
-          fullWidth
-          multiline
-          autoFocus
-          defaultValue={defaultValue}
-          label={label}
-          variant="outlined"
-          onChange={event => setValue(event.target.value)}
-          required
-        />
+        <Box>
+          <TextField
+            fullWidth
+            multiline
+            autoFocus
+            defaultValue={defaultValue}
+            label={label}
+            variant="outlined"
+            onChange={event => setValue(event.target.value)}
+            required
+          />
+        </Box>
       </DialogContent>
       <DialogActions>
         <Button
