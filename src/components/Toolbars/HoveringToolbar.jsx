@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import { Editor, Range } from 'slate'
-import { ReactEditor, useSlate } from 'slate-react'
+import { ReactEditor, useFocused, useSlate } from 'slate-react'
 import { Box, styled } from '@mui/material'
 
 import BoldButton from '../Buttons/BoldButton'
@@ -43,6 +43,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
 export default function HoveringToolbar({ children, className, ...props }) {
   const ref = useRef()
   const editor = useSlate()
+  const inFocus = useFocused()
 
   useEffect(() => {
     const el = ref.current
@@ -54,7 +55,7 @@ export default function HoveringToolbar({ children, className, ...props }) {
 
     if (
       !selection ||
-      !ReactEditor.isFocused(editor) ||
+      !inFocus ||
       Range.isCollapsed(selection) ||
       Editor.string(editor, selection) === ''
     ) {
@@ -80,7 +81,9 @@ export default function HoveringToolbar({ children, className, ...props }) {
         className={className ? className : classes.hoveringToolbar}
         {...props}
       >
-        {!children && (
+        {children ? (
+          children
+        ) : (
           <React.Fragment>
             <BoldButton />
             <ItalicButton />
@@ -89,7 +92,6 @@ export default function HoveringToolbar({ children, className, ...props }) {
             <CodeButton />
           </React.Fragment>
         )}
-        {children && children}
       </StyledBox>
     </Portal>
   )

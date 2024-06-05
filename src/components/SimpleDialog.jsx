@@ -8,7 +8,12 @@ import {
   DialogContent,
   DialogTitle,
   TextField,
+  styled,
 } from '@mui/material'
+
+const StyledBox = styled(Box)(({ theme }) => ({
+  paddingTop: theme.spacing(1),
+}))
 
 /**
  * Simple dialog box with a text field and two buttons Cancel and Save.
@@ -53,7 +58,7 @@ export default function SimpleDialog({
     >
       <DialogTitle id="dialog-title">{title}</DialogTitle>
       <DialogContent>
-        <Box>
+        <StyledBox>
           <TextField
             fullWidth
             multiline
@@ -64,7 +69,7 @@ export default function SimpleDialog({
             onChange={event => setValue(event.target.value)}
             required
           />
-        </Box>
+        </StyledBox>
       </DialogContent>
       <DialogActions>
         <Button

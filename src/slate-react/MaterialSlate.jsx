@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { Slate } from 'slate-react'
 import { Box, styled } from '@mui/material'
 
-const StyledMaterialSlate = styled(Box)(({ theme }) => ({
+const StyledBox = styled(Box)(({ theme }) => ({
   borderRadius: theme.shape.borderRadius,
   border: '1px solid',
   borderColor: theme.palette.grey[400],
@@ -36,7 +36,7 @@ export default function MaterialSlate({
 }) {
   const [isFocused, setIsFocused] = useState(false)
   return (
-    <StyledMaterialSlate
+    <StyledBox
       onBlur={() => setIsFocused(false)}
       onFocus={() => setIsFocused(true)}
       className={`${
@@ -50,7 +50,7 @@ export default function MaterialSlate({
       >
         {children}
       </Slate>
-    </StyledMaterialSlate>
+    </StyledBox>
   )
 }
 

@@ -717,7 +717,7 @@ var withLinks = function withLinks(editor) {
   return editor;
 };
 
-var StyledMaterialSlate = material.styled(material.Box)(function (_ref) {
+var StyledBox = material.styled(material.Box)(function (_ref) {
   var theme = _ref.theme;
   return {
     borderRadius: theme.shape.borderRadius,
@@ -756,7 +756,7 @@ function MaterialSlate(_ref2) {
       setIsFocused = _useState2[1];
 
   return React__default.createElement(
-    StyledMaterialSlate,
+    StyledBox,
     {
       onBlur: function onBlur() {
         return setIsFocused(false);
@@ -1801,7 +1801,7 @@ var classes = {
   hoveringToolbar: 'hoveringToolbar'
 };
 
-var StyledBox = material.styled(material.Box)(function (_ref2) {
+var StyledBox$1 = material.styled(material.Box)(function (_ref2) {
   var theme = _ref2.theme;
   return defineProperty({}, '&.' + classes.hoveringToolbar, {
     position: 'absolute',
@@ -1831,6 +1831,7 @@ function HoveringToolbar(_ref4) {
 
   var ref = React.useRef();
   var editor = slateReact.useSlate();
+  var inFocus = slateReact.useFocused();
 
   React.useEffect(function () {
     var el = ref.current;
@@ -1841,7 +1842,7 @@ function HoveringToolbar(_ref4) {
       return;
     }
 
-    if (!selection || !slateReact.ReactEditor.isFocused(editor) || slate.Range.isCollapsed(selection) || slate.Editor.string(editor, selection) === '') {
+    if (!selection || !inFocus || slate.Range.isCollapsed(selection) || slate.Editor.string(editor, selection) === '') {
       el.removeAttribute('style');
       return;
     }
@@ -1859,13 +1860,13 @@ function HoveringToolbar(_ref4) {
     Portal,
     null,
     React__default.createElement(
-      StyledBox,
+      StyledBox$1,
       _extends({
         borderRadius: 'borderRadius',
         ref: ref,
         className: className ? className : classes.hoveringToolbar
       }, props),
-      !children && React__default.createElement(
+      children ? children : React__default.createElement(
         React__default.Fragment,
         null,
         React__default.createElement(BoldButton, null),
@@ -1873,8 +1874,7 @@ function HoveringToolbar(_ref4) {
         React__default.createElement(UnderlinedButton, null),
         React__default.createElement(StrikethroughButton, null),
         React__default.createElement(CodeButton, null)
-      ),
-      children && children
+      )
     )
   );
 }
@@ -1903,6 +1903,13 @@ function ButtonSeparator(_ref) {
   );
 }
 
+var StyledBox$2 = material.styled(material.Box)(function (_ref) {
+  var theme = _ref.theme;
+  return {
+    paddingTop: theme.spacing(1)
+  };
+});
+
 /**
  * Simple dialog box with a text field and two buttons Cancel and Save.
  * Three props need to be set:
@@ -1912,15 +1919,15 @@ function ButtonSeparator(_ref) {
  *  3. open, boolean that indicates if the dialog is displayed (true) or not (false)
  *
  */
-function SimpleDialog(_ref) {
-  var open = _ref.open,
-      title = _ref.title,
-      label = _ref.label,
-      format = _ref.format,
-      defaultValue = _ref.defaultValue,
-      onCancel = _ref.onCancel,
-      onSave = _ref.onSave,
-      props = objectWithoutProperties(_ref, ['open', 'title', 'label', 'format', 'defaultValue', 'onCancel', 'onSave']);
+function SimpleDialog(_ref2) {
+  var open = _ref2.open,
+      title = _ref2.title,
+      label = _ref2.label,
+      format = _ref2.format,
+      defaultValue = _ref2.defaultValue,
+      onCancel = _ref2.onCancel,
+      onSave = _ref2.onSave,
+      props = objectWithoutProperties(_ref2, ['open', 'title', 'label', 'format', 'defaultValue', 'onCancel', 'onSave']);
 
   var _useState = React.useState(defaultValue),
       _useState2 = slicedToArray(_useState, 2),
@@ -1959,7 +1966,7 @@ function SimpleDialog(_ref) {
       material.DialogContent,
       null,
       React__default.createElement(
-        material.Box,
+        StyledBox$2,
         null,
         React__default.createElement(material.TextField, {
           fullWidth: true,
@@ -2209,7 +2216,7 @@ LinkButton.propTypes = {
   onMouseDown: PropTypes.func
 };
 
-var StyledBox$1 = material.styled(material.Box)(function (_ref) {
+var StyledBox$3 = material.styled(material.Box)(function (_ref) {
   var theme = _ref.theme;
   return {
     backgroundColor: '#e1f5fe',
@@ -2238,7 +2245,7 @@ var CommentElement = function CommentElement(_ref2) {
     material.Tooltip,
     { title: 'Comment: ' + element.data.body },
     React__default.createElement(
-      StyledBox$1,
+      StyledBox$3,
       _extends({
         component: 'span',
         className: '' + className
@@ -2252,7 +2259,7 @@ var CommentElement = function CommentElement(_ref2) {
   );
 };
 
-var StyledBox$2 = material.styled(material.Box)(function (_ref) {
+var StyledBox$4 = material.styled(material.Box)(function (_ref) {
   var theme = _ref.theme;
   return {
     cursor: 'pointer'
@@ -2278,7 +2285,7 @@ var EndnoteElement = function EndnoteElement(_ref2) {
     material.Tooltip,
     { placement: 'top', title: '' + element.data.value },
     React__default.createElement(
-      StyledBox$2,
+      StyledBox$4,
       _extends({
         component: 'sup'
       }, attributes, {
