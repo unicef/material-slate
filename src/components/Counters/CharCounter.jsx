@@ -1,8 +1,7 @@
 import React from 'react'
 import { useSlate } from 'slate-react'
 import PropTypes from 'prop-types'
-import { styled } from '@mui/material/styles'
-import { Typography } from '@mui/material'
+import { Typography, styled } from '@mui/material'
 
 const Text = styled(Typography)(({ theme }) => ({
   marginTop: theme.spacing(0.5),

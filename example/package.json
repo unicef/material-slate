@@ -4,7 +4,7 @@
   "private": true,
   "homepage": "https://unicef.github.io/material-slate/",
   "dependencies": {
-    "@emotion/styled": "^11.10.5",
+    "@emotion/styled": "file:../node_modules/@emotion/styled",
     "@mui/material": "file:../node_modules/@mui/material",
     "@testing-library/jest-dom": "^6.4.5",
     "@testing-library/react": "^16.0.0",

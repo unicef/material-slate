@@ -271,7 +271,7 @@ export default function Advanced() {
           onSave={({ format, value }) => handleDialogSave(format, value)}
         />
       </Grid>
-      <Grid item sm={6}>
+      <Grid item sm={3}>
         <Typography variant="caption">External Comments List</Typography>
         {comments.length === 0 ? (
           <Typography>No comments</Typography>

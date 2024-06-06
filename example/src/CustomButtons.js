@@ -66,17 +66,16 @@ export default function CustomButtons() {
 
   // handles block button renders
   const handleRenderElement = ({ element, children, attributes, ...rest }) => {
-    switch (element.type) {
-      case 'bigger':
-        return (
-          <p className={classes.bigger} {...attributes}>
-            {children}
-          </p>
-        )
+    if (element && element.type && element.type === 'bigger') {
+      return (
+        <p className={classes.bigger} {...attributes}>
+          {children}
+        </p>
+      )
+    } else {
+      // Include a call to defaultRenderElement if you want to include
+      return defaultRenderElement({ element, children, attributes, ...rest })
     }
-
-    // Include a call to defaultRenderElement if you want to include
-    return defaultRenderElement({ element, children, attributes, ...rest })
   }
 
   // Add leaf handler to handle marks

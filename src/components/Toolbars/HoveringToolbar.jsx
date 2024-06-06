@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import { Editor, Range } from 'slate'
-import { ReactEditor, useFocused, useSlate } from 'slate-react'
+import { useFocused, useSlate } from 'slate-react'
 import { Box, styled } from '@mui/material'
 
 import BoldButton from '../Buttons/BoldButton'

@@ -2,8 +2,8 @@ import React, { useCallback } from 'react'
 import { Transforms } from 'slate'
 import { Editable, useSlate } from 'slate-react'
 import PropTypes from 'prop-types'
-import isHotkey from 'is-hotkey'
-import { styled } from '@mui/material'
+import { isHotkey } from 'is-hotkey'
+import { Box, styled } from '@mui/material'
 
 import defaultRenderElement from './defaultRenderElement'
 import defaultRenderLeaf from './defaultRenderLeaf'
@@ -13,6 +13,9 @@ const StyledEditor = styled(Editable)(({ theme }) => ({
   padding: theme.spacing(1),
   fontFamily: theme.typography.fontFamily,
   outline: 'none',
+  '& .material-slate-placeholder': {
+    position: 'relative',
+  },
 }))
 
 /**
@@ -73,6 +76,11 @@ export default function MaterialEditable({
       onKeyDown={event => handleOnKeyDown(event)}
       placeholder={placeholder}
       className={className}
+      renderPlaceholder={({ attributes, children }) => (
+        <Box className="material-slate-placeholder">
+          <Box {...attributes}>{children}</Box>
+        </Box>
+      )}
       {...props}
     >
       {children}
