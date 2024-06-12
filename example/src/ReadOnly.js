@@ -1,13 +1,12 @@
-
-import React from "react"
-import { useState, useMemo } from "react"
+import React from 'react'
+import { useState, useMemo } from 'react'
 import {
   MaterialSlate,
   MaterialEditable,
   createMaterialEditor,
   Toolbar,
-  HoveringToolbar
-} from '@unicef/material-slate' 
+  HoveringToolbar,
+} from '@unicef/material-slate'
 
 //Initial contents of the editor
 import initialValue from './initialValue'
@@ -23,10 +22,14 @@ export default function ReadOnly() {
   const editor = useMemo(() => createMaterialEditor(), [])
 
   return (
-      <MaterialSlate editor={editor} value={value} onChange={(value) => setValue(value)}>
-        <Toolbar></Toolbar>
-        <HoveringToolbar></HoveringToolbar>
-        <MaterialEditable readOnly={true}/>
-      </MaterialSlate>
+    <MaterialSlate
+      editor={editor}
+      value={value}
+      onChange={value => setValue(value)}
+    >
+      <Toolbar readOnly={true}></Toolbar>
+      <HoveringToolbar></HoveringToolbar>
+      <MaterialEditable readOnly={true} />
+    </MaterialSlate>
   )
 }
