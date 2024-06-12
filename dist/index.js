@@ -1724,13 +1724,17 @@ var NumberedListButton = /*#__PURE__*/React.forwardRef(function (props, ref) {
   }, props));
 });
 
-var _excluded$4 = ["children", "className"];
+var _excluded$4 = ["theme"],
+  _excluded2$1 = ["children", "className"];
 var StyledToolBar = material.styled(material.Box)(function (_ref) {
-  var theme = _ref.theme;
-  return {
+  var theme = _ref.theme,
+    props = _objectWithoutProperties(_ref, _excluded$4);
+  return _objectSpread2({
     backgroundColor: theme.palette.grey[200],
     padding: theme.spacing(1 / 4)
-  };
+  }, props && props.readOnly ? {
+    pointerEvents: 'none'
+  } : {});
 });
 
 /**
@@ -1742,7 +1746,7 @@ var StyledToolBar = material.styled(material.Box)(function (_ref) {
 function Toolbar(_ref2) {
   var children = _ref2.children;
     _ref2.className;
-    var props = _objectWithoutProperties(_ref2, _excluded$4);
+    var props = _objectWithoutProperties(_ref2, _excluded2$1);
   return /*#__PURE__*/React.createElement(StyledToolBar, _extends({
     borderRadius: "borderRadius"
   }, props), !children && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(BoldButton, null), /*#__PURE__*/React.createElement(ItalicButton, null), /*#__PURE__*/React.createElement(UnderlinedButton, null), /*#__PURE__*/React.createElement(StrikethroughButton, null), /*#__PURE__*/React.createElement(CodeButton, null), /*#__PURE__*/React.createElement(BulletedListButton, null), /*#__PURE__*/React.createElement(NumberedListButton, null)), children && /*#__PURE__*/React.createElement(React.Fragment, null, children));

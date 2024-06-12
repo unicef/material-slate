@@ -8,9 +8,10 @@ import BulletedListButton from '../Buttons/BulletedListButton'
 import NumberedListButton from '../Buttons/NumberedListButton'
 import { Box, styled } from '@mui/material'
 
-const StyledToolBar = styled(Box)(({ theme }) => ({
+const StyledToolBar = styled(Box)(({ theme, ...props }) => ({
   backgroundColor: theme.palette.grey[200],
   padding: theme.spacing(1 / 4),
+  ...(props && props.readOnly ? { pointerEvents: 'none' } : {}),
 }))
 
 /**
