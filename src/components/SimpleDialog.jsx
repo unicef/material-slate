@@ -1,11 +1,11 @@
 import React, {useState} from 'react'
 import PropTypes from 'prop-types'
-import Button from '@material-ui/core/Button'
-import TextField from '@material-ui/core/TextField'
-import Dialog from '@material-ui/core/Dialog'
-import DialogTitle from '@material-ui/core/DialogTitle' 
-import DialogContent from '@material-ui/core/DialogContent' 
-import DialogActions from '@material-ui/core/DialogActions'
+import Button from '@mui/material/Button'
+import TextField from '@mui/material/TextField'
+import Dialog from '@mui/material/Dialog'
+import DialogTitle from '@mui/material/DialogTitle' 
+import DialogContent from '@mui/material/DialogContent' 
+import DialogActions from '@mui/material/DialogActions'
 
 /**
  * Simple dialog box with a text field and two buttons Cancel and Save.

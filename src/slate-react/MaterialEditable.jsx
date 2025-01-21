@@ -3,7 +3,7 @@ import { Transforms } from 'slate'
 import { Editable, useSlate } from 'slate-react'
 import PropTypes from 'prop-types'
 import isHotkey from 'is-hotkey'
-import { makeStyles } from '@material-ui/core/styles'
+import makeStyles from '@mui/styles/makeStyles';
 
 import defaultRenderElement from './defaultRenderElement'
 import defaultRenderLeaf from './defaultRenderLeaf'

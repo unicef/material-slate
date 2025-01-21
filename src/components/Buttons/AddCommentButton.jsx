@@ -1,6 +1,6 @@
 import React from 'react'
 import ToolbarButton from './ToolbarButton'
-import AddCommentOutlinedIcon from '@material-ui/icons/AddCommentOutlined'
+import AddCommentOutlinedIcon from '@mui/icons-material/AddCommentOutlined'
 
 /**
  * Toolbar button for adding comments.

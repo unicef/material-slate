@@ -1,6 +1,6 @@
 import React from 'react'
 import ToolbarButton from './ToolbarButton'
-import CodeIcon from '@material-ui/icons/Code'
+import CodeIcon from '@mui/icons-material/Code'
 
 /**
  * Toolbar button for adding code mono-spaced text mark

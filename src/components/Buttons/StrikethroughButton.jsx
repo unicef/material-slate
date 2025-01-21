@@ -1,6 +1,6 @@
 import React from 'react'
 import ToolbarButton from './ToolbarButton'
-import StrikethroughSIcon from '@material-ui/icons/StrikethroughS';
+import StrikethroughSIcon from '@mui/icons-material/StrikethroughS';
 
 /**
  * Toolbar button for strike through text mark

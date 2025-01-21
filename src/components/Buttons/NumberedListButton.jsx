@@ -1,6 +1,6 @@
 import React from 'react'
 import ToolbarButton from './ToolbarButton'
-import FormatListNumbered from '@material-ui/icons/FormatListNumbered'
+import FormatListNumbered from '@mui/icons-material/FormatListNumbered'
 
 /**
  * Toolbar button for numbered list block

@@ -1,6 +1,6 @@
 import React from 'react'
 import ToolbarButton from './ToolbarButton'
-import FormatUnderlined  from '@material-ui/icons/FormatUnderlined'
+import FormatUnderlined  from '@mui/icons-material/FormatUnderlined'
 
 /**
  * Toolbar button for underlined text mark

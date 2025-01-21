@@ -22,7 +22,7 @@ const withCounter = editor => {
     //Reg exp from https://css-tricks.com/build-word-counter-app/
     return content && content.replace(/\s/g, '') !== ''
       ? content.match(/\S+/g).length
-      : 0
+      : 0;
   }
 
   /**
@@ -32,7 +32,7 @@ const withCounter = editor => {
     return nodes
       .map(n => Node.string(n))
       .join('\n')
-      .split(/\r\n|\r|\n/).length
+      .split(/\r\n|\r|\n/).length;
   }
 
   return editor

@@ -1,6 +1,6 @@
 import React from 'react'
 import ToolbarButton from './ToolbarButton'
-import FormatItalicOutlined  from '@material-ui/icons/FormatItalicOutlined'
+import FormatItalicOutlined  from '@mui/icons-material/FormatItalicOutlined'
 
 /**
  * Toolbar button for italic text mark

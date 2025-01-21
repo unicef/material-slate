@@ -1,7 +1,6 @@
 import React from 'react'
-import Box from '@material-ui/core/Box'
-import PropTypes from 'prop-types'
-import {useTheme} from '@material-ui/core/styles'
+import Box from '@mui/material/Box'
+import {useTheme} from '@mui/material/styles'
 
 /**
  * Toolbar button separator.
