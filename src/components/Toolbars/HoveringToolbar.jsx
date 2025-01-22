@@ -1,25 +1,26 @@
 import React from 'react'
 import { useRef, useEffect } from 'react'
 import ReactDOM from 'react-dom'
-
 import { Editor, Range } from 'slate'
 import { ReactEditor, useSlate } from 'slate-react'
-
-import makeStyles from '@mui/styles/makeStyles'
 import Box from '@mui/material/Box'
-
 import BoldButton from '../Buttons/BoldButton'
 import ItalicButton from '../Buttons/ItalicButton'
 import UnderlinedButton from '../Buttons/UnderlinedButton'
 import StrikethroughButton from '../Buttons/StrikethroughButton'
 import CodeButton from '../Buttons/CodeButton'
+import { styled } from '@mui/material'
 
 const Portal = ({ children }) => {
   return ReactDOM.createPortal(children, document.body)
 }
 
-const useStyles = makeStyles(theme => ({
-  hoveringToolbar: {
+const classes = {
+  hoveringToolbar: 'hovering-toolbar',
+}
+
+const RootBox = styled(Box)(({ theme }) => ({
+  [`&.${classes.hoveringToolbar}`]: {
     position: 'absolute',
     padding: theme.spacing(1 / 4),
     zIndex: 1,
@@ -41,7 +42,6 @@ const useStyles = makeStyles(theme => ({
  * Children will typically be `ToolbarButton`.
  */
 export default function HoveringToolbar({ children, className, ...props }) {
-  const classes = useStyles()
   const ref = useRef()
   const editor = useSlate()
 
@@ -75,7 +75,7 @@ export default function HoveringToolbar({ children, className, ...props }) {
 
   return (
     <Portal>
-      <Box
+      <RootBox
         borderRadius="1px"
         ref={ref}
         className={className ? className : classes.hoveringToolbar}
@@ -91,7 +91,7 @@ export default function HoveringToolbar({ children, className, ...props }) {
           </React.Fragment>
         )}
         {children && children}
-      </Box>
+      </RootBox>
     </Portal>
   )
 }

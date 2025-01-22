@@ -8,7 +8,7 @@ import {
   WordCounter,
   CharCounter,
   withCounter,
-  defaultHotKeys,
+  defaultHotkeys,
 } from '@unicef/material-slate'
 import Box from '@material-ui/core/Box'
 //Initial contents of the editor
@@ -27,7 +27,7 @@ export default function Counter() {
 
   // all hot keys, including default and custom hotkeys
   const allHotKeys = {
-    ...defaultHotKeys,
+    ...defaultHotkeys,
     'mod+k': {
       type: 'mark',
       value: 'strikethrough',

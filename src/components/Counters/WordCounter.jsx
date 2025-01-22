@@ -2,14 +2,16 @@ import React from 'react'
 import { useSlate } from 'slate-react'
 import PropTypes from 'prop-types'
 import Typography from '@mui/material/Typography'
-import makeStyles from '@mui/styles/makeStyles';
+import { styled } from '@mui/material'
 
-const useStyles = makeStyles(theme => ({
-  text: {
-    marginTop: theme.spacing(0.5),
-    marginLeft: theme.spacing(1),
-  },
-  textError: {
+const classes = {
+  textError: 'text-error',
+}
+
+const RootTypography = styled(Typography)(({ theme }) => ({
+  marginTop: theme.spacing(0.5),
+  marginLeft: theme.spacing(1),
+  [`&.${classes.textError}`]: {
     color: theme.palette.error.main,
   },
 }))
@@ -23,7 +25,6 @@ const useStyles = makeStyles(theme => ({
  * Word counter will be displayed with error color, when wordLength exceeds maxWords
  */
 export default function WordCounter({ maxWords }) {
-  const classes = useStyles()
   const editor = useSlate()
   const { children } = editor
   // Words length
@@ -32,14 +33,13 @@ export default function WordCounter({ maxWords }) {
   const errorExceedWordsLimit = wordsLength > maxWords
 
   return (
-    <Typography
+    <RootTypography
       variant="subtitle2"
       color="textSecondary"
-      className={`${classes.text} ${errorExceedWordsLimit &&
-        classes.textError}`}
+      className={`${errorExceedWordsLimit && classes.textError}`}
     >
       {maxWords ? `${wordsLength} / ${maxWords}` : wordsLength} words
-    </Typography>
+    </RootTypography>
   )
 }
 

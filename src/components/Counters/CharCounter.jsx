@@ -2,14 +2,16 @@ import React from 'react'
 import { useSlate } from 'slate-react'
 import Typography from '@mui/material/Typography'
 import PropTypes from 'prop-types'
-import makeStyles from '@mui/styles/makeStyles';
+import { styled } from '@mui/material'
 
-const useStyles = makeStyles(theme => ({
-  text: {
-    marginTop: theme.spacing(0.5),
-    marginLeft: theme.spacing(1),
-  },
-  textError: {
+const classes = {
+  textError: 'text-error',
+}
+
+const RootTypography = styled(Typography)(({ theme }) => ({
+  marginTop: theme.spacing(0.5),
+  marginLeft: theme.spacing(1),
+  [`&.${classes.textError}`]: {
     color: theme.palette.error.main,
   },
 }))
@@ -23,7 +25,6 @@ const useStyles = makeStyles(theme => ({
  * Char counter will be displayed with error color, when CharLength exceeds maxChars
  */
 export default function CharCounter({ maxChars }) {
-  const classes = useStyles()
   const editor = useSlate()
   const { children } = editor
   // Char length
@@ -32,14 +33,13 @@ export default function CharCounter({ maxChars }) {
   const errorExceedCharsLimit = charLength > maxChars
 
   return (
-    <Typography
+    <RootTypography
       variant="subtitle2"
       color="textSecondary"
-      className={`${classes.text} ${errorExceedCharsLimit &&
-        classes.textError}`}
+      className={`${errorExceedCharsLimit && classes.textError}`}
     >
       {maxChars ? `${charLength} / ${maxChars}` : charLength} characters
-    </Typography>
+    </RootTypography>
   )
 }
 

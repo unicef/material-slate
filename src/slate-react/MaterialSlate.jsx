@@ -3,18 +3,20 @@ import { useState } from 'react'
 import PropTypes from 'prop-types'
 import { Slate } from 'slate-react'
 import Box from '@mui/material/Box'
-import makeStyles from '@mui/styles/makeStyles';
+import { styled } from '@mui/material'
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    borderRadius: theme.shape.borderRadius,
-    border: '1px solid',
-    borderColor: theme.palette.grey[400],
-    '&:hover': {
-      borderColor: theme.palette.text.primary,
-    },
+const classes = {
+  focused: 'focused',
+}
+
+const RootBox = styled(Box)(({ theme }) => ({
+  borderRadius: theme.shape.borderRadius,
+  border: '1px solid',
+  borderColor: theme.palette.grey[400],
+  '&:hover': {
+    borderColor: theme.palette.text.primary,
   },
-  focused: {
+  [`&.${classes.focused}`]: {
     borderColor: theme.palette.primary.main,
     '&:hover': {
       borderColor: theme.palette.primary.main,
@@ -37,19 +39,19 @@ export default function MaterialSlate({
   className,
   focusClassName,
 }) {
-  const classes = useStyles()
   const [isFocused, setIsFocused] = useState(false)
   return (
-    <Box
+    <RootBox
       onBlur={() => setIsFocused(false)}
       onFocus={() => setIsFocused(true)}
-      className={`${classes.root} ${isFocused &&
-        (focusClassName ? focusClassName : classes.focused)} ${className}`}
+      className={`${
+        isFocused && (focusClassName ? focusClassName : isFocused.focused)
+      } ${className}`}
     >
       <Slate value={value} editor={editor} onChange={value => onChange(value)}>
         {children}
       </Slate>
-    </Box>
+    </RootBox>
   )
 }
 

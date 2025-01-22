@@ -1,6 +1,5 @@
 import React from 'react'
-import makeStyles from '@mui/styles/makeStyles'
-import { Box } from '@mui/material'
+import { Box, styled } from '@mui/material'
 import BoldButton from '../Buttons/BoldButton'
 import ItalicButton from '../Buttons/ItalicButton'
 import UnderlinedButton from '../Buttons/UnderlinedButton'
@@ -9,11 +8,11 @@ import CodeButton from '../Buttons/CodeButton'
 import BulletedListButton from '../Buttons/BulletedListButton'
 import NumberedListButton from '../Buttons/NumberedListButton'
 
-const useStyles = makeStyles(theme => ({
-  toolbar: {
-    backgroundColor: theme.palette.grey[200],
-    padding: theme.spacing(1 / 4),
-  },
+const RootBox = styled(Box)(({ theme }) => ({
+  paddingLeft: theme.spacing(1),
+  paddingRight: theme.spacing(1),
+  paddingBottom: theme.spacing(1),
+  fontFamily: theme.typography.fontFamily,
 }))
 
 /**
@@ -23,9 +22,8 @@ const useStyles = makeStyles(theme => ({
  * Bold, italic, underline, strike through, code, bulleted list and numbered list
  */
 export default function Toolbar({ children, className, ...props }) {
-  const classes = useStyles()
   return (
-    <Box className={classes.toolbar} borderRadius="1px" {...props}>
+    <RootBox borderRadius="1px" {...props}>
       {!children && (
         <React.Fragment>
           <BoldButton />
@@ -38,6 +36,6 @@ export default function Toolbar({ children, className, ...props }) {
         </React.Fragment>
       )}
       {children && <React.Fragment>{children}</React.Fragment>}
-    </Box>
+    </RootBox>
   )
 }

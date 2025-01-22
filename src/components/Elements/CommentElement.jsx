@@ -1,9 +1,9 @@
 import React from 'react'
 import Tooltip from '@mui/material/Tooltip'
-import makeStyles from '@mui/styles/makeStyles';
+import { styled } from '@mui/styles'
 
-const useStyles = makeStyles(theme => ({
-  root: {
+const RootTooltip = styled(Tooltip)(({ theme }) => ({
+  '& span': {
     backgroundColor: '#e1f5fe',
     cursor: 'pointer',
   },
@@ -26,17 +26,16 @@ const CommentElement = ({
   children,
   attributes,
 }) => {
-  const classes = useStyles()
   return (
-    <Tooltip title={`Comment: ${element.data.body}`}>
+    <RootTooltip title={`Comment: ${element.data.body}`}>
       <span
-        className={`${classes.root} ${className}`}
+        className={`${className}`}
         {...attributes}
         onClick={event => onClick && onClick({ event, element })}
       >
         {children}
       </span>
-    </Tooltip>
+    </RootTooltip>
   )
 }
 
