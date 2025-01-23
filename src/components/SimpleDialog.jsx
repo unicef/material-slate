@@ -6,6 +6,7 @@ import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle' 
 import DialogContent from '@mui/material/DialogContent' 
 import DialogActions from '@mui/material/DialogActions'
+import { Box } from '@mui/material'
 
 /**
  * Simple dialog box with a text field and two buttons Cancel and Save.
@@ -42,8 +43,18 @@ export default function SimpleDialog({ open, title, label, format, defaultValue,
     >
       <DialogTitle id="dialog-title">{title}</DialogTitle>
       <DialogContent>
-        <TextField fullWidth multiline autoFocus defaultValue={defaultValue} label={label} variant="outlined"  
-        onChange={(event) => setValue(event.target.value) }required />
+        <Box mt={1}>
+            <TextField
+              fullWidth
+              multiline
+              autoFocus
+              defaultValue={defaultValue}
+              label={label}
+              variant="outlined"
+              onChange={event => setValue(event.target.value)}
+              required
+            />
+        </Box>
       </DialogContent>
       <DialogActions>
         <Button onClick={() => handleOnCancel()} color="primary" variant='outlined'>
