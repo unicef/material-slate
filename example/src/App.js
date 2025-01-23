@@ -1,8 +1,5 @@
 import React from 'react'
-
-import { makeStyles } from '@material-ui/core/styles'
-import Typography from '@material-ui/core/Typography'
-import Box from '@material-ui/core/Box'
+import { Box, Typography, styled } from '@mui/material'
 import Basic from './Basic'
 import Hovering from './Hovering'
 import CustomButtons from './CustomButtons'
@@ -11,24 +8,29 @@ import ReadOnly from './ReadOnly'
 import Advanced from './Advanced'
 import Link from './Link'
 
-const useStyles = makeStyles(theme => ({
-  intro: {
+const classes = {
+  intro: 'intro',
+  air: 'air',
+  readable: 'readable',
+}
+
+const RootBox = styled(Box)(({ theme }) => ({
+  [`& .${classes.intro}`]: {
     marginLeft: theme.spacing(2),
     paddingLeft: theme.spacing(2),
   },
-  air: {
+  [`& .${classes.air}`]: {
     margin: theme.spacing(2),
     padding: theme.spacing(2),
   },
-  readable: {
+  [`& .${classes.readable}`]: {
     maxWidth: 800,
   },
 }))
 
 export default function App() {
-  const classes = useStyles()
   return (
-    <>
+    <RootBox>
       <Box className={classes.intro}>
         <Typography variant="h1">UNICEF Material Slate</Typography>
         <Typography>
@@ -49,7 +51,6 @@ export default function App() {
         </a>
         <Basic />
       </Box>
-
       <Box className={`${classes.air} ${classes.readable} `}>
         <Typography variant="h2">Hover toolbar</Typography>
         <Typography>Toolbar appears on selecting a text</Typography>
@@ -58,7 +59,6 @@ export default function App() {
         </a>
         <Hovering />
       </Box>
-
       <Box className={`${classes.air} ${classes.readable} `}>
         <Typography variant="h2">Custom Buttons & Styles</Typography>
         <Typography>Create custom buttons and custom style</Typography>
@@ -67,7 +67,6 @@ export default function App() {
         </a>
         <CustomButtons />
       </Box>
-
       <Box className={`${classes.air} ${classes.readable} `}>
         <Typography variant="h2">Word and character counter</Typography>
         <a href="https://github.com/unicef/material-slate/blob/master/example/src/Counter.js">
@@ -75,7 +74,6 @@ export default function App() {
         </a>
         <Counter />
       </Box>
-
       <Box className={`${classes.air} ${classes.readable} `}>
         <Typography variant="h2">Link Example</Typography>
         <a href="https://github.com/unicef/material-slate/blob/master/example/src/Link.js">
@@ -83,7 +81,6 @@ export default function App() {
         </a>
         <Link />
       </Box>
-
       <Box className={`${classes.air} ${classes.readable} `}>
         <Typography variant="h2">Read only mode</Typography>
         <a href="https://github.com/unicef/material-slate/blob/master/example/src/ReadOnly.js">
@@ -91,7 +88,6 @@ export default function App() {
         </a>
         <ReadOnly />
       </Box>
-
       <Box className={classes.air}>
         <Typography variant="h2">Advanced usage </Typography>
         <a href="https://github.com/unicef/material-slate/blob/master/example/src/Advanced.js">
@@ -99,6 +95,6 @@ export default function App() {
         </a>
         <Advanced />
       </Box>
-    </>
+    </RootBox>
   )
 }

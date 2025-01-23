@@ -25,19 +25,20 @@ import {
   EndnoteElement,
 } from '@unicef/material-slate'
 
-import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemText from '@material-ui/core/ListItemText'
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
-import Box from '@material-ui/core/Box'
-
-import DeleteOutline from '@material-ui/icons/DeleteOutline'
-import IconButton from '@material-ui/core/IconButton'
-import Grid from '@material-ui/core/Grid'
-import Typography from '@material-ui/core/Typography'
+import DeleteOutline from '@mui/icons-material/DeleteOutline'
+import IconButton from '@mui/material/IconButton'
 
 // Initial contents of the editor
 import initialValue from './initialValue'
+import {
+  Typography,
+  Grid,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemSecondaryAction,
+  Box,
+} from '@mui/material'
 
 /**
  * Example of advanced usage of the editor
@@ -270,7 +271,7 @@ export default function Advanced() {
             onSave={({ format, value }) => handleDialogSave(format, value)}
           />
         </Grid>
-        <Grid>
+        <Grid item>
           <Typography variant="caption">External Comments List</Typography>
           {comments.length === 0 ? (
             <Typography>No comments</Typography>

@@ -10,10 +10,9 @@ import {
   withCounter,
   defaultHotkeys,
 } from '@unicef/material-slate'
-import Box from '@material-ui/core/Box'
 //Initial contents of the editor
 import initialValue from './initialValue'
-import { Divider } from '@material-ui/core'
+import { Box, Divider } from '@mui/material'
 
 /**
  * Words and characters counter example for Material Slate

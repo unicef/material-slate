@@ -8,7 +8,6 @@ module.exports = {
   usageMode: 'expand',
   getComponentPathLine: componentPath => {
     const name = componentPath.split('/').pop().split('.js')[0]
-
     return `import { ${name} } from '@unicef/material-slate`
   },
   webpackConfig: {

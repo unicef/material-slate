@@ -9,10 +9,8 @@ import BulletedListButton from '../Buttons/BulletedListButton'
 import NumberedListButton from '../Buttons/NumberedListButton'
 
 const RootBox = styled(Box)(({ theme }) => ({
-  paddingLeft: theme.spacing(1),
-  paddingRight: theme.spacing(1),
-  paddingBottom: theme.spacing(1),
-  fontFamily: theme.typography.fontFamily,
+  backgroundColor: theme.palette.grey[200],
+  padding: theme.spacing(1 / 4),
 }))
 
 /**

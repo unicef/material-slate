@@ -2,8 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 import PropTypes from 'prop-types'
 import { Slate } from 'slate-react'
-import Box from '@mui/material/Box'
-import { styled } from '@mui/material'
+import { Box, styled } from '@mui/material'
 
 const classes = {
   focused: 'focused',
