@@ -1,5 +1,9 @@
-# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+# This workflow will run tests using node and then publish a package to GitHub Packages when a release is created
+# npmjs publishing is configured for npm "Trusted Publishers" (OIDC) to avoid long-lived tokens.
+# Docs:
+# - https://docs.npmjs.com/trusted-publishers
+# - https://github.blog/changelog/2025-12-09-npm-classic-tokens-revoked-session-based-auth-and-cli-token-management-now-available/
+
 name: Node.js CI
 
 on:
@@ -14,48 +18,48 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [18.x, 20.x]
-
+    permissions:
+      contents: read
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: '24.x'
+          cache: 'npm'
       - run: npm ci
-      # run: npm run lint
-      - run: npm run build --if-present
-        # run: npm test
-        env:
-          CI: true
+      - run: npm test
+      - run: npm run build
 
   publish-npm:
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v4
         with:
-          node-version: 18
-          registry-url: https://registry.npmjs.org/
+          node-version: '24.x'
+          registry-url: https://registry.npmjs.org
+          cache: 'npm'
       - run: npm ci
-      - run: pwd
       - run: npm publish --access=public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.npm_token }}
 
   publish-gpr:
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: '24.x'
           registry-url: https://npm.pkg.github.com/
+          cache: 'npm'
       - run: npm ci
       - run: npm publish
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
