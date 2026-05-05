@@ -2,19 +2,19 @@ import React, { useCallback } from 'react'
 import { Transforms } from 'slate'
 import { Editable, useSlate } from 'slate-react'
 import PropTypes from 'prop-types'
-import isHotkey from 'is-hotkey'
-import { makeStyles } from '@material-ui/core/styles'
+import { isHotkey } from 'is-hotkey'
+import { Box, styled } from '@mui/material'
 
 import defaultRenderElement from './defaultRenderElement'
 import defaultRenderLeaf from './defaultRenderLeaf'
 import defaultHotkeys from './defaultHotkeys'
 
-const useStyles = makeStyles(theme => ({
-  editable: {
-    paddingLeft: theme.spacing(1),
-    paddingRight: theme.spacing(1),
-    paddingBottom: theme.spacing(1),
-    fontFamily: theme.typography.fontFamily,
+const StyledEditor = styled(Editable)(({ theme }) => ({
+  padding: theme.spacing(1),
+  fontFamily: theme.typography.fontFamily,
+  outline: 'none',
+  '& .material-slate-placeholder': {
+    position: 'relative',
   },
 }))
 
@@ -22,18 +22,18 @@ const useStyles = makeStyles(theme => ({
  * Wrapper of Slate Editable
  *
  */
+
 export default function MaterialEditable({
   renderElement,
   renderLeaf,
-  placeholder,
-  hotkeys,
+  placeholder = 'Type some text...',
+  hotkeys = defaultHotkeys,
   onHotkey,
   children,
   className,
   ...props
 }) {
   const editor = useSlate()
-  const classes = useStyles()
 
   // Define a rendering function based on the element passed to `props`.
   // Props is deconstructed in the {element, attributes, children, rest (any other prop)
@@ -70,26 +70,23 @@ export default function MaterialEditable({
     }
   }
   return (
-    <Editable
+    <StyledEditor
       renderElement={handleRenderElement}
       renderLeaf={handleRenderLeaf}
       onKeyDown={event => handleOnKeyDown(event)}
       placeholder={placeholder}
-      className={`${classes.editable} ${className}`}
+      className={className}
+      renderPlaceholder={({ attributes, children }) => (
+        <Box className="material-slate-placeholder">
+          <Box {...attributes}>{children}</Box>
+        </Box>
+      )}
       {...props}
     >
       {children}
-    </Editable>
+    </StyledEditor>
   )
 }
-
-// Specifies the default values for props:
-MaterialEditable.defaultProps = {
-  placeholder: 'Type some text...',
-  hotkeys: defaultHotkeys,
-}
-
-// TODO add info about arguments in functions
 
 MaterialEditable.propTypes = {
   /** To style and override the existing class  */

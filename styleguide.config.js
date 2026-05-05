@@ -1,17 +1,13 @@
 const path = require('path')
 const { styles, theme } = require('./styleguide.styles')
 module.exports = {
-  
   components: './src/**/[A-Z]*.{js,jsx}',
   title: 'UNICEF Material Slate',
   styles,
   theme,
   usageMode: 'expand',
   getComponentPathLine: componentPath => {
-    const name = componentPath
-      .split('/')
-      .pop()
-      .split('.js')[0]
+    const name = componentPath.split('/').pop().split('.js')[0]
 
     return `import { ${name} } from '@unicef/material-slate`
   },
@@ -31,5 +27,5 @@ module.exports = {
         },
       ],
     },
-  } //End Webpack
+  }, //End Webpack
 }

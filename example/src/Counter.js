@@ -8,12 +8,11 @@ import {
   WordCounter,
   CharCounter,
   withCounter,
-  defaultHotKeys,
+  defaultHotkeys,
 } from '@unicef/material-slate'
-import Box from '@material-ui/core/Box'
+import { Box, Divider } from '@mui/material'
 //Initial contents of the editor
 import initialValue from './initialValue'
-import { Divider } from '@material-ui/core'
 
 /**
  * Words and characters counter example for Material Slate
@@ -27,7 +26,7 @@ export default function Counter() {
 
   // all hot keys, including default and custom hotkeys
   const allHotKeys = {
-    ...defaultHotKeys,
+    ...defaultHotkeys,
     'mod+k': {
       type: 'mark',
       value: 'strikethrough',

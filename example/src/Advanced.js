@@ -25,16 +25,18 @@ import {
   EndnoteElement,
 } from '@unicef/material-slate'
 
-import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemText from '@material-ui/core/ListItemText'
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
-import Box from '@material-ui/core/Box'
+import {
+  List,
+  ListItem,
+  ListItemText,
+  ListItemSecondaryAction,
+  Box,
+  Grid,
+  Typography,
+  IconButton,
+} from '@mui/material'
 
-import DeleteOutline from '@material-ui/icons/DeleteOutline'
-import IconButton from '@material-ui/core/IconButton'
-import Grid from '@material-ui/core/Grid'
-import Typography from '@material-ui/core/Typography'
+import DeleteOutline from '@mui/icons-material/DeleteOutline'
 
 // Initial contents of the editor
 import initialValue from './initialValue'
@@ -208,82 +210,105 @@ export default function Advanced() {
   )
 
   return (
-    <>
-      <Grid container spacing={3}>
-        <Grid item sm={6}>
-          <MaterialSlate
-            editor={editor}
-            value={value}
-            onChange={value => setValue(value)}
-            onBlur={() => console.log('blur')}
-          >
-            {/* By passing Buttons as children of the Toolbar you can customize it */}
-            <Toolbar>
-              <BoldButton />
-              <ItalicButton />
-              <UnderlinedButton />
-              <StrikethroughButton />
-              <CodeButton />
-              <ButtonSeparator />
-              <BulletedListButton />
-              <NumberedListButton />
+    <Grid container spacing={3}>
+      <Grid item sm={6}>
+        <MaterialSlate
+          editor={editor}
+          value={value}
+          onChange={value => setValue(value)}
+          onBlur={() => console.log('blur')}
+        >
+          {/* By passing Buttons as children of the Toolbar you can customize it */}
+          <Toolbar>
+            <BoldButton />
+            <ItalicButton />
+            <UnderlinedButton />
+            <StrikethroughButton />
+            <CodeButton />
+            <ButtonSeparator />
+            <BulletedListButton />
+            <NumberedListButton />
 
-              {/* Disabled button.
+            {/* Disabled button.
             you can also use disableOnCollapse and disableOnSelection */}
-              <ToolbarButton type="block" format="blockquote" disabled />
+            <ToolbarButton type="block" format="blockquote" disabled />
 
-              {/* These two buttons require actions to be handled onMouseDown */}
-              <AddCommentButton
-                onMouseDown={event => onCustomButtonDown(event)}
-              />
-              <EndnoteButton onMouseDown={event => onCustomButtonDown(event)} />
-            </Toolbar>
-            <HoveringToolbar>
-              <BoldButton />
-              <ItalicButton />
-              <UnderlinedButton />
-              <StrikethroughButton />
-              <AddCommentButton
-                onMouseDown={event => onCustomButtonDown(event)}
-              />
-            </HoveringToolbar>
-            <MaterialEditable
-              renderElement={props => handleRenderElement(props)}
-            ></MaterialEditable>
-          </MaterialSlate>
-          <SimpleDialog
-            open={openCommentDialog}
-            title="Add comment"
-            label="Comment"
-            defaultValue=""
-            format="comment"
-            onCancel={() => handleDialogCancel()}
-            onSave={({ format, value }) => handleDialogSave(format, value)}
-          />
-          <SimpleDialog
-            open={openEndnoteDialog}
-            title="Add endnote"
-            label="Endnote"
-            defaultValue=""
-            format="endnote"
-            onCancel={() => handleDialogCancel()}
-            onSave={({ format, value }) => handleDialogSave(format, value)}
-          />
-        </Grid>
-        <Grid>
-          <Typography variant="caption">External Comments List</Typography>
-          {comments.length === 0 ? (
-            <Typography>No comments</Typography>
+            {/* These two buttons require actions to be handled onMouseDown */}
+            <AddCommentButton
+              onMouseDown={event => onCustomButtonDown(event)}
+            />
+            <EndnoteButton onMouseDown={event => onCustomButtonDown(event)} />
+          </Toolbar>
+          <HoveringToolbar>
+            <BoldButton />
+            <ItalicButton />
+            <UnderlinedButton />
+            <StrikethroughButton />
+            <AddCommentButton
+              onMouseDown={event => onCustomButtonDown(event)}
+            />
+          </HoveringToolbar>
+          <MaterialEditable
+            renderElement={props => handleRenderElement(props)}
+          ></MaterialEditable>
+        </MaterialSlate>
+        <SimpleDialog
+          open={openCommentDialog}
+          title="Add comment"
+          label="Comment"
+          defaultValue=""
+          format="comment"
+          onCancel={() => handleDialogCancel()}
+          onSave={({ format, value }) => handleDialogSave(format, value)}
+        />
+        <SimpleDialog
+          open={openEndnoteDialog}
+          title="Add endnote"
+          label="Endnote"
+          defaultValue=""
+          format="endnote"
+          onCancel={() => handleDialogCancel()}
+          onSave={({ format, value }) => handleDialogSave(format, value)}
+        />
+      </Grid>
+      <Grid item sm={3}>
+        <Typography variant="caption">External Comments List</Typography>
+        {comments.length === 0 ? (
+          <Typography>No comments</Typography>
+        ) : (
+          <List dense>
+            {comments.map(comment => (
+              <ListItem key={comment.id}>
+                <ListItemText>{comment.body}</ListItemText>
+                <ListItemSecondaryAction>
+                  <IconButton
+                    edge="end"
+                    aria-label="delete"
+                    onClick={() => handleDeleteComment(comment.id)}
+                  >
+                    <DeleteOutline />
+                  </IconButton>
+                </ListItemSecondaryAction>
+              </ListItem>
+            ))}
+          </List>
+        )}
+        <Box marginTop={2}>
+          <Typography variant="caption">External Endnotes List</Typography>
+          {endnotes.length === 0 ? (
+            <Typography>No endnotes</Typography>
           ) : (
             <List dense>
-              {comments.map(comment => (
-                <ListItem key={comment.id}>
-                  <ListItemText>{comment.body}</ListItemText>
+              {endnotes.map(endnote => (
+                <ListItem key={endnote.id}>
+                  <ListItemText>
+                    [{endnote.index}] {endnote.value}
+                  </ListItemText>
                   <ListItemSecondaryAction>
                     <IconButton
                       edge="end"
                       aria-label="delete"
-                      onClick={() => handleDeleteComment(comment.id)}
+                      onClick={() => handleDeleteEndnote(endnote.id)}
                     >
                       <DeleteOutline />
                     </IconButton>
@@ -292,33 +317,8 @@ export default function Advanced() {
               ))}
             </List>
           )}
-          <Box marginTop={2}>
-            <Typography variant="caption">External Endnotes List</Typography>
-            {endnotes.length === 0 ? (
-              <Typography>No endnotes</Typography>
-            ) : (
-              <List dense>
-                {endnotes.map(endnote => (
-                  <ListItem key={endnote.id}>
-                    <ListItemText>
-                      [{endnote.index}] {endnote.value}
-                    </ListItemText>
-                    <ListItemSecondaryAction>
-                      <IconButton
-                        edge="end"
-                        aria-label="delete"
-                        onClick={() => handleDeleteEndnote(endnote.id)}
-                      >
-                        <DeleteOutline />
-                      </IconButton>
-                    </ListItemSecondaryAction>
-                  </ListItem>
-                ))}
-              </List>
-            )}
-          </Box>
-        </Grid>
+        </Box>
       </Grid>
-    </>
+    </Grid>
   )
 }

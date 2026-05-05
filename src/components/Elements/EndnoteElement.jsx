@@ -1,11 +1,8 @@
 import React from 'react'
-import Tooltip from '@material-ui/core/Tooltip'
-import { makeStyles } from '@material-ui/core/styles'
+import { Box, Tooltip, styled } from '@mui/material'
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    cursor: 'pointer',
-  },
+const StyledBox = styled(Box)(({ theme }) => ({
+  cursor: 'pointer',
 }))
 
 /**
@@ -18,17 +15,16 @@ const useStyles = makeStyles(theme => ({
  * If `onClick` prop is set it is called if user clicks the tex
  */
 const EndnoteElement = ({ element, onClick, attributes, children }) => {
-  const classes = useStyles()
   return (
     <Tooltip placement="top" title={`${element.data.value}`}>
-      <sup
-        className={classes.root}
+      <StyledBox
+        component="sup"
         {...attributes}
         onClick={event => onClick && onClick({ event, element })}
       >
         {element.data.index || 'x'}
         {children}
-      </sup>
+      </StyledBox>
     </Tooltip>
   )
 }

@@ -1,8 +1,6 @@
 import React from 'react'
 
-import { makeStyles } from '@material-ui/core/styles'
-import Typography from '@material-ui/core/Typography'
-import Box from '@material-ui/core/Box'
+import { Box, Typography, styled } from '@mui/material'
 import Basic from './Basic'
 import Hovering from './Hovering'
 import CustomButtons from './CustomButtons'
@@ -11,24 +9,29 @@ import ReadOnly from './ReadOnly'
 import Advanced from './Advanced'
 import Link from './Link'
 
-const useStyles = makeStyles(theme => ({
-  intro: {
+const classes = {
+  intro: 'intro',
+  air: 'air',
+  readable: 'readable',
+}
+
+const Root = styled(Box)(({ theme }) => ({
+  [`& .${classes.intro}`]: {
     marginLeft: theme.spacing(2),
     paddingLeft: theme.spacing(2),
   },
-  air: {
+  [`& .${classes.air}`]: {
     margin: theme.spacing(2),
     padding: theme.spacing(2),
   },
-  readable: {
+  [`& .${classes.readable}`]: {
     maxWidth: 800,
   },
 }))
 
 export default function App() {
-  const classes = useStyles()
   return (
-    <>
+    <Root>
       <Box className={classes.intro}>
         <Typography variant="h1">UNICEF Material Slate</Typography>
         <Typography>
@@ -99,6 +102,6 @@ export default function App() {
         </a>
         <Advanced />
       </Box>
-    </>
+    </Root>
   )
 }

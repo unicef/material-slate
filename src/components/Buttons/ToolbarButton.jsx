@@ -1,9 +1,8 @@
 import React from 'react'
 import { useSlate } from 'slate-react'
 import PropTypes from 'prop-types'
-import IconButton from '@material-ui/core/IconButton'
-import Tooltip from '@material-ui/core/Tooltip'
-import CropSquareOutlined from '@material-ui/icons/CropSquareOutlined'
+import { IconButton, Tooltip } from '@mui/material'
+import CropSquareOutlined from '@mui/icons-material/CropSquareOutlined'
 
 /**
  * ToolbarButton is the base button for any button on the toolbars.
@@ -11,16 +10,17 @@ import CropSquareOutlined from '@material-ui/icons/CropSquareOutlined'
  *
  * It displays a tooltip text on hover. If tooltip text is not passed as a prop it will use the capitalized text of the format
  */
+
 const ToolbarButton = React.forwardRef(
   (
     {
       tooltip,
-      placement,
-      icon,
+      placement = 'top',
+      icon = <CropSquareOutlined />,
       type,
       disabled,
-      disableOnSelection,
-      disableOnCollapse,
+      disableOnSelection = false,
+      disableOnCollapse = false,
       format,
       onMouseDown,
       isActive,
@@ -115,13 +115,6 @@ const ToolbarButton = React.forwardRef(
 
 export default ToolbarButton
 
-ToolbarButton.defaultProps = {
-  placement: 'top',
-  icon: <CropSquareOutlined />,
-  disableOnCollapse: false,
-  disableOnSelection: false,
-}
-
 // PropTypes
 ToolbarButton.propTypes = {
   /**
@@ -191,7 +184,7 @@ ToolbarButton.propTypes = {
   disableOnCollapse: PropTypes.bool,
 
   /**
-   * Instance a component. The icon that will be displayed. Typically an icon from @material-ui/icons
+   * Instance a component. The icon that will be displayed. Typically an icon from @mui/icons-material
    */
   icon: PropTypes.object,
 
