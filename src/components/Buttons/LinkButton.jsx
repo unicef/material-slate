@@ -5,7 +5,7 @@ import LinkIcon from '@mui/icons-material/Link'
 
 import ToolbarButton from './ToolbarButton'
 import SimpleDialog from '../SimpleDialog'
-
+import LinkOff from '@material-ui/icons/LinkOff'
 /**
  * Toolbar button for adding links
  *
@@ -17,6 +17,8 @@ export default function LinkButton({ ref, onMouseDown, ...props }) {
     console.error('withLinks() is not initialized')
   // Handles the dialog that is opened upon clicking the Link Toolbar/HoveringBar button
   const [openLinkDialog, setOpenLinkDialog] = useState(false)
+  // Check if a link is active in the current selection
+  const isLinkActive = editor.isNodeTypeActive('link')
 
   // Handles custom buttons click
   const onLinkButtonDown = ({ editor, ...props }) => {
@@ -40,9 +42,9 @@ export default function LinkButton({ ref, onMouseDown, ...props }) {
   return (
     <React.Fragment>
       <ToolbarButton
-        icon={<LinkIcon />}
+        icon={isLinkActive ? <LinkOff /> : <LinkIcon />}
         type="link"
-        tooltip="Add link"
+        tooltip={isLinkActive ? 'Remove link' : 'Add link'}
         format="link"
         ref={ref}
         onMouseDown={event => onLinkButtonDown(event)}
