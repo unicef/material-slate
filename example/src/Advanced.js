@@ -36,7 +36,7 @@ import {
   IconButton,
 } from '@mui/material'
 
-import DeleteOutline from '@mui/icons-material/DeleteOutline'
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined'
 
 // Initial contents of the editor
 import initialValue from './initialValue'
@@ -286,7 +286,7 @@ export default function Advanced() {
                     aria-label="delete"
                     onClick={() => handleDeleteComment(comment.id)}
                   >
-                    <DeleteOutline />
+                    <DeleteOutlinedIcon />
                   </IconButton>
                 </ListItemSecondaryAction>
               </ListItem>
@@ -310,7 +310,7 @@ export default function Advanced() {
                       aria-label="delete"
                       onClick={() => handleDeleteEndnote(endnote.id)}
                     >
-                      <DeleteOutline />
+                      <DeleteOutlinedIcon />
                     </IconButton>
                   </ListItemSecondaryAction>
                 </ListItem>

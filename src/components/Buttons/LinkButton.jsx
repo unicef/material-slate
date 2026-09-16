@@ -5,7 +5,7 @@ import LinkIcon from '@mui/icons-material/Link'
 
 import ToolbarButton from './ToolbarButton'
 import SimpleDialog from '../SimpleDialog'
-import LinkOff from '@material-ui/icons/LinkOff'
+import LinkOffOutlinedIcon from '@mui/icons-material/LinkOffOutlined'
 /**
  * Toolbar button for adding links
  *
@@ -42,7 +42,7 @@ export default function LinkButton({ ref, onMouseDown, ...props }) {
   return (
     <React.Fragment>
       <ToolbarButton
-        icon={isLinkActive ? <LinkOff /> : <LinkIcon />}
+        icon={isLinkActive ? <LinkOffOutlinedIcon /> : <LinkIcon />}
         type="link"
         tooltip={isLinkActive ? 'Remove link' : 'Add link'}
         format="link"
