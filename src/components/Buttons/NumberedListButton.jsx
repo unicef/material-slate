@@ -1,6 +1,6 @@
 import React from 'react'
 import ToolbarButton from './ToolbarButton'
-import FormatListNumbered from '@mui/icons-material/FormatListNumbered'
+import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered'
 
 /**
  * Toolbar button for numbered list block
@@ -10,7 +10,7 @@ import FormatListNumbered from '@mui/icons-material/FormatListNumbered'
 
 const NumberedListButton = React.forwardRef((props, ref) => (
   <ToolbarButton
-    icon={<FormatListNumbered />}
+    icon={<FormatListNumberedIcon />}
     type="block"
     format="numbered-list"
     ref={ref}

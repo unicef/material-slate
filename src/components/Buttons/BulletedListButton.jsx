@@ -1,6 +1,6 @@
 import React from 'react'
 import ToolbarButton from './ToolbarButton'
-import FormatListBulleted from '@mui/icons-material/FormatListBulleted'
+import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted'
 
 /**
  * Toolbar button for underlined text mark
@@ -10,7 +10,7 @@ import FormatListBulleted from '@mui/icons-material/FormatListBulleted'
  */
 const BulletedListButton = React.forwardRef((props, ref) => (
   <ToolbarButton
-    icon={<FormatListBulleted />}
+    icon={<FormatListBulletedIcon />}
     type="block"
     format="bulleted-list"
     ref={ref}

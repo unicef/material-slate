@@ -1,6 +1,6 @@
 import React from 'react'
 import ToolbarButton from './ToolbarButton'
-import FormatItalicOutlined from '@mui/icons-material/FormatItalicOutlined'
+import FormatItalicOutlinedIcon from '@mui/icons-material/FormatItalicOutlined'
 
 /**
  * Toolbar button for italic text mark
@@ -10,7 +10,7 @@ import FormatItalicOutlined from '@mui/icons-material/FormatItalicOutlined'
 
 const ItalicButton = React.forwardRef((props, ref) => (
   <ToolbarButton
-    icon={<FormatItalicOutlined />}
+    icon={<FormatItalicOutlinedIcon />}
     type="mark"
     format="italic"
     ref={ref}

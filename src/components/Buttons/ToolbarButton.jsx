@@ -2,7 +2,7 @@ import React from 'react'
 import { useSlate } from 'slate-react'
 import PropTypes from 'prop-types'
 import { IconButton, Tooltip } from '@mui/material'
-import CropSquareOutlined from '@mui/icons-material/CropSquareOutlined'
+import CropSquareOutlinedIcon from '@mui/icons-material/CropSquareOutlined'
 
 /**
  * ToolbarButton is the base button for any button on the toolbars.
@@ -16,7 +16,7 @@ const ToolbarButton = React.forwardRef(
     {
       tooltip,
       placement = 'top',
-      icon = <CropSquareOutlined />,
+      icon = <CropSquareOutlinedIcon />,
       type,
       disabled,
       disableOnSelection = false,

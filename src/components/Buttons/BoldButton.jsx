@@ -1,6 +1,6 @@
 import React from 'react'
 import ToolbarButton from './ToolbarButton'
-import FormatBold from '@mui/icons-material/FormatBold'
+import FormatBoldIcon from '@mui/icons-material/FormatBold'
 
 /**
  * Toolbar button for bold text mark
@@ -10,7 +10,7 @@ import FormatBold from '@mui/icons-material/FormatBold'
 
 const BoldButton = React.forwardRef((props, ref) => (
   <ToolbarButton
-    icon={<FormatBold />}
+    icon={<FormatBoldIcon />}
     type="mark"
     format="bold"
     ref={ref}
