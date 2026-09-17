@@ -6,19 +6,37 @@ var slateHistory = require('slate-history');
 var React = require('react');
 var PropTypes = require('prop-types');
 var material = require('@mui/material');
-var CropSquareOutlined = require('@mui/icons-material/CropSquareOutlined');
-var FormatBold = require('@mui/icons-material/FormatBold');
-var FormatItalicOutlined = require('@mui/icons-material/FormatItalicOutlined');
-var FormatUnderlined = require('@mui/icons-material/FormatUnderlined');
+var CropSquareOutlinedIcon = require('@mui/icons-material/CropSquareOutlined');
+var FormatBoldIcon = require('@mui/icons-material/FormatBold');
+var FormatItalicOutlinedIcon = require('@mui/icons-material/FormatItalicOutlined');
+var FormatUnderlinedIcon = require('@mui/icons-material/FormatUnderlined');
 var StrikethroughSIcon = require('@mui/icons-material/StrikethroughS');
 var CodeIcon = require('@mui/icons-material/Code');
-var FormatListBulleted = require('@mui/icons-material/FormatListBulleted');
-var FormatListNumbered = require('@mui/icons-material/FormatListNumbered');
+var FormatListBulletedIcon = require('@mui/icons-material/FormatListBulleted');
+var FormatListNumberedIcon = require('@mui/icons-material/FormatListNumbered');
 var ReactDOM = require('react-dom');
 var AddCommentOutlinedIcon = require('@mui/icons-material/AddCommentOutlined');
 var CallToActionOutlinedIcon = require('@mui/icons-material/CallToActionOutlined');
 var LinkIcon = require('@mui/icons-material/Link');
 var LinkOffOutlinedIcon = require('@mui/icons-material/LinkOffOutlined');
+
+function _interopDefault (e) { return e && e.__esModule ? e : { default: e }; }
+
+var React__default = /*#__PURE__*/_interopDefault(React);
+var PropTypes__default = /*#__PURE__*/_interopDefault(PropTypes);
+var CropSquareOutlinedIcon__default = /*#__PURE__*/_interopDefault(CropSquareOutlinedIcon);
+var FormatBoldIcon__default = /*#__PURE__*/_interopDefault(FormatBoldIcon);
+var FormatItalicOutlinedIcon__default = /*#__PURE__*/_interopDefault(FormatItalicOutlinedIcon);
+var FormatUnderlinedIcon__default = /*#__PURE__*/_interopDefault(FormatUnderlinedIcon);
+var StrikethroughSIcon__default = /*#__PURE__*/_interopDefault(StrikethroughSIcon);
+var CodeIcon__default = /*#__PURE__*/_interopDefault(CodeIcon);
+var FormatListBulletedIcon__default = /*#__PURE__*/_interopDefault(FormatListBulletedIcon);
+var FormatListNumberedIcon__default = /*#__PURE__*/_interopDefault(FormatListNumberedIcon);
+var ReactDOM__default = /*#__PURE__*/_interopDefault(ReactDOM);
+var AddCommentOutlinedIcon__default = /*#__PURE__*/_interopDefault(AddCommentOutlinedIcon);
+var CallToActionOutlinedIcon__default = /*#__PURE__*/_interopDefault(CallToActionOutlinedIcon);
+var LinkIcon__default = /*#__PURE__*/_interopDefault(LinkIcon);
+var LinkOffOutlinedIcon__default = /*#__PURE__*/_interopDefault(LinkOffOutlinedIcon);
 
 function _arrayLikeToArray(r, a) {
   (null == a || a > r.length) && (a = r.length);
@@ -849,7 +867,7 @@ function MaterialSlate(_ref2) {
     _useState2 = _slicedToArray(_useState, 2),
     isFocused = _useState2[0],
     setIsFocused = _useState2[1];
-  return /*#__PURE__*/React.createElement(StyledBox$4, {
+  return /*#__PURE__*/React__default.default.createElement(StyledBox$4, {
     onBlur: function onBlur() {
       return setIsFocused(false);
     },
@@ -857,7 +875,7 @@ function MaterialSlate(_ref2) {
       return setIsFocused(true);
     },
     className: "".concat(isFocused && (focusClassName ? focusClassName : 'materialSlate-focused'), " ").concat(className)
-  }, /*#__PURE__*/React.createElement(slateReact.Slate, {
+  }, /*#__PURE__*/React__default.default.createElement(slateReact.Slate, {
     initialValue: value,
     editor: editor,
     onChange: function onChange(value) {
@@ -867,15 +885,15 @@ function MaterialSlate(_ref2) {
 }
 MaterialSlate.propTypes = {
   /** editor created using createRichEditor() */
-  editor: PropTypes.object.isRequired,
+  editor: PropTypes__default.default.object.isRequired,
   /** content to display in the editor*/
-  value: PropTypes.arrayOf(PropTypes.object).isRequired,
+  value: PropTypes__default.default.arrayOf(PropTypes__default.default.object).isRequired,
   /** Called every time there is a change on the value */
-  onChange: PropTypes.func,
+  onChange: PropTypes__default.default.func,
   /** class to override and style the slate  */
-  className: PropTypes.string,
+  className: PropTypes__default.default.string,
   /** className to apply when the editor has focus */
-  focusClassName: PropTypes.string
+  focusClassName: PropTypes__default.default.string
 };
 
 var lib = {};
@@ -1136,32 +1154,32 @@ function defaultRenderElement(_ref) {
     _objectWithoutProperties(_ref, _excluded$7);
   switch (element.type) {
     case 'block-quote':
-      return /*#__PURE__*/React.createElement("blockquote", attributes, children);
+      return /*#__PURE__*/React__default.default.createElement("blockquote", attributes, children);
     case 'bulleted-list':
-      return /*#__PURE__*/React.createElement("ul", attributes, children);
+      return /*#__PURE__*/React__default.default.createElement("ul", attributes, children);
     case 'heading-one':
-      return /*#__PURE__*/React.createElement("h1", attributes, children);
+      return /*#__PURE__*/React__default.default.createElement("h1", attributes, children);
     case 'heading-two':
-      return /*#__PURE__*/React.createElement("h2", attributes, children);
+      return /*#__PURE__*/React__default.default.createElement("h2", attributes, children);
     case 'list-item':
-      return /*#__PURE__*/React.createElement("li", attributes, children);
+      return /*#__PURE__*/React__default.default.createElement("li", attributes, children);
     case 'numbered-list':
-      return /*#__PURE__*/React.createElement("ol", attributes, children);
+      return /*#__PURE__*/React__default.default.createElement("ol", attributes, children);
     case 'link':
-      return /*#__PURE__*/React.createElement("a", _extends({}, attributes, {
+      return /*#__PURE__*/React__default.default.createElement("a", _extends({}, attributes, {
         href: element.url
       }), children);
     default:
-      return /*#__PURE__*/React.createElement("p", attributes, children);
+      return /*#__PURE__*/React__default.default.createElement("p", attributes, children);
   }
 }
 
 /**
- * Default renderer of leafs. 
- * 
+ * Default renderer of leafs.
+ *
  * Handles the following type of leafs `bold` (strong), `code` (code), `italic` (em), `strikethrough` (del), `underlined`(u).
- * 
- * @param {Object} props 
+ *
+ * @param {Object} props
  */
 
 function defaultRenderLeaf(_ref) {
@@ -1170,21 +1188,21 @@ function defaultRenderLeaf(_ref) {
     children = _ref.children;
     _ref.text;
   if (leaf.bold) {
-    children = /*#__PURE__*/React.createElement("strong", null, children);
+    children = /*#__PURE__*/React__default.default.createElement("strong", null, children);
   }
   if (leaf.code) {
-    children = /*#__PURE__*/React.createElement("code", null, children);
+    children = /*#__PURE__*/React__default.default.createElement("code", null, children);
   }
   if (leaf.italic) {
-    children = /*#__PURE__*/React.createElement("em", null, children);
+    children = /*#__PURE__*/React__default.default.createElement("em", null, children);
   }
   if (leaf.strikethrough) {
-    children = /*#__PURE__*/React.createElement("del", null, children);
+    children = /*#__PURE__*/React__default.default.createElement("del", null, children);
   }
   if (leaf.underlined) {
-    children = /*#__PURE__*/React.createElement("u", null, children);
+    children = /*#__PURE__*/React__default.default.createElement("u", null, children);
   }
-  return /*#__PURE__*/React.createElement("span", attributes, children);
+  return /*#__PURE__*/React__default.default.createElement("span", attributes, children);
 }
 
 var defaultHotkeys = {
@@ -1280,7 +1298,7 @@ function MaterialEditable(_ref2) {
       }
     }
   };
-  return /*#__PURE__*/React.createElement(StyledEditor, _extends({
+  return /*#__PURE__*/React__default.default.createElement(StyledEditor, _extends({
     renderElement: handleRenderElement,
     renderLeaf: handleRenderLeaf,
     onKeyDown: function onKeyDown(event) {
@@ -1291,31 +1309,31 @@ function MaterialEditable(_ref2) {
     renderPlaceholder: function renderPlaceholder(_ref3) {
       var attributes = _ref3.attributes,
         children = _ref3.children;
-      return /*#__PURE__*/React.createElement(material.Box, {
+      return /*#__PURE__*/React__default.default.createElement(material.Box, {
         className: "material-slate-placeholder"
-      }, /*#__PURE__*/React.createElement(material.Box, attributes, children));
+      }, /*#__PURE__*/React__default.default.createElement(material.Box, attributes, children));
     }
   }, props), children);
 }
 MaterialEditable.propTypes = {
   /** To style and override the existing class  */
-  className: PropTypes.string,
+  className: PropTypes__default.default.string,
   /** Called when an element needs to be rendered */
-  renderElement: PropTypes.func,
+  renderElement: PropTypes__default.default.func,
   /** Called when a leaf needs to be rendered */
-  renderLeaf: PropTypes.func,
+  renderLeaf: PropTypes__default.default.func,
   /** Text/component to display when there are no contents on the editor. Default" "Type some text..." */
-  placeholder: PropTypes.any,
+  placeholder: PropTypes__default.default.any,
   /**
    * Additional hotkeys to be added other than default. Object of the form `{'mod+k': {type: 'mark', value: 'italic'}
    * defaultHotkeys can be disallowed by passing hotkeys as null
    */
-  hotkeys: PropTypes.object,
+  hotkeys: PropTypes__default.default.object,
   /**
    * Event tht will be triggered in case a hotkey is detected
    * It has one single argument that can be deconstructed in `{event, editor, hotkey, pressedKeys, hotkeys}`
    */
-  onHotKey: PropTypes.func
+  onHotKey: PropTypes__default.default.func
 };
 
 var _excluded$5 = ["tooltip", "placement", "icon", "type", "disabled", "disableOnSelection", "disableOnCollapse", "format", "onMouseDown", "isActive"];
@@ -1327,12 +1345,12 @@ var _excluded$5 = ["tooltip", "placement", "icon", "type", "disabled", "disableO
  * It displays a tooltip text on hover. If tooltip text is not passed as a prop it will use the capitalized text of the format
  */
 
-var ToolbarButton = /*#__PURE__*/React.forwardRef(function (_ref, ref) {
+var ToolbarButton = /*#__PURE__*/React__default.default.forwardRef(function (_ref, ref) {
   var tooltip = _ref.tooltip,
     _ref$placement = _ref.placement,
     placement = _ref$placement === void 0 ? 'top' : _ref$placement,
     _ref$icon = _ref.icon,
-    icon = _ref$icon === void 0 ? /*#__PURE__*/React.createElement(CropSquareOutlined, null) : _ref$icon,
+    icon = _ref$icon === void 0 ? /*#__PURE__*/React__default.default.createElement(CropSquareOutlinedIcon__default.default, null) : _ref$icon,
     type = _ref.type,
     disabled = _ref.disabled,
     _ref$disableOnSelecti = _ref.disableOnSelection,
@@ -1396,7 +1414,7 @@ var ToolbarButton = /*#__PURE__*/React.forwardRef(function (_ref, ref) {
     disabled = disableOnCollapse ? editor.isSelectionCollapsed() : disabled;
     return disabled;
   };
-  return disabled || isDisabled() ? /*#__PURE__*/React.createElement(material.IconButton, _extends({
+  return disabled || isDisabled() ? /*#__PURE__*/React__default.default.createElement(material.IconButton, _extends({
     "aria-label": tooltip ? tooltip : defaultTooltip(),
     ref: ref,
     color: checkIsActive() ? 'secondary' : 'default',
@@ -1404,10 +1422,10 @@ var ToolbarButton = /*#__PURE__*/React.forwardRef(function (_ref, ref) {
       return handleOnMouseDown(event);
     },
     disabled: disabled || isDisabled()
-  }, rest), icon) : /*#__PURE__*/React.createElement(material.Tooltip, {
+  }, rest), icon) : /*#__PURE__*/React__default.default.createElement(material.Tooltip, {
     title: tooltip ? tooltip : defaultTooltip(),
     placement: placement
-  }, /*#__PURE__*/React.createElement(material.IconButton, _extends({
+  }, /*#__PURE__*/React__default.default.createElement(material.IconButton, _extends({
     "aria-label": tooltip ? tooltip : defaultTooltip(),
     ref: ref,
     color: checkIsActive() ? 'secondary' : 'default',
@@ -1424,12 +1442,12 @@ ToolbarButton.propTypes = {
    * Text displayed on the button tooltip. By Default it is the capitalized `format` string.
    * For instance, `bold` is displayed as `Bold`.
    */
-  tooltip: PropTypes.string,
+  tooltip: PropTypes__default.default.string,
   /**
    * Location where the tooltip will appear.
    * It can be `top`, `bottom`, `left`, `right`. Defaults to top.
    */
-  placement: PropTypes.string,
+  placement: PropTypes__default.default.string,
   /**
    * Toolbar button has the option of adding to the editor value marks and blocks.
    *
@@ -1442,12 +1460,12 @@ ToolbarButton.propTypes = {
    * If you don't want to add a mark or a block do not set the prop or use whatever string.
    * You can perform the action the button triggers using onMouseDown().
    */
-  type: PropTypes.string,
+  type: PropTypes__default.default.string,
   /**
    *
    * The string that identifies the format of the block or mark to be added. For example: `bold`, `header1`...
    */
-  format: PropTypes.string.isRequired,
+  format: PropTypes__default.default.string.isRequired,
   /**
    *
    * When a button is active it means the button is highlighted. For example, if in current position of the cursor,
@@ -1456,13 +1474,13 @@ ToolbarButton.propTypes = {
    * isActive is a function that returns true/false to indicate the status of the mark/block.
    * Set this function if you need to handle anything other than standard mark or blocks.
    */
-  isActive: PropTypes.func,
+  isActive: PropTypes__default.default.func,
   /**
    * Unconditionally disables the button
    *
    * Disable a button means that the button cannot be clicked (note it is not the opposite of isActive)
    */
-  disabled: PropTypes.bool,
+  disabled: PropTypes__default.default.bool,
   /**
    * If true, disables the button if there is a text selected on the editor.
    *
@@ -1470,7 +1488,7 @@ ToolbarButton.propTypes = {
    *
    * Use either disableOnSelection or disableOnCollapse, but not both.
    */
-  disableOnSelection: PropTypes.bool,
+  disableOnSelection: PropTypes__default.default.bool,
   /**
    * If true, disables the button when  there is no text selected or the editor has no focus.
    *
@@ -1478,15 +1496,15 @@ ToolbarButton.propTypes = {
    *
    * Use either disableOnSelection or disableOnCollapse, but not both.
    */
-  disableOnCollapse: PropTypes.bool,
+  disableOnCollapse: PropTypes__default.default.bool,
   /**
    * Instance a component. The icon that will be displayed. Typically an icon from @mui/icons-material
    */
-  icon: PropTypes.object,
+  icon: PropTypes__default.default.object,
   /**
    * On mouse down event is passed up to the parent with props that can be deconstructed in {editor, event, mark/block}
    */
-  onMouseDown: PropTypes.func
+  onMouseDown: PropTypes__default.default.func
 };
 
 /**
@@ -1495,9 +1513,9 @@ ToolbarButton.propTypes = {
  * @see ToolbarButton
  */
 
-var BoldButton = /*#__PURE__*/React.forwardRef(function (props, ref) {
-  return /*#__PURE__*/React.createElement(ToolbarButton, _extends({
-    icon: /*#__PURE__*/React.createElement(FormatBold, null),
+var BoldButton = /*#__PURE__*/React__default.default.forwardRef(function (props, ref) {
+  return /*#__PURE__*/React__default.default.createElement(ToolbarButton, _extends({
+    icon: /*#__PURE__*/React__default.default.createElement(FormatBoldIcon__default.default, null),
     type: "mark",
     format: "bold",
     ref: ref
@@ -1510,9 +1528,9 @@ var BoldButton = /*#__PURE__*/React.forwardRef(function (props, ref) {
  * @see ToolbarButton
  */
 
-var ItalicButton = /*#__PURE__*/React.forwardRef(function (props, ref) {
-  return /*#__PURE__*/React.createElement(ToolbarButton, _extends({
-    icon: /*#__PURE__*/React.createElement(FormatItalicOutlined, null),
+var ItalicButton = /*#__PURE__*/React__default.default.forwardRef(function (props, ref) {
+  return /*#__PURE__*/React__default.default.createElement(ToolbarButton, _extends({
+    icon: /*#__PURE__*/React__default.default.createElement(FormatItalicOutlinedIcon__default.default, null),
     type: "mark",
     format: "italic",
     ref: ref
@@ -1524,9 +1542,9 @@ var ItalicButton = /*#__PURE__*/React.forwardRef(function (props, ref) {
  *
  * @see ToolbarButton
  */
-var UnderlinedButton = /*#__PURE__*/React.forwardRef(function (props, ref) {
-  return /*#__PURE__*/React.createElement(ToolbarButton, _extends({
-    icon: /*#__PURE__*/React.createElement(FormatUnderlined, null),
+var UnderlinedButton = /*#__PURE__*/React__default.default.forwardRef(function (props, ref) {
+  return /*#__PURE__*/React__default.default.createElement(ToolbarButton, _extends({
+    icon: /*#__PURE__*/React__default.default.createElement(FormatUnderlinedIcon__default.default, null),
     type: "mark",
     format: "underlined",
     ref: ref
@@ -1539,9 +1557,9 @@ var UnderlinedButton = /*#__PURE__*/React.forwardRef(function (props, ref) {
  * @see ToolbarButton
  */
 
-var StrikethroughButton = /*#__PURE__*/React.forwardRef(function (props, ref) {
-  return /*#__PURE__*/React.createElement(ToolbarButton, _extends({
-    icon: /*#__PURE__*/React.createElement(StrikethroughSIcon, null),
+var StrikethroughButton = /*#__PURE__*/React__default.default.forwardRef(function (props, ref) {
+  return /*#__PURE__*/React__default.default.createElement(ToolbarButton, _extends({
+    icon: /*#__PURE__*/React__default.default.createElement(StrikethroughSIcon__default.default, null),
     type: "mark",
     format: "strikethrough",
     ref: ref
@@ -1554,9 +1572,9 @@ var StrikethroughButton = /*#__PURE__*/React.forwardRef(function (props, ref) {
  * @see ToolbarButton
  */
 
-var CodeButton = /*#__PURE__*/React.forwardRef(function (props, ref) {
-  return /*#__PURE__*/React.createElement(ToolbarButton, _extends({
-    icon: /*#__PURE__*/React.createElement(CodeIcon, null),
+var CodeButton = /*#__PURE__*/React__default.default.forwardRef(function (props, ref) {
+  return /*#__PURE__*/React__default.default.createElement(ToolbarButton, _extends({
+    icon: /*#__PURE__*/React__default.default.createElement(CodeIcon__default.default, null),
     type: "mark",
     format: "code",
     ref: ref
@@ -1569,9 +1587,9 @@ var CodeButton = /*#__PURE__*/React.forwardRef(function (props, ref) {
  * @see ToolbarButton
  *
  */
-var BulletedListButton = /*#__PURE__*/React.forwardRef(function (props, ref) {
-  return /*#__PURE__*/React.createElement(ToolbarButton, _extends({
-    icon: /*#__PURE__*/React.createElement(FormatListBulleted, null),
+var BulletedListButton = /*#__PURE__*/React__default.default.forwardRef(function (props, ref) {
+  return /*#__PURE__*/React__default.default.createElement(ToolbarButton, _extends({
+    icon: /*#__PURE__*/React__default.default.createElement(FormatListBulletedIcon__default.default, null),
     type: "block",
     format: "bulleted-list",
     ref: ref
@@ -1584,9 +1602,9 @@ var BulletedListButton = /*#__PURE__*/React.forwardRef(function (props, ref) {
  * @see ToolbarButton
  */
 
-var NumberedListButton = /*#__PURE__*/React.forwardRef(function (props, ref) {
-  return /*#__PURE__*/React.createElement(ToolbarButton, _extends({
-    icon: /*#__PURE__*/React.createElement(FormatListNumbered, null),
+var NumberedListButton = /*#__PURE__*/React__default.default.forwardRef(function (props, ref) {
+  return /*#__PURE__*/React__default.default.createElement(ToolbarButton, _extends({
+    icon: /*#__PURE__*/React__default.default.createElement(FormatListNumberedIcon__default.default, null),
     type: "block",
     format: "numbered-list",
     ref: ref
@@ -1616,15 +1634,15 @@ function Toolbar(_ref2) {
   var children = _ref2.children;
     _ref2.className;
     var props = _objectWithoutProperties(_ref2, _excluded2$1);
-  return /*#__PURE__*/React.createElement(StyledToolBar, _extends({
+  return /*#__PURE__*/React__default.default.createElement(StyledToolBar, _extends({
     borderRadius: "borderRadius"
-  }, props), !children && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(BoldButton, null), /*#__PURE__*/React.createElement(ItalicButton, null), /*#__PURE__*/React.createElement(UnderlinedButton, null), /*#__PURE__*/React.createElement(StrikethroughButton, null), /*#__PURE__*/React.createElement(CodeButton, null), /*#__PURE__*/React.createElement(BulletedListButton, null), /*#__PURE__*/React.createElement(NumberedListButton, null)), children && /*#__PURE__*/React.createElement(React.Fragment, null, children));
+  }, props), !children && /*#__PURE__*/React__default.default.createElement(React__default.default.Fragment, null, /*#__PURE__*/React__default.default.createElement(BoldButton, null), /*#__PURE__*/React__default.default.createElement(ItalicButton, null), /*#__PURE__*/React__default.default.createElement(UnderlinedButton, null), /*#__PURE__*/React__default.default.createElement(StrikethroughButton, null), /*#__PURE__*/React__default.default.createElement(CodeButton, null), /*#__PURE__*/React__default.default.createElement(BulletedListButton, null), /*#__PURE__*/React__default.default.createElement(NumberedListButton, null)), children && /*#__PURE__*/React__default.default.createElement(React__default.default.Fragment, null, children));
 }
 
 var _excluded$3 = ["children", "className"];
 var Portal = function Portal(_ref) {
   var children = _ref.children;
-  return /*#__PURE__*/ReactDOM.createPortal(children, document.body);
+  return /*#__PURE__*/ReactDOM__default.default.createPortal(children, document.body);
 };
 var classes = {
   hoveringToolbar: 'hoveringToolbar'
@@ -1677,11 +1695,11 @@ function HoveringToolbar(_ref4) {
     var left = rect.left + window.scrollX - el.offsetWidth / 2 + rect.width / 2;
     el.style.left = "".concat(left < 0 ? 4 : left, "px");
   });
-  return /*#__PURE__*/React.createElement(Portal, null, /*#__PURE__*/React.createElement(StyledBox$3, _extends({
+  return /*#__PURE__*/React__default.default.createElement(Portal, null, /*#__PURE__*/React__default.default.createElement(StyledBox$3, _extends({
     borderRadius: "borderRadius",
     ref: ref,
     className: className ? className : classes.hoveringToolbar
-  }, props), children ? children : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(BoldButton, null), /*#__PURE__*/React.createElement(ItalicButton, null), /*#__PURE__*/React.createElement(UnderlinedButton, null), /*#__PURE__*/React.createElement(StrikethroughButton, null), /*#__PURE__*/React.createElement(CodeButton, null))));
+  }, props), children ? children : /*#__PURE__*/React__default.default.createElement(React__default.default.Fragment, null, /*#__PURE__*/React__default.default.createElement(BoldButton, null), /*#__PURE__*/React__default.default.createElement(ItalicButton, null), /*#__PURE__*/React__default.default.createElement(UnderlinedButton, null), /*#__PURE__*/React__default.default.createElement(StrikethroughButton, null), /*#__PURE__*/React__default.default.createElement(CodeButton, null))));
 }
 
 var _excluded$2 = ["borderColor"];
@@ -1696,9 +1714,9 @@ var _excluded$2 = ["borderColor"];
 function ButtonSeparator(_ref) {
   var borderColor = _ref.borderColor,
     other = _objectWithoutProperties(_ref, _excluded$2);
-  return /*#__PURE__*/React.createElement(material.Box, _extends({
+  return /*#__PURE__*/React__default.default.createElement(material.Box, _extends({
     display: "inline"
-  }, other), /*#__PURE__*/React.createElement(material.Box, {
+  }, other), /*#__PURE__*/React__default.default.createElement(material.Box, {
     borderLeft: 1,
     borderColor: borderColor ? borderColor : 'grey.400',
     marginLeft: "2px",
@@ -1751,16 +1769,16 @@ function SimpleDialog(_ref2) {
     });
     setValue(defaultValue);
   };
-  return /*#__PURE__*/React.createElement(material.Dialog, {
+  return /*#__PURE__*/React__default.default.createElement(material.Dialog, {
     open: open,
     onClose: handleOnCancel,
     "aria-labelledby": "dialog-title",
     "aria-describedby": "alert-dialog-description",
     fullWidth: true,
     maxWidth: props.maxWidth ? props.maxWidth : 'xs'
-  }, /*#__PURE__*/React.createElement(material.DialogTitle, {
+  }, /*#__PURE__*/React__default.default.createElement(material.DialogTitle, {
     id: "dialog-title"
-  }, title), /*#__PURE__*/React.createElement(material.DialogContent, null, /*#__PURE__*/React.createElement(StyledBox$2, null, /*#__PURE__*/React.createElement(material.TextField, {
+  }, title), /*#__PURE__*/React__default.default.createElement(material.DialogContent, null, /*#__PURE__*/React__default.default.createElement(StyledBox$2, null, /*#__PURE__*/React__default.default.createElement(material.TextField, {
     fullWidth: true,
     multiline: true,
     autoFocus: true,
@@ -1771,13 +1789,13 @@ function SimpleDialog(_ref2) {
       return setValue(event.target.value);
     },
     required: true
-  }))), /*#__PURE__*/React.createElement(material.DialogActions, null, /*#__PURE__*/React.createElement(material.Button, {
+  }))), /*#__PURE__*/React__default.default.createElement(material.DialogActions, null, /*#__PURE__*/React__default.default.createElement(material.Button, {
     onClick: function onClick() {
       return handleOnCancel();
     },
     color: "primary",
     variant: "outlined"
-  }, "Cancel"), /*#__PURE__*/React.createElement(material.Button, {
+  }, "Cancel"), /*#__PURE__*/React__default.default.createElement(material.Button, {
     onClick: function onClick(event) {
       return handleOnSave();
     },
@@ -1789,34 +1807,34 @@ SimpleDialog.propTypes = {
   /**
    * If it is true, it displays the dialog window.
    */
-  open: PropTypes.bool.isRequired,
+  open: PropTypes__default.default.bool.isRequired,
   /**
    * Called whe the Cancel button is pressed
    */
-  onCancel: PropTypes.func.isRequired,
+  onCancel: PropTypes__default.default.func.isRequired,
   /**
    * Called when the save button is pressed
    */
-  onSave: PropTypes.func.isRequired,
+  onSave: PropTypes__default.default.func.isRequired,
   /**
    * Title of the dialog window
    */
-  title: PropTypes.string,
+  title: PropTypes__default.default.string,
   /**
    * Label of the textfield
    */
-  label: PropTypes.string,
+  label: PropTypes__default.default.string,
   /**
    * Format of the element to be added/edited.
    * For example: bold, italic, comment, link, endnote
    *
    * Just required if you use the same dialog for different type of nodes.
    */
-  format: PropTypes.string,
+  format: PropTypes__default.default.string,
   /**
    * Default value displayed on the textfield.
    */
-  defaultValue: PropTypes.string
+  defaultValue: PropTypes__default.default.string
 };
 
 /**
@@ -1827,9 +1845,9 @@ SimpleDialog.propTypes = {
  * @see ToolbarButton
  */
 
-var AddCommentButton = /*#__PURE__*/React.forwardRef(function (props, ref) {
-  return /*#__PURE__*/React.createElement(ToolbarButton, _extends({
-    icon: /*#__PURE__*/React.createElement(AddCommentOutlinedIcon, null),
+var AddCommentButton = /*#__PURE__*/React__default.default.forwardRef(function (props, ref) {
+  return /*#__PURE__*/React__default.default.createElement(ToolbarButton, _extends({
+    icon: /*#__PURE__*/React__default.default.createElement(AddCommentOutlinedIcon__default.default, null),
     type: "other",
     disableOnCollapse: true,
     tooltip: "Add comment",
@@ -1844,9 +1862,9 @@ var AddCommentButton = /*#__PURE__*/React.forwardRef(function (props, ref) {
  * @see ToolbarButton
  */
 
-var EndnoteButton = /*#__PURE__*/React.forwardRef(function (props, ref) {
-  return /*#__PURE__*/React.createElement(ToolbarButton, _extends({
-    icon: /*#__PURE__*/React.createElement(CallToActionOutlinedIcon, null),
+var EndnoteButton = /*#__PURE__*/React__default.default.forwardRef(function (props, ref) {
+  return /*#__PURE__*/React__default.default.createElement(ToolbarButton, _extends({
+    icon: /*#__PURE__*/React__default.default.createElement(CallToActionOutlinedIcon__default.default, null),
     type: "other",
     disableOnSelection: true,
     tooltip: "Add endnote",
@@ -1897,8 +1915,8 @@ function LinkButton(_ref) {
     // The link will wrap the selected text when `rememberCurrentSelection()` was called
     editor.insertLink(url);
   };
-  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(ToolbarButton, _extends({
-    icon: isLinkActive ? /*#__PURE__*/React.createElement(LinkOffOutlinedIcon, null) : /*#__PURE__*/React.createElement(LinkIcon, null),
+  return /*#__PURE__*/React__default.default.createElement(React__default.default.Fragment, null, /*#__PURE__*/React__default.default.createElement(ToolbarButton, _extends({
+    icon: isLinkActive ? /*#__PURE__*/React__default.default.createElement(LinkOffOutlinedIcon__default.default, null) : /*#__PURE__*/React__default.default.createElement(LinkIcon__default.default, null),
     type: "link",
     tooltip: isLinkActive ? 'Remove link' : 'Add link',
     format: "link",
@@ -1906,7 +1924,7 @@ function LinkButton(_ref) {
     onMouseDown: function onMouseDown(event) {
       return onLinkButtonDown(event);
     }
-  }, props)), !onMouseDown && /*#__PURE__*/React.createElement(SimpleDialog, {
+  }, props)), !onMouseDown && /*#__PURE__*/React__default.default.createElement(SimpleDialog, {
     open: openLinkDialog,
     title: "Add Link",
     label: "Link",
@@ -1925,7 +1943,7 @@ LinkButton.propTypes = {
    * disable the simple dialog and let's you add your own dialog
    * And gives the onMouseDown event
    */
-  onMouseDown: PropTypes.func
+  onMouseDown: PropTypes__default.default.func
 };
 
 var StyledBox$1 = material.styled(material.Box)(function (_ref) {
@@ -1952,9 +1970,9 @@ var CommentElement = function CommentElement(_ref2) {
     className = _ref2.className,
     children = _ref2.children,
     attributes = _ref2.attributes;
-  return /*#__PURE__*/React.createElement(material.Tooltip, {
+  return /*#__PURE__*/React__default.default.createElement(material.Tooltip, {
     title: "Comment: ".concat(element.data.body)
-  }, /*#__PURE__*/React.createElement(StyledBox$1, _extends({
+  }, /*#__PURE__*/React__default.default.createElement(StyledBox$1, _extends({
     component: "span",
     className: "".concat(className)
   }, attributes, {
@@ -1988,10 +2006,10 @@ var EndnoteElement = function EndnoteElement(_ref2) {
     _onClick = _ref2.onClick,
     attributes = _ref2.attributes,
     children = _ref2.children;
-  return /*#__PURE__*/React.createElement(material.Tooltip, {
+  return /*#__PURE__*/React__default.default.createElement(material.Tooltip, {
     placement: "top",
     title: "".concat(element.data.value)
-  }, /*#__PURE__*/React.createElement(StyledBox, _extends({
+  }, /*#__PURE__*/React__default.default.createElement(StyledBox, _extends({
     component: "sup"
   }, attributes, {
     onClick: function onClick(event) {
@@ -2027,7 +2045,7 @@ function WordCounter(_ref2) {
   var wordsLength = editor.getWordsLength(children);
   // Error based on words length limit
   var errorExceedWordsLimit = wordsLength > maxWords;
-  return /*#__PURE__*/React.createElement(Text$1, {
+  return /*#__PURE__*/React__default.default.createElement(Text$1, {
     variant: "subtitle2",
     color: "textSecondary",
     sx: _objectSpread2({}, errorExceedWordsLimit && {
@@ -2041,7 +2059,7 @@ WordCounter.propTypes = {
    *  - If maxWords = 200, wordsLength = 90 `Ex: 90/200 words` will display in the counter
    *  - When maxWords is undefined, wordsLength = 90 `Ex: 90 words` will be displayed
    */
-  maxWords: PropTypes.number
+  maxWords: PropTypes__default.default.number
 };
 
 var Text = material.styled(material.Typography)(function (_ref) {
@@ -2068,7 +2086,7 @@ function CharCounter(_ref2) {
   var charLength = editor.getCharLength(children);
   // Error based on chars length limit
   var errorExceedCharsLimit = charLength > maxChars;
-  return /*#__PURE__*/React.createElement(Text, {
+  return /*#__PURE__*/React__default.default.createElement(Text, {
     variant: "subtitle2",
     color: "textSecondary",
     sx: _objectSpread2({}, errorExceedCharsLimit && {
@@ -2082,7 +2100,7 @@ CharCounter.propTypes = {
    * - If maxChars = 200, charLength = 90  `Ex: 90/200 characters` will display in the counter
    * - When maxChars is undefined, charLength = 90 `Ex: 90 characters` will be displayed
    */
-  maxChars: PropTypes.number
+  maxChars: PropTypes__default.default.number
 };
 
 exports.AddCommentButton = AddCommentButton;
