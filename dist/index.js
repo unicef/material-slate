@@ -6,9 +6,37 @@ var slateHistory = require('slate-history');
 var React = require('react');
 var PropTypes = require('prop-types');
 var material = require('@mui/material');
-var require$$0 = require('@mui/material/utils');
-var require$$2 = require('react/jsx-runtime');
+var CropSquareOutlinedIcon = require('@mui/icons-material/CropSquareOutlined');
+var FormatBoldIcon = require('@mui/icons-material/FormatBold');
+var FormatItalicOutlinedIcon = require('@mui/icons-material/FormatItalicOutlined');
+var FormatUnderlinedIcon = require('@mui/icons-material/FormatUnderlined');
+var StrikethroughSIcon = require('@mui/icons-material/StrikethroughS');
+var CodeIcon = require('@mui/icons-material/Code');
+var FormatListBulletedIcon = require('@mui/icons-material/FormatListBulleted');
+var FormatListNumberedIcon = require('@mui/icons-material/FormatListNumbered');
 var ReactDOM = require('react-dom');
+var AddCommentOutlinedIcon = require('@mui/icons-material/AddCommentOutlined');
+var CallToActionOutlinedIcon = require('@mui/icons-material/CallToActionOutlined');
+var LinkIcon = require('@mui/icons-material/Link');
+var LinkOffOutlinedIcon = require('@mui/icons-material/LinkOffOutlined');
+
+function _interopDefault (e) { return e && e.__esModule ? e : { default: e }; }
+
+var React__default = /*#__PURE__*/_interopDefault(React);
+var PropTypes__default = /*#__PURE__*/_interopDefault(PropTypes);
+var CropSquareOutlinedIcon__default = /*#__PURE__*/_interopDefault(CropSquareOutlinedIcon);
+var FormatBoldIcon__default = /*#__PURE__*/_interopDefault(FormatBoldIcon);
+var FormatItalicOutlinedIcon__default = /*#__PURE__*/_interopDefault(FormatItalicOutlinedIcon);
+var FormatUnderlinedIcon__default = /*#__PURE__*/_interopDefault(FormatUnderlinedIcon);
+var StrikethroughSIcon__default = /*#__PURE__*/_interopDefault(StrikethroughSIcon);
+var CodeIcon__default = /*#__PURE__*/_interopDefault(CodeIcon);
+var FormatListBulletedIcon__default = /*#__PURE__*/_interopDefault(FormatListBulletedIcon);
+var FormatListNumberedIcon__default = /*#__PURE__*/_interopDefault(FormatListNumberedIcon);
+var ReactDOM__default = /*#__PURE__*/_interopDefault(ReactDOM);
+var AddCommentOutlinedIcon__default = /*#__PURE__*/_interopDefault(AddCommentOutlinedIcon);
+var CallToActionOutlinedIcon__default = /*#__PURE__*/_interopDefault(CallToActionOutlinedIcon);
+var LinkIcon__default = /*#__PURE__*/_interopDefault(LinkIcon);
+var LinkOffOutlinedIcon__default = /*#__PURE__*/_interopDefault(LinkOffOutlinedIcon);
 
 function _arrayLikeToArray(r, a) {
   (null == a || a > r.length) && (a = r.length);
@@ -24,7 +52,7 @@ function _arrayWithoutHoles(r) {
 function _createForOfIteratorHelper(r, e) {
   var t = "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"];
   if (!t) {
-    if (Array.isArray(r) || (t = _unsupportedIterableToArray(r)) || e  ) {
+    if (Array.isArray(r) || (t = _unsupportedIterableToArray(r)) || e) {
       t && (r = t);
       var n = 0,
         F = function () {};
@@ -32,9 +60,9 @@ function _createForOfIteratorHelper(r, e) {
         s: F,
         n: function () {
           return n >= r.length ? {
-            done: !0
+            done: true
           } : {
-            done: !1,
+            done: false,
             value: r[n++]
           };
         },
@@ -47,8 +75,8 @@ function _createForOfIteratorHelper(r, e) {
     throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
   }
   var o,
-    a = !0,
-    u = !1;
+    a = true,
+    u = false;
   return {
     s: function () {
       t = t.call(r);
@@ -58,7 +86,7 @@ function _createForOfIteratorHelper(r, e) {
       return a = r.done, r;
     },
     e: function (r) {
-      u = !0, o = r;
+      u = true, o = r;
     },
     f: function () {
       try {
@@ -72,9 +100,9 @@ function _createForOfIteratorHelper(r, e) {
 function _defineProperty(e, r, t) {
   return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, {
     value: t,
-    enumerable: !0,
-    configurable: !0,
-    writable: !0
+    enumerable: true,
+    configurable: true,
+    writable: true
   }) : e[r] = t, e;
 }
 function _extends() {
@@ -97,15 +125,15 @@ function _iterableToArrayLimit(r, l) {
       i,
       u,
       a = [],
-      f = !0,
-      o = !1;
+      f = true,
+      o = false;
     try {
       if (i = (t = t.call(r)).next, 0 === l) {
         if (Object(t) !== t) return;
         f = !1;
       } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0);
     } catch (r) {
-      o = !0, n = r;
+      o = true, n = r;
     } finally {
       try {
         if (!f && null != t.return && (u = t.return(), Object(u) !== u)) return;
@@ -135,7 +163,7 @@ function ownKeys(e, r) {
 function _objectSpread2(e) {
   for (var r = 1; r < arguments.length; r++) {
     var t = null != arguments[r] ? arguments[r] : {};
-    r % 2 ? ownKeys(Object(t), !0).forEach(function (r) {
+    r % 2 ? ownKeys(Object(t), true).forEach(function (r) {
       _defineProperty(e, r, t[r]);
     }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) {
       Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r));
@@ -150,7 +178,7 @@ function _objectWithoutProperties(e, t) {
     i = _objectWithoutPropertiesLoose(e, t);
   if (Object.getOwnPropertySymbols) {
     var n = Object.getOwnPropertySymbols(e);
-    for (r = 0; r < n.length; r++) o = n[r], t.indexOf(o) >= 0 || {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]);
+    for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]);
   }
   return i;
 }
@@ -158,7 +186,7 @@ function _objectWithoutPropertiesLoose(r, e) {
   if (null == r) return {};
   var t = {};
   for (var n in r) if ({}.hasOwnProperty.call(r, n)) {
-    if (e.indexOf(n) >= 0) continue;
+    if (-1 !== e.indexOf(n)) continue;
     t[n] = r[n];
   }
   return t;
@@ -173,7 +201,7 @@ function _toPrimitive(t, r) {
   if ("object" != typeof t || !t) return t;
   var e = t[Symbol.toPrimitive];
   if (void 0 !== e) {
-    var i = e.call(t, r || "default");
+    var i = e.call(t, r);
     if ("object" != typeof i) return i;
     throw new TypeError("@@toPrimitive must return a primitive value.");
   }
@@ -839,7 +867,7 @@ function MaterialSlate(_ref2) {
     _useState2 = _slicedToArray(_useState, 2),
     isFocused = _useState2[0],
     setIsFocused = _useState2[1];
-  return /*#__PURE__*/React.createElement(StyledBox$4, {
+  return /*#__PURE__*/React__default.default.createElement(StyledBox$4, {
     onBlur: function onBlur() {
       return setIsFocused(false);
     },
@@ -847,7 +875,7 @@ function MaterialSlate(_ref2) {
       return setIsFocused(true);
     },
     className: "".concat(isFocused && (focusClassName ? focusClassName : 'materialSlate-focused'), " ").concat(className)
-  }, /*#__PURE__*/React.createElement(slateReact.Slate, {
+  }, /*#__PURE__*/React__default.default.createElement(slateReact.Slate, {
     initialValue: value,
     editor: editor,
     onChange: function onChange(value) {
@@ -857,15 +885,15 @@ function MaterialSlate(_ref2) {
 }
 MaterialSlate.propTypes = {
   /** editor created using createRichEditor() */
-  editor: PropTypes.object.isRequired,
+  editor: PropTypes__default.default.object.isRequired,
   /** content to display in the editor*/
-  value: PropTypes.arrayOf(PropTypes.object).isRequired,
+  value: PropTypes__default.default.arrayOf(PropTypes__default.default.object).isRequired,
   /** Called every time there is a change on the value */
-  onChange: PropTypes.func,
+  onChange: PropTypes__default.default.func,
   /** class to override and style the slate  */
-  className: PropTypes.string,
+  className: PropTypes__default.default.string,
   /** className to apply when the editor has focus */
-  focusClassName: PropTypes.string
+  focusClassName: PropTypes__default.default.string
 };
 
 var lib = {};
@@ -1126,32 +1154,32 @@ function defaultRenderElement(_ref) {
     _objectWithoutProperties(_ref, _excluded$7);
   switch (element.type) {
     case 'block-quote':
-      return /*#__PURE__*/React.createElement("blockquote", attributes, children);
+      return /*#__PURE__*/React__default.default.createElement("blockquote", attributes, children);
     case 'bulleted-list':
-      return /*#__PURE__*/React.createElement("ul", attributes, children);
+      return /*#__PURE__*/React__default.default.createElement("ul", attributes, children);
     case 'heading-one':
-      return /*#__PURE__*/React.createElement("h1", attributes, children);
+      return /*#__PURE__*/React__default.default.createElement("h1", attributes, children);
     case 'heading-two':
-      return /*#__PURE__*/React.createElement("h2", attributes, children);
+      return /*#__PURE__*/React__default.default.createElement("h2", attributes, children);
     case 'list-item':
-      return /*#__PURE__*/React.createElement("li", attributes, children);
+      return /*#__PURE__*/React__default.default.createElement("li", attributes, children);
     case 'numbered-list':
-      return /*#__PURE__*/React.createElement("ol", attributes, children);
+      return /*#__PURE__*/React__default.default.createElement("ol", attributes, children);
     case 'link':
-      return /*#__PURE__*/React.createElement("a", _extends({}, attributes, {
+      return /*#__PURE__*/React__default.default.createElement("a", _extends({}, attributes, {
         href: element.url
       }), children);
     default:
-      return /*#__PURE__*/React.createElement("p", attributes, children);
+      return /*#__PURE__*/React__default.default.createElement("p", attributes, children);
   }
 }
 
 /**
- * Default renderer of leafs. 
- * 
+ * Default renderer of leafs.
+ *
  * Handles the following type of leafs `bold` (strong), `code` (code), `italic` (em), `strikethrough` (del), `underlined`(u).
- * 
- * @param {Object} props 
+ *
+ * @param {Object} props
  */
 
 function defaultRenderLeaf(_ref) {
@@ -1160,21 +1188,21 @@ function defaultRenderLeaf(_ref) {
     children = _ref.children;
     _ref.text;
   if (leaf.bold) {
-    children = /*#__PURE__*/React.createElement("strong", null, children);
+    children = /*#__PURE__*/React__default.default.createElement("strong", null, children);
   }
   if (leaf.code) {
-    children = /*#__PURE__*/React.createElement("code", null, children);
+    children = /*#__PURE__*/React__default.default.createElement("code", null, children);
   }
   if (leaf.italic) {
-    children = /*#__PURE__*/React.createElement("em", null, children);
+    children = /*#__PURE__*/React__default.default.createElement("em", null, children);
   }
   if (leaf.strikethrough) {
-    children = /*#__PURE__*/React.createElement("del", null, children);
+    children = /*#__PURE__*/React__default.default.createElement("del", null, children);
   }
   if (leaf.underlined) {
-    children = /*#__PURE__*/React.createElement("u", null, children);
+    children = /*#__PURE__*/React__default.default.createElement("u", null, children);
   }
-  return /*#__PURE__*/React.createElement("span", attributes, children);
+  return /*#__PURE__*/React__default.default.createElement("span", attributes, children);
 }
 
 var defaultHotkeys = {
@@ -1270,7 +1298,7 @@ function MaterialEditable(_ref2) {
       }
     }
   };
-  return /*#__PURE__*/React.createElement(StyledEditor, _extends({
+  return /*#__PURE__*/React__default.default.createElement(StyledEditor, _extends({
     renderElement: handleRenderElement,
     renderLeaf: handleRenderLeaf,
     onKeyDown: function onKeyDown(event) {
@@ -1281,82 +1309,32 @@ function MaterialEditable(_ref2) {
     renderPlaceholder: function renderPlaceholder(_ref3) {
       var attributes = _ref3.attributes,
         children = _ref3.children;
-      return /*#__PURE__*/React.createElement(material.Box, {
+      return /*#__PURE__*/React__default.default.createElement(material.Box, {
         className: "material-slate-placeholder"
-      }, /*#__PURE__*/React.createElement(material.Box, attributes, children));
+      }, /*#__PURE__*/React__default.default.createElement(material.Box, attributes, children));
     }
   }, props), children);
 }
 MaterialEditable.propTypes = {
   /** To style and override the existing class  */
-  className: PropTypes.string,
+  className: PropTypes__default.default.string,
   /** Called when an element needs to be rendered */
-  renderElement: PropTypes.func,
+  renderElement: PropTypes__default.default.func,
   /** Called when a leaf needs to be rendered */
-  renderLeaf: PropTypes.func,
+  renderLeaf: PropTypes__default.default.func,
   /** Text/component to display when there are no contents on the editor. Default" "Type some text..." */
-  placeholder: PropTypes.any,
+  placeholder: PropTypes__default.default.any,
   /**
    * Additional hotkeys to be added other than default. Object of the form `{'mod+k': {type: 'mark', value: 'italic'}
    * defaultHotkeys can be disallowed by passing hotkeys as null
    */
-  hotkeys: PropTypes.object,
+  hotkeys: PropTypes__default.default.object,
   /**
    * Event tht will be triggered in case a hotkey is detected
    * It has one single argument that can be deconstructed in `{event, editor, hotkey, pressedKeys, hotkeys}`
    */
-  onHotKey: PropTypes.func
+  onHotKey: PropTypes__default.default.func
 };
-
-var CropSquareOutlined = {};
-
-var interopRequireDefault = {exports: {}};
-
-(function (module) {
-	function _interopRequireDefault(e) {
-	  return e && e.__esModule ? e : {
-	    "default": e
-	  };
-	}
-	module.exports = _interopRequireDefault, module.exports.__esModule = true, module.exports["default"] = module.exports; 
-} (interopRequireDefault));
-
-var interopRequireDefaultExports = interopRequireDefault.exports;
-
-var createSvgIcon = {};
-
-var hasRequiredCreateSvgIcon;
-
-function requireCreateSvgIcon () {
-	if (hasRequiredCreateSvgIcon) return createSvgIcon;
-	hasRequiredCreateSvgIcon = 1;
-	(function (exports) {
-		'use client';
-
-		Object.defineProperty(exports, "__esModule", {
-		  value: true
-		});
-		Object.defineProperty(exports, "default", {
-		  enumerable: true,
-		  get: function () {
-		    return _utils.createSvgIcon;
-		  }
-		});
-		var _utils = require$$0; 
-	} (createSvgIcon));
-	return createSvgIcon;
-}
-
-var _interopRequireDefault$a = interopRequireDefaultExports;
-Object.defineProperty(CropSquareOutlined, "__esModule", {
-  value: true
-});
-var default_1$a = CropSquareOutlined.default = void 0;
-var _createSvgIcon$a = _interopRequireDefault$a(requireCreateSvgIcon());
-var _jsxRuntime$a = require$$2;
-default_1$a = CropSquareOutlined.default = (0, _createSvgIcon$a.default)( /*#__PURE__*/(0, _jsxRuntime$a.jsx)("path", {
-  d: "M18 4H6c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2m0 14H6V6h12z"
-}), 'CropSquareOutlined');
 
 var _excluded$5 = ["tooltip", "placement", "icon", "type", "disabled", "disableOnSelection", "disableOnCollapse", "format", "onMouseDown", "isActive"];
 
@@ -1367,12 +1345,12 @@ var _excluded$5 = ["tooltip", "placement", "icon", "type", "disabled", "disableO
  * It displays a tooltip text on hover. If tooltip text is not passed as a prop it will use the capitalized text of the format
  */
 
-var ToolbarButton = /*#__PURE__*/React.forwardRef(function (_ref, ref) {
+var ToolbarButton = /*#__PURE__*/React__default.default.forwardRef(function (_ref, ref) {
   var tooltip = _ref.tooltip,
     _ref$placement = _ref.placement,
     placement = _ref$placement === void 0 ? 'top' : _ref$placement,
     _ref$icon = _ref.icon,
-    icon = _ref$icon === void 0 ? /*#__PURE__*/React.createElement(default_1$a, null) : _ref$icon,
+    icon = _ref$icon === void 0 ? /*#__PURE__*/React__default.default.createElement(CropSquareOutlinedIcon__default.default, null) : _ref$icon,
     type = _ref.type,
     disabled = _ref.disabled,
     _ref$disableOnSelecti = _ref.disableOnSelection,
@@ -1436,7 +1414,7 @@ var ToolbarButton = /*#__PURE__*/React.forwardRef(function (_ref, ref) {
     disabled = disableOnCollapse ? editor.isSelectionCollapsed() : disabled;
     return disabled;
   };
-  return disabled || isDisabled() ? /*#__PURE__*/React.createElement(material.IconButton, _extends({
+  return disabled || isDisabled() ? /*#__PURE__*/React__default.default.createElement(material.IconButton, _extends({
     "aria-label": tooltip ? tooltip : defaultTooltip(),
     ref: ref,
     color: checkIsActive() ? 'secondary' : 'default',
@@ -1444,10 +1422,10 @@ var ToolbarButton = /*#__PURE__*/React.forwardRef(function (_ref, ref) {
       return handleOnMouseDown(event);
     },
     disabled: disabled || isDisabled()
-  }, rest), icon) : /*#__PURE__*/React.createElement(material.Tooltip, {
+  }, rest), icon) : /*#__PURE__*/React__default.default.createElement(material.Tooltip, {
     title: tooltip ? tooltip : defaultTooltip(),
     placement: placement
-  }, /*#__PURE__*/React.createElement(material.IconButton, _extends({
+  }, /*#__PURE__*/React__default.default.createElement(material.IconButton, _extends({
     "aria-label": tooltip ? tooltip : defaultTooltip(),
     ref: ref,
     color: checkIsActive() ? 'secondary' : 'default',
@@ -1464,12 +1442,12 @@ ToolbarButton.propTypes = {
    * Text displayed on the button tooltip. By Default it is the capitalized `format` string.
    * For instance, `bold` is displayed as `Bold`.
    */
-  tooltip: PropTypes.string,
+  tooltip: PropTypes__default.default.string,
   /**
    * Location where the tooltip will appear.
    * It can be `top`, `bottom`, `left`, `right`. Defaults to top.
    */
-  placement: PropTypes.string,
+  placement: PropTypes__default.default.string,
   /**
    * Toolbar button has the option of adding to the editor value marks and blocks.
    *
@@ -1482,12 +1460,12 @@ ToolbarButton.propTypes = {
    * If you don't want to add a mark or a block do not set the prop or use whatever string.
    * You can perform the action the button triggers using onMouseDown().
    */
-  type: PropTypes.string,
+  type: PropTypes__default.default.string,
   /**
    *
    * The string that identifies the format of the block or mark to be added. For example: `bold`, `header1`...
    */
-  format: PropTypes.string.isRequired,
+  format: PropTypes__default.default.string.isRequired,
   /**
    *
    * When a button is active it means the button is highlighted. For example, if in current position of the cursor,
@@ -1496,13 +1474,13 @@ ToolbarButton.propTypes = {
    * isActive is a function that returns true/false to indicate the status of the mark/block.
    * Set this function if you need to handle anything other than standard mark or blocks.
    */
-  isActive: PropTypes.func,
+  isActive: PropTypes__default.default.func,
   /**
    * Unconditionally disables the button
    *
    * Disable a button means that the button cannot be clicked (note it is not the opposite of isActive)
    */
-  disabled: PropTypes.bool,
+  disabled: PropTypes__default.default.bool,
   /**
    * If true, disables the button if there is a text selected on the editor.
    *
@@ -1510,7 +1488,7 @@ ToolbarButton.propTypes = {
    *
    * Use either disableOnSelection or disableOnCollapse, but not both.
    */
-  disableOnSelection: PropTypes.bool,
+  disableOnSelection: PropTypes__default.default.bool,
   /**
    * If true, disables the button when  there is no text selected or the editor has no focus.
    *
@@ -1518,29 +1496,16 @@ ToolbarButton.propTypes = {
    *
    * Use either disableOnSelection or disableOnCollapse, but not both.
    */
-  disableOnCollapse: PropTypes.bool,
+  disableOnCollapse: PropTypes__default.default.bool,
   /**
    * Instance a component. The icon that will be displayed. Typically an icon from @mui/icons-material
    */
-  icon: PropTypes.object,
+  icon: PropTypes__default.default.object,
   /**
    * On mouse down event is passed up to the parent with props that can be deconstructed in {editor, event, mark/block}
    */
-  onMouseDown: PropTypes.func
+  onMouseDown: PropTypes__default.default.func
 };
-
-var FormatBold = {};
-
-var _interopRequireDefault$9 = interopRequireDefaultExports;
-Object.defineProperty(FormatBold, "__esModule", {
-  value: true
-});
-var default_1$9 = FormatBold.default = void 0;
-var _createSvgIcon$9 = _interopRequireDefault$9(requireCreateSvgIcon());
-var _jsxRuntime$9 = require$$2;
-default_1$9 = FormatBold.default = (0, _createSvgIcon$9.default)( /*#__PURE__*/(0, _jsxRuntime$9.jsx)("path", {
-  d: "M15.6 10.79c.97-.67 1.65-1.77 1.65-2.79 0-2.26-1.75-4-4-4H7v14h7.04c2.09 0 3.71-1.7 3.71-3.79 0-1.52-.86-2.82-2.15-3.42M10 6.5h3c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5h-3zm3.5 9H10v-3h3.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5"
-}), 'FormatBold');
 
 /**
  * Toolbar button for bold text mark
@@ -1548,27 +1513,14 @@ default_1$9 = FormatBold.default = (0, _createSvgIcon$9.default)( /*#__PURE__*/(
  * @see ToolbarButton
  */
 
-var BoldButton = /*#__PURE__*/React.forwardRef(function (props, ref) {
-  return /*#__PURE__*/React.createElement(ToolbarButton, _extends({
-    icon: /*#__PURE__*/React.createElement(default_1$9, null),
+var BoldButton = /*#__PURE__*/React__default.default.forwardRef(function (props, ref) {
+  return /*#__PURE__*/React__default.default.createElement(ToolbarButton, _extends({
+    icon: /*#__PURE__*/React__default.default.createElement(FormatBoldIcon__default.default, null),
     type: "mark",
     format: "bold",
     ref: ref
   }, props));
 });
-
-var FormatItalicOutlined = {};
-
-var _interopRequireDefault$8 = interopRequireDefaultExports;
-Object.defineProperty(FormatItalicOutlined, "__esModule", {
-  value: true
-});
-var default_1$8 = FormatItalicOutlined.default = void 0;
-var _createSvgIcon$8 = _interopRequireDefault$8(requireCreateSvgIcon());
-var _jsxRuntime$8 = require$$2;
-default_1$8 = FormatItalicOutlined.default = (0, _createSvgIcon$8.default)( /*#__PURE__*/(0, _jsxRuntime$8.jsx)("path", {
-  d: "M10 4v3h2.21l-3.42 8H6v3h8v-3h-2.21l3.42-8H18V4z"
-}), 'FormatItalicOutlined');
 
 /**
  * Toolbar button for italic text mark
@@ -1576,54 +1528,28 @@ default_1$8 = FormatItalicOutlined.default = (0, _createSvgIcon$8.default)( /*#_
  * @see ToolbarButton
  */
 
-var ItalicButton = /*#__PURE__*/React.forwardRef(function (props, ref) {
-  return /*#__PURE__*/React.createElement(ToolbarButton, _extends({
-    icon: /*#__PURE__*/React.createElement(default_1$8, null),
+var ItalicButton = /*#__PURE__*/React__default.default.forwardRef(function (props, ref) {
+  return /*#__PURE__*/React__default.default.createElement(ToolbarButton, _extends({
+    icon: /*#__PURE__*/React__default.default.createElement(FormatItalicOutlinedIcon__default.default, null),
     type: "mark",
     format: "italic",
     ref: ref
   }, props));
 });
 
-var FormatUnderlined = {};
-
-var _interopRequireDefault$7 = interopRequireDefaultExports;
-Object.defineProperty(FormatUnderlined, "__esModule", {
-  value: true
-});
-var default_1$7 = FormatUnderlined.default = void 0;
-var _createSvgIcon$7 = _interopRequireDefault$7(requireCreateSvgIcon());
-var _jsxRuntime$7 = require$$2;
-default_1$7 = FormatUnderlined.default = (0, _createSvgIcon$7.default)( /*#__PURE__*/(0, _jsxRuntime$7.jsx)("path", {
-  d: "M12 17c3.31 0 6-2.69 6-6V3h-2.5v8c0 1.93-1.57 3.5-3.5 3.5S8.5 12.93 8.5 11V3H6v8c0 3.31 2.69 6 6 6m-7 2v2h14v-2z"
-}), 'FormatUnderlined');
-
 /**
  * Toolbar button for underlined text mark
  *
  * @see ToolbarButton
  */
-var UnderlinedButton = /*#__PURE__*/React.forwardRef(function (props, ref) {
-  return /*#__PURE__*/React.createElement(ToolbarButton, _extends({
-    icon: /*#__PURE__*/React.createElement(default_1$7, null),
+var UnderlinedButton = /*#__PURE__*/React__default.default.forwardRef(function (props, ref) {
+  return /*#__PURE__*/React__default.default.createElement(ToolbarButton, _extends({
+    icon: /*#__PURE__*/React__default.default.createElement(FormatUnderlinedIcon__default.default, null),
     type: "mark",
     format: "underlined",
     ref: ref
   }, props));
 });
-
-var StrikethroughS = {};
-
-var _interopRequireDefault$6 = interopRequireDefaultExports;
-Object.defineProperty(StrikethroughS, "__esModule", {
-  value: true
-});
-var default_1$6 = StrikethroughS.default = void 0;
-var _createSvgIcon$6 = _interopRequireDefault$6(requireCreateSvgIcon());
-var _jsxRuntime$6 = require$$2;
-default_1$6 = StrikethroughS.default = (0, _createSvgIcon$6.default)( /*#__PURE__*/(0, _jsxRuntime$6.jsx)("path", {
-  d: "M6.85 7.08C6.85 4.37 9.45 3 12.24 3c1.64 0 3 .49 3.9 1.28.77.65 1.46 1.73 1.46 3.24h-3.01c0-.31-.05-.59-.15-.85-.29-.86-1.2-1.28-2.25-1.28-1.86 0-2.34 1.02-2.34 1.7 0 .48.25.88.74 1.21.38.25.77.48 1.41.7H7.39c-.21-.34-.54-.89-.54-1.92M21 12v-2H3v2h9.62c1.15.45 1.96.75 1.96 1.97 0 1-.81 1.67-2.28 1.67-1.54 0-2.93-.54-2.93-2.51H6.4c0 .55.08 1.13.24 1.58.81 2.29 3.29 3.3 5.67 3.3 2.27 0 5.3-.89 5.3-4.05 0-.3-.01-1.16-.48-1.94H21z"
-}), 'StrikethroughS');
 
 /**
  * Toolbar button for strike through text mark
@@ -1631,27 +1557,14 @@ default_1$6 = StrikethroughS.default = (0, _createSvgIcon$6.default)( /*#__PURE_
  * @see ToolbarButton
  */
 
-var StrikethroughButton = /*#__PURE__*/React.forwardRef(function (props, ref) {
-  return /*#__PURE__*/React.createElement(ToolbarButton, _extends({
-    icon: /*#__PURE__*/React.createElement(default_1$6, null),
+var StrikethroughButton = /*#__PURE__*/React__default.default.forwardRef(function (props, ref) {
+  return /*#__PURE__*/React__default.default.createElement(ToolbarButton, _extends({
+    icon: /*#__PURE__*/React__default.default.createElement(StrikethroughSIcon__default.default, null),
     type: "mark",
     format: "strikethrough",
     ref: ref
   }, props));
 });
-
-var Code = {};
-
-var _interopRequireDefault$5 = interopRequireDefaultExports;
-Object.defineProperty(Code, "__esModule", {
-  value: true
-});
-var default_1$5 = Code.default = void 0;
-var _createSvgIcon$5 = _interopRequireDefault$5(requireCreateSvgIcon());
-var _jsxRuntime$5 = require$$2;
-default_1$5 = Code.default = (0, _createSvgIcon$5.default)( /*#__PURE__*/(0, _jsxRuntime$5.jsx)("path", {
-  d: "M9.4 16.6 4.8 12l4.6-4.6L8 6l-6 6 6 6zm5.2 0 4.6-4.6-4.6-4.6L16 6l6 6-6 6z"
-}), 'Code');
 
 /**
  * Toolbar button for adding code mono-spaced text mark
@@ -1659,27 +1572,14 @@ default_1$5 = Code.default = (0, _createSvgIcon$5.default)( /*#__PURE__*/(0, _js
  * @see ToolbarButton
  */
 
-var CodeButton = /*#__PURE__*/React.forwardRef(function (props, ref) {
-  return /*#__PURE__*/React.createElement(ToolbarButton, _extends({
-    icon: /*#__PURE__*/React.createElement(default_1$5, null),
+var CodeButton = /*#__PURE__*/React__default.default.forwardRef(function (props, ref) {
+  return /*#__PURE__*/React__default.default.createElement(ToolbarButton, _extends({
+    icon: /*#__PURE__*/React__default.default.createElement(CodeIcon__default.default, null),
     type: "mark",
     format: "code",
     ref: ref
   }, props));
 });
-
-var FormatListBulleted = {};
-
-var _interopRequireDefault$4 = interopRequireDefaultExports;
-Object.defineProperty(FormatListBulleted, "__esModule", {
-  value: true
-});
-var default_1$4 = FormatListBulleted.default = void 0;
-var _createSvgIcon$4 = _interopRequireDefault$4(requireCreateSvgIcon());
-var _jsxRuntime$4 = require$$2;
-default_1$4 = FormatListBulleted.default = (0, _createSvgIcon$4.default)( /*#__PURE__*/(0, _jsxRuntime$4.jsx)("path", {
-  d: "M4 10.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5m0-6c-.83 0-1.5.67-1.5 1.5S3.17 7.5 4 7.5 5.5 6.83 5.5 6 4.83 4.5 4 4.5m0 12c-.83 0-1.5.68-1.5 1.5s.68 1.5 1.5 1.5 1.5-.68 1.5-1.5-.67-1.5-1.5-1.5M7 19h14v-2H7zm0-6h14v-2H7zm0-8v2h14V5z"
-}), 'FormatListBulleted');
 
 /**
  * Toolbar button for underlined text mark
@@ -1687,27 +1587,14 @@ default_1$4 = FormatListBulleted.default = (0, _createSvgIcon$4.default)( /*#__P
  * @see ToolbarButton
  *
  */
-var BulletedListButton = /*#__PURE__*/React.forwardRef(function (props, ref) {
-  return /*#__PURE__*/React.createElement(ToolbarButton, _extends({
-    icon: /*#__PURE__*/React.createElement(default_1$4, null),
+var BulletedListButton = /*#__PURE__*/React__default.default.forwardRef(function (props, ref) {
+  return /*#__PURE__*/React__default.default.createElement(ToolbarButton, _extends({
+    icon: /*#__PURE__*/React__default.default.createElement(FormatListBulletedIcon__default.default, null),
     type: "block",
     format: "bulleted-list",
     ref: ref
   }, props));
 });
-
-var FormatListNumbered = {};
-
-var _interopRequireDefault$3 = interopRequireDefaultExports;
-Object.defineProperty(FormatListNumbered, "__esModule", {
-  value: true
-});
-var default_1$3 = FormatListNumbered.default = void 0;
-var _createSvgIcon$3 = _interopRequireDefault$3(requireCreateSvgIcon());
-var _jsxRuntime$3 = require$$2;
-default_1$3 = FormatListNumbered.default = (0, _createSvgIcon$3.default)( /*#__PURE__*/(0, _jsxRuntime$3.jsx)("path", {
-  d: "M2 17h2v.5H3v1h1v.5H2v1h3v-4H2zm1-9h1V4H2v1h1zm-1 3h1.8L2 13.1v.9h3v-1H3.2L5 10.9V10H2zm5-6v2h14V5zm0 14h14v-2H7zm0-6h14v-2H7z"
-}), 'FormatListNumbered');
 
 /**
  * Toolbar button for numbered list block
@@ -1715,9 +1602,9 @@ default_1$3 = FormatListNumbered.default = (0, _createSvgIcon$3.default)( /*#__P
  * @see ToolbarButton
  */
 
-var NumberedListButton = /*#__PURE__*/React.forwardRef(function (props, ref) {
-  return /*#__PURE__*/React.createElement(ToolbarButton, _extends({
-    icon: /*#__PURE__*/React.createElement(default_1$3, null),
+var NumberedListButton = /*#__PURE__*/React__default.default.forwardRef(function (props, ref) {
+  return /*#__PURE__*/React__default.default.createElement(ToolbarButton, _extends({
+    icon: /*#__PURE__*/React__default.default.createElement(FormatListNumberedIcon__default.default, null),
     type: "block",
     format: "numbered-list",
     ref: ref
@@ -1747,15 +1634,15 @@ function Toolbar(_ref2) {
   var children = _ref2.children;
     _ref2.className;
     var props = _objectWithoutProperties(_ref2, _excluded2$1);
-  return /*#__PURE__*/React.createElement(StyledToolBar, _extends({
+  return /*#__PURE__*/React__default.default.createElement(StyledToolBar, _extends({
     borderRadius: "borderRadius"
-  }, props), !children && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(BoldButton, null), /*#__PURE__*/React.createElement(ItalicButton, null), /*#__PURE__*/React.createElement(UnderlinedButton, null), /*#__PURE__*/React.createElement(StrikethroughButton, null), /*#__PURE__*/React.createElement(CodeButton, null), /*#__PURE__*/React.createElement(BulletedListButton, null), /*#__PURE__*/React.createElement(NumberedListButton, null)), children && /*#__PURE__*/React.createElement(React.Fragment, null, children));
+  }, props), !children && /*#__PURE__*/React__default.default.createElement(React__default.default.Fragment, null, /*#__PURE__*/React__default.default.createElement(BoldButton, null), /*#__PURE__*/React__default.default.createElement(ItalicButton, null), /*#__PURE__*/React__default.default.createElement(UnderlinedButton, null), /*#__PURE__*/React__default.default.createElement(StrikethroughButton, null), /*#__PURE__*/React__default.default.createElement(CodeButton, null), /*#__PURE__*/React__default.default.createElement(BulletedListButton, null), /*#__PURE__*/React__default.default.createElement(NumberedListButton, null)), children && /*#__PURE__*/React__default.default.createElement(React__default.default.Fragment, null, children));
 }
 
 var _excluded$3 = ["children", "className"];
 var Portal = function Portal(_ref) {
   var children = _ref.children;
-  return /*#__PURE__*/ReactDOM.createPortal(children, document.body);
+  return /*#__PURE__*/ReactDOM__default.default.createPortal(children, document.body);
 };
 var classes = {
   hoveringToolbar: 'hoveringToolbar'
@@ -1808,11 +1695,11 @@ function HoveringToolbar(_ref4) {
     var left = rect.left + window.scrollX - el.offsetWidth / 2 + rect.width / 2;
     el.style.left = "".concat(left < 0 ? 4 : left, "px");
   });
-  return /*#__PURE__*/React.createElement(Portal, null, /*#__PURE__*/React.createElement(StyledBox$3, _extends({
+  return /*#__PURE__*/React__default.default.createElement(Portal, null, /*#__PURE__*/React__default.default.createElement(StyledBox$3, _extends({
     borderRadius: "borderRadius",
     ref: ref,
     className: className ? className : classes.hoveringToolbar
-  }, props), children ? children : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(BoldButton, null), /*#__PURE__*/React.createElement(ItalicButton, null), /*#__PURE__*/React.createElement(UnderlinedButton, null), /*#__PURE__*/React.createElement(StrikethroughButton, null), /*#__PURE__*/React.createElement(CodeButton, null))));
+  }, props), children ? children : /*#__PURE__*/React__default.default.createElement(React__default.default.Fragment, null, /*#__PURE__*/React__default.default.createElement(BoldButton, null), /*#__PURE__*/React__default.default.createElement(ItalicButton, null), /*#__PURE__*/React__default.default.createElement(UnderlinedButton, null), /*#__PURE__*/React__default.default.createElement(StrikethroughButton, null), /*#__PURE__*/React__default.default.createElement(CodeButton, null))));
 }
 
 var _excluded$2 = ["borderColor"];
@@ -1827,9 +1714,9 @@ var _excluded$2 = ["borderColor"];
 function ButtonSeparator(_ref) {
   var borderColor = _ref.borderColor,
     other = _objectWithoutProperties(_ref, _excluded$2);
-  return /*#__PURE__*/React.createElement(material.Box, _extends({
+  return /*#__PURE__*/React__default.default.createElement(material.Box, _extends({
     display: "inline"
-  }, other), /*#__PURE__*/React.createElement(material.Box, {
+  }, other), /*#__PURE__*/React__default.default.createElement(material.Box, {
     borderLeft: 1,
     borderColor: borderColor ? borderColor : 'grey.400',
     marginLeft: "2px",
@@ -1882,16 +1769,16 @@ function SimpleDialog(_ref2) {
     });
     setValue(defaultValue);
   };
-  return /*#__PURE__*/React.createElement(material.Dialog, {
+  return /*#__PURE__*/React__default.default.createElement(material.Dialog, {
     open: open,
     onClose: handleOnCancel,
     "aria-labelledby": "dialog-title",
     "aria-describedby": "alert-dialog-description",
     fullWidth: true,
     maxWidth: props.maxWidth ? props.maxWidth : 'xs'
-  }, /*#__PURE__*/React.createElement(material.DialogTitle, {
+  }, /*#__PURE__*/React__default.default.createElement(material.DialogTitle, {
     id: "dialog-title"
-  }, title), /*#__PURE__*/React.createElement(material.DialogContent, null, /*#__PURE__*/React.createElement(StyledBox$2, null, /*#__PURE__*/React.createElement(material.TextField, {
+  }, title), /*#__PURE__*/React__default.default.createElement(material.DialogContent, null, /*#__PURE__*/React__default.default.createElement(StyledBox$2, null, /*#__PURE__*/React__default.default.createElement(material.TextField, {
     fullWidth: true,
     multiline: true,
     autoFocus: true,
@@ -1902,13 +1789,13 @@ function SimpleDialog(_ref2) {
       return setValue(event.target.value);
     },
     required: true
-  }))), /*#__PURE__*/React.createElement(material.DialogActions, null, /*#__PURE__*/React.createElement(material.Button, {
+  }))), /*#__PURE__*/React__default.default.createElement(material.DialogActions, null, /*#__PURE__*/React__default.default.createElement(material.Button, {
     onClick: function onClick() {
       return handleOnCancel();
     },
     color: "primary",
     variant: "outlined"
-  }, "Cancel"), /*#__PURE__*/React.createElement(material.Button, {
+  }, "Cancel"), /*#__PURE__*/React__default.default.createElement(material.Button, {
     onClick: function onClick(event) {
       return handleOnSave();
     },
@@ -1920,48 +1807,35 @@ SimpleDialog.propTypes = {
   /**
    * If it is true, it displays the dialog window.
    */
-  open: PropTypes.bool.isRequired,
+  open: PropTypes__default.default.bool.isRequired,
   /**
    * Called whe the Cancel button is pressed
    */
-  onCancel: PropTypes.func.isRequired,
+  onCancel: PropTypes__default.default.func.isRequired,
   /**
    * Called when the save button is pressed
    */
-  onSave: PropTypes.func.isRequired,
+  onSave: PropTypes__default.default.func.isRequired,
   /**
    * Title of the dialog window
    */
-  title: PropTypes.string,
+  title: PropTypes__default.default.string,
   /**
    * Label of the textfield
    */
-  label: PropTypes.string,
+  label: PropTypes__default.default.string,
   /**
    * Format of the element to be added/edited.
    * For example: bold, italic, comment, link, endnote
    *
    * Just required if you use the same dialog for different type of nodes.
    */
-  format: PropTypes.string,
+  format: PropTypes__default.default.string,
   /**
    * Default value displayed on the textfield.
    */
-  defaultValue: PropTypes.string
+  defaultValue: PropTypes__default.default.string
 };
-
-var AddCommentOutlined = {};
-
-var _interopRequireDefault$2 = interopRequireDefaultExports;
-Object.defineProperty(AddCommentOutlined, "__esModule", {
-  value: true
-});
-var default_1$2 = AddCommentOutlined.default = void 0;
-var _createSvgIcon$2 = _interopRequireDefault$2(requireCreateSvgIcon());
-var _jsxRuntime$2 = require$$2;
-default_1$2 = AddCommentOutlined.default = (0, _createSvgIcon$2.default)( /*#__PURE__*/(0, _jsxRuntime$2.jsx)("path", {
-  d: "M22 4c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4zm-2 13.17L18.83 16H4V4h16zM13 5h-2v4H7v2h4v4h2v-4h4V9h-4z"
-}), 'AddCommentOutlined');
 
 /**
  * Toolbar button for adding comments.
@@ -1971,9 +1845,9 @@ default_1$2 = AddCommentOutlined.default = (0, _createSvgIcon$2.default)( /*#__P
  * @see ToolbarButton
  */
 
-var AddCommentButton = /*#__PURE__*/React.forwardRef(function (props, ref) {
-  return /*#__PURE__*/React.createElement(ToolbarButton, _extends({
-    icon: /*#__PURE__*/React.createElement(default_1$2, null),
+var AddCommentButton = /*#__PURE__*/React__default.default.forwardRef(function (props, ref) {
+  return /*#__PURE__*/React__default.default.createElement(ToolbarButton, _extends({
+    icon: /*#__PURE__*/React__default.default.createElement(AddCommentOutlinedIcon__default.default, null),
     type: "other",
     disableOnCollapse: true,
     tooltip: "Add comment",
@@ -1982,28 +1856,15 @@ var AddCommentButton = /*#__PURE__*/React.forwardRef(function (props, ref) {
   }, props));
 });
 
-var CallToActionOutlined = {};
-
-var _interopRequireDefault$1 = interopRequireDefaultExports;
-Object.defineProperty(CallToActionOutlined, "__esModule", {
-  value: true
-});
-var default_1$1 = CallToActionOutlined.default = void 0;
-var _createSvgIcon$1 = _interopRequireDefault$1(requireCreateSvgIcon());
-var _jsxRuntime$1 = require$$2;
-default_1$1 = CallToActionOutlined.default = (0, _createSvgIcon$1.default)( /*#__PURE__*/(0, _jsxRuntime$1.jsx)("path", {
-  d: "M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m0 16H3V5h18zM5 15h14v3H5z"
-}), 'CallToActionOutlined');
-
 /**
  * Toolbar button for adding endnotes
  *
  * @see ToolbarButton
  */
 
-var EndnoteButton = /*#__PURE__*/React.forwardRef(function (props, ref) {
-  return /*#__PURE__*/React.createElement(ToolbarButton, _extends({
-    icon: /*#__PURE__*/React.createElement(default_1$1, null),
+var EndnoteButton = /*#__PURE__*/React__default.default.forwardRef(function (props, ref) {
+  return /*#__PURE__*/React__default.default.createElement(ToolbarButton, _extends({
+    icon: /*#__PURE__*/React__default.default.createElement(CallToActionOutlinedIcon__default.default, null),
     type: "other",
     disableOnSelection: true,
     tooltip: "Add endnote",
@@ -2012,22 +1873,8 @@ var EndnoteButton = /*#__PURE__*/React.forwardRef(function (props, ref) {
   }, props));
 });
 
-var Link = {};
-
-var _interopRequireDefault = interopRequireDefaultExports;
-Object.defineProperty(Link, "__esModule", {
-  value: true
-});
-var default_1 = Link.default = void 0;
-var _createSvgIcon = _interopRequireDefault(requireCreateSvgIcon());
-var _jsxRuntime = require$$2;
-default_1 = Link.default = (0, _createSvgIcon.default)( /*#__PURE__*/(0, _jsxRuntime.jsx)("path", {
-  d: "M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1M8 13h8v-2H8zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5"
-}), 'Link');
-
 var _excluded = ["ref", "onMouseDown"],
   _excluded2 = ["editor"];
-
 /**
  * Toolbar button for adding links
  *
@@ -2044,6 +1891,8 @@ function LinkButton(_ref) {
     _useState2 = _slicedToArray(_useState, 2),
     openLinkDialog = _useState2[0],
     setOpenLinkDialog = _useState2[1];
+  // Check if a link is active in the current selection
+  var isLinkActive = editor.isNodeTypeActive('link');
 
   // Handles custom buttons click
   var onLinkButtonDown = function onLinkButtonDown(_ref2) {
@@ -2066,16 +1915,16 @@ function LinkButton(_ref) {
     // The link will wrap the selected text when `rememberCurrentSelection()` was called
     editor.insertLink(url);
   };
-  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(ToolbarButton, _extends({
-    icon: /*#__PURE__*/React.createElement(default_1, null),
+  return /*#__PURE__*/React__default.default.createElement(React__default.default.Fragment, null, /*#__PURE__*/React__default.default.createElement(ToolbarButton, _extends({
+    icon: isLinkActive ? /*#__PURE__*/React__default.default.createElement(LinkOffOutlinedIcon__default.default, null) : /*#__PURE__*/React__default.default.createElement(LinkIcon__default.default, null),
     type: "link",
-    tooltip: "Add link",
+    tooltip: isLinkActive ? 'Remove link' : 'Add link',
     format: "link",
     ref: ref,
     onMouseDown: function onMouseDown(event) {
       return onLinkButtonDown(event);
     }
-  }, props)), !onMouseDown && /*#__PURE__*/React.createElement(SimpleDialog, {
+  }, props)), !onMouseDown && /*#__PURE__*/React__default.default.createElement(SimpleDialog, {
     open: openLinkDialog,
     title: "Add Link",
     label: "Link",
@@ -2094,7 +1943,7 @@ LinkButton.propTypes = {
    * disable the simple dialog and let's you add your own dialog
    * And gives the onMouseDown event
    */
-  onMouseDown: PropTypes.func
+  onMouseDown: PropTypes__default.default.func
 };
 
 var StyledBox$1 = material.styled(material.Box)(function (_ref) {
@@ -2121,9 +1970,9 @@ var CommentElement = function CommentElement(_ref2) {
     className = _ref2.className,
     children = _ref2.children,
     attributes = _ref2.attributes;
-  return /*#__PURE__*/React.createElement(material.Tooltip, {
+  return /*#__PURE__*/React__default.default.createElement(material.Tooltip, {
     title: "Comment: ".concat(element.data.body)
-  }, /*#__PURE__*/React.createElement(StyledBox$1, _extends({
+  }, /*#__PURE__*/React__default.default.createElement(StyledBox$1, _extends({
     component: "span",
     className: "".concat(className)
   }, attributes, {
@@ -2157,10 +2006,10 @@ var EndnoteElement = function EndnoteElement(_ref2) {
     _onClick = _ref2.onClick,
     attributes = _ref2.attributes,
     children = _ref2.children;
-  return /*#__PURE__*/React.createElement(material.Tooltip, {
+  return /*#__PURE__*/React__default.default.createElement(material.Tooltip, {
     placement: "top",
     title: "".concat(element.data.value)
-  }, /*#__PURE__*/React.createElement(StyledBox, _extends({
+  }, /*#__PURE__*/React__default.default.createElement(StyledBox, _extends({
     component: "sup"
   }, attributes, {
     onClick: function onClick(event) {
@@ -2196,7 +2045,7 @@ function WordCounter(_ref2) {
   var wordsLength = editor.getWordsLength(children);
   // Error based on words length limit
   var errorExceedWordsLimit = wordsLength > maxWords;
-  return /*#__PURE__*/React.createElement(Text$1, {
+  return /*#__PURE__*/React__default.default.createElement(Text$1, {
     variant: "subtitle2",
     color: "textSecondary",
     sx: _objectSpread2({}, errorExceedWordsLimit && {
@@ -2210,7 +2059,7 @@ WordCounter.propTypes = {
    *  - If maxWords = 200, wordsLength = 90 `Ex: 90/200 words` will display in the counter
    *  - When maxWords is undefined, wordsLength = 90 `Ex: 90 words` will be displayed
    */
-  maxWords: PropTypes.number
+  maxWords: PropTypes__default.default.number
 };
 
 var Text = material.styled(material.Typography)(function (_ref) {
@@ -2237,7 +2086,7 @@ function CharCounter(_ref2) {
   var charLength = editor.getCharLength(children);
   // Error based on chars length limit
   var errorExceedCharsLimit = charLength > maxChars;
-  return /*#__PURE__*/React.createElement(Text, {
+  return /*#__PURE__*/React__default.default.createElement(Text, {
     variant: "subtitle2",
     color: "textSecondary",
     sx: _objectSpread2({}, errorExceedCharsLimit && {
@@ -2251,7 +2100,7 @@ CharCounter.propTypes = {
    * - If maxChars = 200, charLength = 90  `Ex: 90/200 characters` will display in the counter
    * - When maxChars is undefined, charLength = 90 `Ex: 90 characters` will be displayed
    */
-  maxChars: PropTypes.number
+  maxChars: PropTypes__default.default.number
 };
 
 exports.AddCommentButton = AddCommentButton;
